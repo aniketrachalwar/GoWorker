@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoWorker - Register</title>
+    <!-- Base Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Signup Page Stylesheet -->
+    <link rel="stylesheet" href="signup_page.css">
+    <!-- Google Font (Poppins) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    
+    <!-- Firebase SDKs (Optional: Uncomment to activate Firebase Google Sign-in) -->
+    <!--
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    -->
+</head>
+<body class="signup-body">
+
+<div class="container">
+    <!-- ================= LEFT SIDE ================= -->
+    <div class="left-panel">
+        <!-- Logo Area -->
+        <div class="logo">
+            <img src="images/logo_icon.png" alt="GoWorker Logo" onerror="this.src='assets/logo.jfif';">
+            <span class="logo-text">GoWorker</span>
+        </div>
+
+        <div class="left-content">
+            <h1>
+                Join <span>GoWorker</span><br>
+                and Get More Work<br>
+                Done!
+            </h1>
+            <p>
+                Create your account and connect with trusted workers or find the right people for your job, anytime, anywhere.
+            </p>
+
+            <div class="features">
+                <div class="feature">
+                    <div class="icon">
+                        <i class="fa-solid fa-shield"></i>
+                    </div>
+                    <div>
+                        <h3>Trusted Platform</h3>
+                        <p>Verified workers and real customer reviews you can rely on.</p>
+                    </div>
+                </div>
+
+                <div class="feature">
+                    <div class="icon">
+                        <i class="fa-solid fa-comments"></i>
+                    </div>
+                    <div>
+                        <h3>Direct Connect</h3>
+                        <p>Talk directly, negotiate easily and get the job done.</p>
+                    </div>
+                </div>
+
+                <div class="feature">
+                    <div class="icon">
+                        <i class="fa-solid fa-indian-rupee-sign"></i>
+                    </div>
+                    <div>
+                        <h3>No Hidden Charges</h3>
+                        <p>You pay what you agree with the worker.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Blue Curve Background Layer -->
+        <div class="curve-bg"></div>
+
+        <!-- Worker Image & Glow Container -->
+        <div class="worker-image">
+            <img src="images/workers_hero.png" alt="Workers" onerror="this.src='assets/images/login-workers.png';">
+        </div>
+
+        <!-- Testimonial -->
+        <div class="testimonial">
+            <div class="quote">
+                <i class="fa-solid fa-quote-left"></i>
+            </div>
+            <div>
+                <p>
+                    GoWorker helped me find amazing clients and grow my work!
+                </p>
+                <h4>
+                    - Ramesh K., Electrician
+                </h4>
+                <div class="stars">
+                    ★★★★★
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= RIGHT SIDE ================= -->
+    <div class="right-panel">
+        <!-- Top Bar (Language & Theme toggle) -->
+        <div class="top-bar">
+            <!-- Functional Language Dropdown -->
+            <div class="language">
+                <button class="language-dropdown-btn" type="button" aria-haspopup="listbox" aria-expanded="false">
+                    <i class="fa-solid fa-globe"></i>
+                    <span class="selected-lang">English</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="language-dropdown-menu" role="listbox">
+                    <a href="#" data-lang="en" role="option" class="active">🇬🇧 English</a>
+                    <a href="#" data-lang="hi" role="option">🇮🇳 हिन्दी</a>
+                    <a href="#" data-lang="mr" role="option">🇮🇳 मराठी</a>
+                    <a href="#" data-lang="gu" role="option">🇮🇳 ગુજરાતી</a>
+                    <a href="#" data-lang="ta" role="option">🇮🇳 தமிழ்</a>
+                    <a href="#" data-lang="kn" role="option">🇮🇳 ಕನ್ನಡ</a>
+                </div>
+            </div>
+
+            <button class="theme-btn" type="button" aria-label="Toggle Theme">
+                <i class="fa-regular fa-sun"></i>
+            </button>
+        </div>
+
+        <!-- Form Selection Area -->
+        <div class="form-area">
+            <h2>Create Your Account</h2>
+            <p>Choose how you want to join GoWorker</p>
+
+            <div class="account-options">
+                <!-- Customer Selection Option -->
+                <div class="option active" data-role="customer" tabindex="0" role="radio" aria-checked="true">
+                    <div class="option-icon">
+                        <i class="fa-regular fa-user"></i>
+                    </div>
+                    <h3>I am a Customer</h3>
+                    <p>
+                        I need help with my work.<br>
+                        I want to hire workers.
+                    </p>
+                    <div class="check">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                </div>
+
+                <!-- Worker Selection Option -->
+                <div class="option" data-role="worker" tabindex="0" role="radio" aria-checked="false">
+                    <div class="option-icon">
+                        <i class="fa-solid fa-briefcase"></i>
+                    </div>
+                    <h3>I am a Worker</h3>
+                    <p>
+                        I want to find work and earn money.
+                    </p>
+                    <div class="check">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Divider -->
+            <div class="divider">
+                <span>OR</span>
+            </div>
+
+            <!-- Social Authentication Buttons -->
+            <button class="google-btn" type="button">
+                <img src="images/google.svg" alt="Google">
+                Continue with Google
+            </button>
+
+            <button class="facebook-btn" type="button">
+                <img src="images/facebook.svg" alt="Facebook">
+                Continue with Facebook
+            </button>
+
+            <!-- Login Navigation -->
+            <div class="login-text">
+                Already have an account?
+                <a href="login.html">Login</a>
+            </div>
+        </div>
+
+        <!-- Security Badge -->
+        <div class="security">
+            <div class="security-icon">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <div>
+                <h3>Your data is <span>safe and secure</span> with us.</h3>
+                <p>We never share your information with anyone.</p>
+            </div>
+            <div class="lock">
+                <i class="fa-solid fa-lock"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Signup Specific Scripts -->
+<script src="signup_page.js"></script>
+</body>
+</html>
