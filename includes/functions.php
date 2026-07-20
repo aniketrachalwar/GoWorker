@@ -8,6 +8,9 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Load global multi-language translation dictionary
+require_once __DIR__ . '/translations.php';
+
 /**
  * Escapes text for safe output in HTML (prevents XSS)
  * 
