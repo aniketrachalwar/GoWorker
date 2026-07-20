@@ -167,7 +167,7 @@ if (isset($pdo)) {
     </div>
 
     <div class="hero-right">
-        <img src="assets/landing.jpeg" alt="Workers" onerror="this.src='images/workers_hero.png';">
+        <img src="assets/images/login-workers.png" alt="Workers" onerror="this.src='images/workers_hero.png';">
 
         <!-- Floating Cards -->
         <div class="floating-card rating">
