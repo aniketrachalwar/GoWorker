@@ -687,16 +687,15 @@ header, footer, .container[style*="margin-top: 1.5rem; margin-bottom: -1.5rem;"]
         <div class="left-logo-area">
             <a href="index.php" class="left-logo logo">
                 <i class="fa-solid fa-briefcase"></i> Go<span>Worker</span>
->>>>>>> origin/main
             </a>
-            <div class="left-logo-tagline">Work. Done. Right.</div>
+            <div class="left-logo-tagline"><?php echo e(__('tagline')); ?></div>
         </div>
 
         <!-- Hero Content -->
         <div class="left-hero-content">
-            <h1>Find Trusted Local<br>Workers. <span class="accent">Anytime,</span><br><span class="accent">Anywhere.</span></h1>
+            <h1><?php echo __('welcome_title'); ?></h1>
             <p class="left-hero-desc">
-                Connect with skilled and unskilled workers in your area. Negotiate directly and get your work done right.
+                <?php echo e(__('welcome_desc')); ?>
             </p>
         </div>
 
@@ -710,8 +709,8 @@ header, footer, .container[style*="margin-top: 1.5rem; margin-bottom: -1.5rem;"]
                     <i class="fa-solid fa-shield-halved"></i>
                 </div>
                 <div class="feature-text-wrapper">
-                    <h3>Verified & Trusted</h3>
-                    <p>All workers are ID verified and customer-reviewed.</p>
+                    <h3><?php echo e(__('trusted_workers')); ?></h3>
+                    <p><?php echo e(__('trusted_workers_desc')); ?></p>
                 </div>
             </div>
             <!-- Feature 2 -->
@@ -720,8 +719,8 @@ header, footer, .container[style*="margin-top: 1.5rem; margin-bottom: -1.5rem;"]
                     <i class="fa-regular fa-comment-dots"></i>
                 </div>
                 <div class="feature-text-wrapper">
-                    <h3>Direct Contact</h3>
-                    <p>Talk directly with workers and negotiate easily.</p>
+                    <h3><?php echo e(__('direct_contact')); ?></h3>
+                    <p><?php echo e(__('direct_contact_desc')); ?></p>
                 </div>
             </div>
             <!-- Feature 3 -->
@@ -730,8 +729,8 @@ header, footer, .container[style*="margin-top: 1.5rem; margin-bottom: -1.5rem;"]
                     <i class="fa-solid fa-indian-rupee-sign"></i>
                 </div>
                 <div class="feature-text-wrapper">
-                    <h3>No Hidden Charges</h3>
-                    <p>You pay what you agree with the worker.</p>
+                    <h3><?php echo e(__('no_hidden_charges')); ?></h3>
+                    <p><?php echo e(__('no_hidden_charges_desc')); ?></p>
                 </div>
             </div>
         </div>
@@ -761,14 +760,13 @@ header, footer, .container[style*="margin-top: 1.5rem; margin-bottom: -1.5rem;"]
     <div class="right-panel">
         <!-- Top Right Controls -->
         <div class="right-panel-top">
-            <button class="theme-toggle-btn" id="signup-theme-toggle" title="Toggle Theme" aria-label="Toggle Theme">
-                <i class="fa-solid fa-sun"></i>
-            </button>
             <div class="language-dropdown-container">
-                <select class="language-select" aria-label="Language Selector">
-                    <option value="en">English</option>
-                    <option value="hi">Hindi</option>
-                    <option value="mr">Marathi</option>
+                <select class="language-select" aria-label="Language Selector" onchange="window.location.href='?lang='+this.value">
+                    <?php foreach ($lang_details as $code => $detail): ?>
+                        <option value="<?php echo $code; ?>" <?php echo $current_lang === $code ? 'selected' : ''; ?>>
+                            <?php echo $detail['name']; ?>
+                        </option>
+                    <?php endforeach; ?>
                 </select>
             </div>
         </div>
@@ -776,8 +774,8 @@ header, footer, .container[style*="margin-top: 1.5rem; margin-bottom: -1.5rem;"]
         <!-- Form Area -->
         <div class="form-container">
             <div class="signup-header">
-                <h2>Create Your Account</h2>
-                <p>Join GoWorker and start connecting with trusted local workers.</p>
+                <h2><?php echo e(__('create_account')); ?></h2>
+                <p><?php echo e(__('signup_tagline')); ?></p>
             </div>
 
             <!-- Error alerts if any -->
@@ -794,10 +792,10 @@ header, footer, .container[style*="margin-top: 1.5rem; margin-bottom: -1.5rem;"]
             <!-- Tabs Switcher -->
             <div class="signup-tabs">
                 <button type="button" class="tab-btn active" id="tab-customer">
-                    <i class="fa-regular fa-user"></i> Customer Signup
+                    <i class="fa-regular fa-user"></i> <?php echo e(__('customer_signup')); ?>
                 </button>
                 <button type="button" class="tab-btn" id="tab-worker">
-                    <i class="fa-solid fa-briefcase"></i> Worker Signup
+                    <i class="fa-solid fa-briefcase"></i> <?php echo e(__('worker_signup')); ?>
                 </button>
             </div>
 
@@ -811,46 +809,46 @@ header, footer, .container[style*="margin-top: 1.5rem; margin-bottom: -1.5rem;"]
                 <div class="form-grid-custom">
                     <!-- Full Name -->
                     <div class="form-group-custom form-group-full">
-                        <label for="full_name" class="form-label-custom">Full Name</label>
+                        <label for="full_name" class="form-label-custom"><?php echo e(__('full_name')); ?></label>
                         <div class="input-icon-wrapper">
                             <i class="fa-regular fa-user prefix-icon"></i>
-                            <input type="text" id="full_name" name="full_name" class="form-control-custom" placeholder="Enter your full name" value="<?php echo e($full_name); ?>" required autocomplete="name">
+                            <input type="text" id="full_name" name="full_name" class="form-control-custom" placeholder="<?php echo e(__('fullname_placeholder')); ?>" value="<?php echo e($full_name); ?>" required autocomplete="name">
                         </div>
                     </div>
 
                     <!-- Email Address -->
                     <div class="form-group-custom form-group-full">
-                        <label for="email" class="form-label-custom">Email Address</label>
+                        <label for="email" class="form-label-custom"><?php echo e(__('email_address')); ?></label>
                         <div class="input-icon-wrapper">
                             <i class="fa-regular fa-envelope prefix-icon"></i>
-                            <input type="email" id="email" name="email" class="form-control-custom" placeholder="Enter your email address" value="<?php echo e($email); ?>" required autocomplete="email">
+                            <input type="email" id="email" name="email" class="form-control-custom" placeholder="<?php echo e(__('email_address_placeholder')); ?>" value="<?php echo e($email); ?>" required autocomplete="email">
                         </div>
                     </div>
 
                     <!-- Phone Number -->
                     <div class="form-group-custom">
-                        <label for="phone" class="form-label-custom">Mobile Number</label>
+                        <label for="phone" class="form-label-custom"><?php echo e(__('mobile_number')); ?></label>
                         <div class="input-icon-wrapper">
                             <i class="fa-solid fa-mobile-screen-button prefix-icon"></i>
-                            <input type="tel" id="phone" name="phone" class="form-control-custom" placeholder="Enter mobile number" value="<?php echo e($phone); ?>" autocomplete="tel">
+                            <input type="tel" id="phone" name="phone" class="form-control-custom" placeholder="<?php echo e(__('mobile_placeholder')); ?>" value="<?php echo e($phone); ?>" autocomplete="tel">
                         </div>
                     </div>
 
                     <!-- Location -->
                     <div class="form-group-custom">
-                        <label for="location" class="form-label-custom">Location</label>
+                        <label for="location" class="form-label-custom"><?php echo e(__('location')); ?></label>
                         <div class="input-icon-wrapper">
                             <i class="fa-solid fa-location-dot prefix-icon"></i>
-                            <input type="text" id="location" name="location" class="form-control-custom" placeholder="Enter location" value="<?php echo e($location); ?>">
+                            <input type="text" id="location" name="location" class="form-control-custom" placeholder="<?php echo e(__('location_placeholder')); ?>" value="<?php echo e($location); ?>">
                         </div>
                     </div>
 
                     <!-- Password -->
                     <div class="form-group-custom">
-                        <label for="password" class="form-label-custom">Password</label>
+                        <label for="password" class="form-label-custom"><?php echo e(__('password')); ?></label>
                         <div class="input-icon-wrapper">
                             <i class="fa-solid fa-lock prefix-icon"></i>
-                            <input type="password" id="password" name="password" class="form-control-custom password-input" placeholder="Enter password" required autocomplete="new-password">
+                            <input type="password" id="password" name="password" class="form-control-custom password-input" placeholder="<?php echo e(__('password_placeholder')); ?>" required autocomplete="new-password">
                             <button type="button" class="password-toggle-btn" id="toggle-password" aria-label="Toggle Password Visibility">
                                 <i class="fa-regular fa-eye"></i>
                             </button>
@@ -859,10 +857,10 @@ header, footer, .container[style*="margin-top: 1.5rem; margin-bottom: -1.5rem;"]
 
                     <!-- Confirm Password -->
                     <div class="form-group-custom">
-                        <label for="confirm_password" class="form-label-custom">Confirm Password</label>
+                        <label for="confirm_password" class="form-label-custom"><?php echo e(__('confirm_password')); ?></label>
                         <div class="input-icon-wrapper">
                             <i class="fa-solid fa-lock prefix-icon"></i>
-                            <input type="password" id="confirm_password" name="confirm_password" class="form-control-custom password-input" placeholder="Confirm password" required autocomplete="new-password">
+                            <input type="password" id="confirm_password" name="confirm_password" class="form-control-custom password-input" placeholder="<?php echo e(__('confirm_password_placeholder')); ?>" required autocomplete="new-password">
                             <button type="button" class="password-toggle-btn" id="toggle-confirm-password" aria-label="Toggle Password Visibility">
                                 <i class="fa-regular fa-eye"></i>
                             </button>
@@ -871,27 +869,27 @@ header, footer, .container[style*="margin-top: 1.5rem; margin-bottom: -1.5rem;"]
                 </div>
 
                 <!-- Submit Button -->
-                <button type="submit" class="btn-signup-custom">Create Account</button>
+                <button type="submit" class="btn-signup-custom"><?php echo e(__('create_account_btn')); ?></button>
             </form>
 
             <!-- Divider -->
-            <div class="divider-custom">OR</div>
+            <div class="divider-custom"><?php echo e(__('or_divider')); ?></div>
 
             <!-- Google Continue -->
             <button type="button" class="btn-google-custom">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google Logo"> Continue with Google
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google Logo"> <?php echo e(__('continue_google')); ?>
             </button>
 
             <!-- Login Redirect -->
             <div class="login-redirect-text">
-                Already have an account? <a href="login.php">Login</a>
+                <?php echo e(__('already_account')); ?> <a href="login.php"><?php echo e(__('login')); ?></a>
             </div>
         </div>
 
         <!-- Bottom Security badging -->
         <div class="right-panel-bottom">
             <i class="fa-solid fa-shield-halved"></i>
-            <span>Your data is <strong>safe and secure</strong> with us.</span>
+            <span><?php echo __('secure_data'); ?></span>
         </div>
     </div>
 </div>
@@ -968,42 +966,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
-    }
-
-    // --- Sync Theme Toggle with Global Toggle in main.js ---
-    const customThemeToggle = document.getElementById('signup-theme-toggle');
-    const globalThemeToggle = document.getElementById('theme-toggle');
-
-    if (customThemeToggle && globalThemeToggle) {
-        const htmlElement = document.documentElement;
-        
-        function syncThemeIcon() {
-            const currentTheme = htmlElement.getAttribute('data-theme') || 'light';
-            const icon = customThemeToggle.querySelector('i');
-            if (icon) {
-                if (currentTheme === 'dark') {
-                    icon.className = 'fa-solid fa-sun';
-                } else {
-                    icon.className = 'fa-solid fa-moon';
-                }
-            }
-        }
-
-        syncThemeIcon();
-
-        customThemeToggle.addEventListener('click', () => {
-            globalThemeToggle.click();
-            setTimeout(syncThemeIcon, 50);
-        });
-
-        const observer = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-                if (mutation.attributeName === 'data-theme') {
-                    syncThemeIcon();
-                }
-            });
-        });
-        observer.observe(htmlElement, { attributes: true });
     }
 });
 </script>

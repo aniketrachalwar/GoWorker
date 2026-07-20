@@ -72,7 +72,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 require_once __DIR__ . '/includes/header.php';
 ?>
 
-<<<<<<< HEAD
 <style>
 /* Custom Auth Layout Overrides for Premium Design */
 .auth-wrapper {
@@ -659,8 +658,8 @@ require_once __DIR__ . '/includes/header.php';
             </div>
             
             <div class="brand-main-content">
-                <h1 class="brand-title">Find Trusted Local <span>Workers Near You</span></h1>
-                <p class="brand-subtitle">Connect with skilled local workers, compare services, and get your work done with confidence.</p>
+                <h1 class="brand-title"><?php echo __('brand_title'); ?></h1>
+                <p class="brand-subtitle"><?php echo e(__('brand_subtitle')); ?></p>
                 
                 <!-- Trust Badges -->
                 <div class="brand-badges-stack">
@@ -669,8 +668,8 @@ require_once __DIR__ . '/includes/header.php';
                             <i class="fa-solid fa-shield-halved"></i>
                         </div>
                         <div class="badge-text-group">
-                            <div class="badge-title">ID Verified &amp; Trusted</div>
-                            <div class="badge-desc">100% verified identities &amp; credentials</div>
+                            <div class="badge-title"><?php echo e(__('brand_badge_title_1')); ?></div>
+                            <div class="badge-desc"><?php echo e(__('brand_badge_desc_1')); ?></div>
                         </div>
                     </div>
                     
@@ -682,7 +681,7 @@ require_once __DIR__ . '/includes/header.php';
                                 <div class="avatar" style="background-color: #10b981;">MK</div>
                             </div>
                             <div class="stars-container">
-                                <div class="badge-title">4.8 / 5 Rating</div>
+                                <div class="badge-title"><?php echo e(__('brand_badge_title_2')); ?></div>
                                 <div class="stars">
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
@@ -700,11 +699,11 @@ require_once __DIR__ . '/includes/header.php';
             <div class="brand-stats-row">
                 <div class="mini-stat">
                     <div class="stat-num">15K+</div>
-                    <div class="stat-lbl">Verified Workers</div>
+                    <div class="stat-lbl"><?php echo e(__('brand_stats_lbl_1')); ?></div>
                 </div>
                 <div class="mini-stat">
                     <div class="stat-num">10K+</div>
-                    <div class="stat-lbl">Happy Customers</div>
+                    <div class="stat-lbl"><?php echo e(__('brand_stats_lbl_2')); ?></div>
                 </div>
             </div>
         </div>
@@ -715,35 +714,24 @@ require_once __DIR__ . '/includes/header.php';
             <div class="lang-dropdown">
                 <button type="button" class="lang-btn" id="lang-btn">
                     <i class="fa-solid fa-globe"></i>
-                    <span id="current-lang">English</span>
+                    <span id="current-lang"><?php echo e($active_lang['name']); ?></span>
                     <i class="fa-solid fa-chevron-down"></i>
                 </button>
                 <div class="lang-menu" id="lang-menu">
-                    <a href="javascript:void(0);" class="lang-item active" data-lang="en">
-                        <span>🇺🇸 English</span>
-                        <i class="fa-solid fa-check check-icon"></i>
-                    </a>
-                    <a href="javascript:void(0);" class="lang-item" data-lang="hi">
-                        <span>🇮🇳 हिंदी</span>
-                    </a>
-                    <a href="javascript:void(0);" class="lang-item" data-lang="mr">
-                        <span>🇮🇳 मराठी</span>
-                    </a>
-                    <a href="javascript:void(0);" class="lang-item" data-lang="gu">
-                        <span>🇮🇳 ગુજરાતી</span>
-                    </a>
-                    <a href="javascript:void(0);" class="lang-item" data-lang="ta">
-                        <span>🇮🇳 தமிழ்</span>
-                    </a>
-                    <a href="javascript:void(0);" class="lang-item" data-lang="kn">
-                        <span>🇮🇳 ಕನ್ನಡ</span>
-                    </a>
+                    <?php foreach ($lang_details as $code => $detail): ?>
+                        <a href="?lang=<?php echo $code; ?>" class="lang-item <?php echo $current_lang === $code ? 'active' : ''; ?>">
+                            <span><?php echo e($detail['flag'] . ' ' . $detail['name']); ?></span>
+                            <?php if ($current_lang === $code): ?>
+                                <i class="fa-solid fa-check check-icon"></i>
+                            <?php endif; ?>
+                        </a>
+                    <?php endforeach; ?>
                 </div>
             </div>
             
             <div class="auth-form-header">
-                <h2>Welcome Back</h2>
-                <p>Log in to access your GoWorker dashboard</p>
+                <h2><?php echo e(__('welcome_back')); ?></h2>
+                <p><?php echo e(__('login_header_p')); ?></p>
             </div>
 
             <!-- Error Alerts display -->
@@ -767,19 +755,19 @@ require_once __DIR__ . '/includes/header.php';
 
                 <!-- Email Address -->
                 <div class="form-group">
-                    <label for="email" class="form-label">Email Address</label>
+                    <label for="email" class="form-label"><?php echo e(__('email_address')); ?></label>
                     <div class="input-icon-wrapper">
                         <i class="fa-solid fa-envelope input-prefix-icon"></i>
-                        <input type="email" id="email" name="email" class="form-control" placeholder="john@example.com" value="<?php echo e($email); ?>" required autocomplete="email">
+                        <input type="email" id="email" name="email" class="form-control" placeholder="<?php echo e(__('email_address_placeholder')); ?>" value="<?php echo e($email); ?>" required autocomplete="email">
                     </div>
                 </div>
 
                 <!-- Password -->
                 <div class="form-group">
-                    <label for="password" class="form-label">Password</label>
+                    <label for="password" class="form-label"><?php echo e(__('password')); ?></label>
                     <div class="input-icon-wrapper">
                         <i class="fa-solid fa-lock input-prefix-icon"></i>
-                        <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" required autocomplete="current-password">
+                        <input type="password" id="password" name="password" class="form-control" placeholder="<?php echo e(__('password_placeholder')); ?>" required autocomplete="current-password">
                         <button type="button" class="password-toggle-btn" id="password-toggle-btn" aria-label="Toggle password visibility">
                             <i class="fa-solid fa-eye"></i>
                         </button>
@@ -790,250 +778,35 @@ require_once __DIR__ . '/includes/header.php';
                 <div class="form-options">
                     <label class="checkbox-label">
                         <input type="checkbox" name="remember" id="remember">
-                        Remember me
+                        <?php echo e(__('remember_me')); ?>
                     </label>
-                    <a href="javascript:void(0);" class="forgot-pass-link">Forgot Password?</a>
+                    <a href="javascript:void(0);" class="forgot-pass-link"><?php echo e(__('forgot_password')); ?></a>
                 </div>
 
                 <!-- Submit Button -->
                 <button type="submit" class="btn-primary-auth">
-                    <i class="fa-solid fa-right-to-bracket"></i> Login
+                    <i class="fa-solid fa-right-to-bracket"></i> <?php echo e(__('login')); ?>
                 </button>
             </form>
 
             <div class="auth-footer">
-                Don't have an account? <a href="signup.php">Register here</a>
+                <?php echo e(__('no_account')); ?> <a href="signup.php"><?php echo e(__('register_here')); ?></a>
             </div>
-=======
-<link rel="stylesheet" href="css/login.css">
-
-<div class="login-page-wrapper">
-    <!-- Left Panel -->
-    <div class="left-panel">
-        <!-- Top Logo Area -->
-        <div class="left-logo-area">
-            <a href="index.php" class="left-logo">
-                <svg width="46" height="40" viewBox="0 0 46 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 8px;">
-                    <path d="M20 10C12 10 7 15 7 23C7 31 12 36 20 36C26 36 30 32 31 27H20V21H37C37.5 29 34 38 22 39C10 40 1 32 1 21C1 10 10 1 23 1C30 1 35 4 38 8L32 13C30 11 26 10 20 10Z" fill="white"/>
-                    <path d="M26 15L29 28L32 15L35 28L38 15H42L37 36H33L30 23L27 36H23L18 15H22" fill="white"/>
-                    <path d="M38 10L42 6C42.5 5.5 43.5 5.5 44 6L45 7C45.5 7.5 45.5 8.5 45 9L41 13H38V10Z" fill="white"/>
-                </svg>
-                Go<span>Worker</span>
-            </a>
-            <div class="left-logo-tagline">Work. Done. Right.</div>
-        </div>
-
-        <!-- Hero Content -->
-        <div class="left-hero-content">
-            <h1>Find Trusted Local<br>Workers. <span class="accent">Anytime,</span><br><span class="accent">Anywhere.</span></h1>
-            <p class="left-hero-desc">
-                Connect with skilled and unskilled workers in your area. Negotiate directly and get your work done right.
-            </p>
-        </div>
-
-        <!-- Features Section -->
-        <div class="features-list">
-            <!-- Feature 1 -->
-            <div class="feature-item">
-                <div class="feature-icon-wrapper">
-                    <i class="fa-solid fa-shield-halved"></i>
-                </div>
-                <div class="feature-text-wrapper">
-                    <h3>Verified & Trusted</h3>
-                    <p>All workers are ID verified and customer-reviewed.</p>
-                </div>
-            </div>
-            <!-- Feature 2 -->
-            <div class="feature-item">
-                <div class="feature-icon-wrapper">
-                    <i class="fa-regular fa-comment-dots"></i>
-                </div>
-                <div class="feature-text-wrapper">
-                    <h3>Direct Contact</h3>
-                    <p>Talk directly with workers and negotiate easily.</p>
-                </div>
-            </div>
-            <!-- Feature 3 -->
-            <div class="feature-item">
-                <div class="feature-icon-wrapper">
-                    <i class="fa-solid fa-indian-rupee-sign"></i>
-                </div>
-                <div class="feature-text-wrapper">
-                    <h3>No Hidden Charges</h3>
-                    <p>You pay what you agree with the worker.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Workers Graphic Image -->
-        <div class="workers-graphic-container">
-            <img src="assets/images/login-workers.png" alt="GoWorker Professionals" class="workers-graphic" onerror="this.parentElement.style.display='none';">
-        </div>
-
-        <!-- Testimonial Card -->
-        <div class="testimonial-card">
-            <p class="testimonial-quote">GoWorker helped me find a trusted electrician within minutes. Great experience!</p>
-            <div class="testimonial-author-row">
-                <span class="testimonial-author">— Priya S., Pune</span>
-                <div class="testimonial-stars">
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Right Panel -->
-    <div class="right-panel">
-        <!-- Top Right Header: Theme and Language -->
-        <div class="right-panel-top">
-            <!-- Theme Toggle Icon -->
-            <button class="theme-toggle-btn" id="login-theme-toggle" title="Toggle Theme" aria-label="Toggle Theme">
-                <i class="fa-solid fa-sun"></i>
-            </button>
-            
-            <!-- Language Dropdown -->
-            <div class="language-dropdown-container">
-                <select class="language-select" aria-label="Language Selector">
-                    <option value="en">English</option>
-                    <option value="hi">Hindi</option>
-                    <option value="mr">Marathi</option>
-                </select>
-            </div>
-        </div>
-
-        <!-- Form Area -->
-        <div class="form-container">
-            <!-- Welcome Header -->
-            <div class="welcome-header">
-                <h2>Welcome Back!</h2>
-                <p>Login to continue to your account</p>
-            </div>
-
-            <!-- Error alerts if any -->
-            <?php if (!empty($errors)): ?>
-                <div class="alert alert-danger" style="display: block; margin-bottom: 1.5rem; border-radius: 8px; font-size: 0.9rem;">
-                    <ul style="padding-left: 1rem; margin: 0;">
-                        <?php foreach ($errors as $error): ?>
-                            <li><?php echo e($error); ?></li>
-                        <?php endforeach; ?>
-                    </ul>
-                </div>
-            <?php endif; ?>
-
-            <!-- Tabs Switcher -->
-            <div class="login-tabs">
-                <button type="button" class="tab-btn active" id="tab-customer">
-                    <i class="fa-regular fa-user"></i> Customer Login
-                </button>
-                <button type="button" class="tab-btn" id="tab-worker">
-                    <i class="fa-solid fa-briefcase"></i> Worker Login
-                </button>
-            </div>
-
-            <!-- Login Form -->
-            <form action="login.php" method="POST" class="auth-form-custom">
-                <?php echo csrf_field(); ?>
-                
-                <!-- Hidden field for User Role Switcher UI -->
-                <input type="hidden" name="user_role" id="user_role" value="customer">
-
-                <!-- Email or Mobile field -->
-                <div class="form-group-custom">
-                    <label for="email" class="form-label-custom">Email or Mobile Number</label>
-                    <div class="input-icon-wrapper">
-                        <i class="fa-regular fa-envelope prefix-icon"></i>
-                        <input type="email" id="email" name="email" class="form-control-custom" placeholder="Enter your email or mobile number" value="<?php echo e($email); ?>" required autocomplete="email">
-                    </div>
-                </div>
-
-                <!-- Password field -->
-                <div class="form-group-custom">
-                    <label for="password" class="form-label-custom">Password</label>
-                    <div class="input-icon-wrapper">
-                        <i class="fa-solid fa-lock prefix-icon"></i>
-                        <input type="password" id="password" name="password" class="form-control-custom password-input" placeholder="Enter your password" required autocomplete="current-password">
-                        <button type="button" class="password-toggle-btn" id="toggle-password" aria-label="Toggle Password Visibility">
-                            <i class="fa-regular fa-eye"></i>
-                        </button>
-                    </div>
-                    <!-- Forgot password -->
-                    <a href="#" class="forgot-password-link">Forgot Password?</a>
-                </div>
-
-                <!-- Submit Button -->
-                <button type="submit" class="btn-login-custom">Login</button>
-            </form>
-
-            <!-- Divider -->
-            <div class="divider-custom">OR</div>
-
-            <!-- Google Continue button -->
-            <button type="button" class="btn-google-custom">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google Logo"> Continue with Google
-            </button>
-
-            <!-- Bottom Signup Text -->
-            <div class="signup-redirect-text">
-                Don't have an account? <a href="signup.php">Sign Up</a>
-            </div>
-        </div>
-
-        <!-- Bottom Security Badging -->
-        <div class="right-panel-bottom">
-            <i class="fa-solid fa-shield-halved"></i>
-            <span>Your data is <strong>safe and secure</strong> with us.</span>
->>>>>>> f1effcd0d191b2b824b0409e7208519f9a9023d1
         </div>
     </div>
 </div>
 
-<<<<<<< HEAD
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     // --- Custom Language Switcher Dropdown Logic ---
     const langBtn = document.getElementById('lang-btn');
     const langMenu = document.getElementById('lang-menu');
-    const currentLangText = document.getElementById('current-lang');
-    const langItems = document.querySelectorAll('.lang-item');
 
     if (langBtn && langMenu) {
         // Toggle dropdown open/close
         langBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             langMenu.classList.toggle('show');
-        });
-
-        // Handle item selection
-        langItems.forEach(item => {
-            item.addEventListener('click', (e) => {
-                e.stopPropagation();
-                
-                // Clear active checkmark icon from others
-                langItems.forEach(i => {
-                    i.classList.remove('active');
-                    const check = i.querySelector('.check-icon');
-                    if (check) check.remove();
-                });
-
-                // Set this item as active
-                item.classList.add('active');
-                
-                // Append checkmark icon
-                const checkIcon = document.createElement('i');
-                checkIcon.className = 'fa-solid fa-check check-icon';
-                item.appendChild(checkIcon);
-
-                // Update trigger button label (strip emoji for brevity)
-                const selectedText = item.querySelector('span').innerText;
-                currentLangText.innerText = selectedText.split(' ').slice(1).join(' ') || selectedText;
-                
-                // Close dropdown
-                langMenu.classList.remove('show');
-            });
         });
 
         // Close dropdown when clicking anywhere outside
@@ -1062,9 +835,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
-=======
-<script src="js/login.js"></script>
->>>>>>> f1effcd0d191b2b824b0409e7208519f9a9023d1
 
 <?php
 require_once __DIR__ . '/includes/footer.php';

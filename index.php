@@ -10,7 +10,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 if (isset($_GET['lang'])) {
-    $allowed_langs = ['en', 'hi', 'mr', 'gu', 'ta', 'kn'];
+    $allowed_langs = ['en', 'hi', 'mr', 'gu', 'ta', 'kn', 'te', 'bho', 'bn'];
     $selected_lang = $_GET['lang'];
     if (in_array($selected_lang, $allowed_langs)) {
         $_SESSION['lang'] = $selected_lang;
@@ -28,7 +28,10 @@ $lang_details = [
     'mr' => ['name' => 'Marathi', 'flag' => '🇮🇳'],
     'gu' => ['name' => 'Gujarati', 'flag' => '🇮🇳'],
     'ta' => ['name' => 'Tamil', 'flag' => '🇮🇳'],
-    'kn' => ['name' => 'Kannada', 'flag' => '🇮🇳']
+    'kn' => ['name' => 'Kannada', 'flag' => '🇮🇳'],
+    'te' => ['name' => 'Telugu', 'flag' => '🇮🇳'],
+    'bho' => ['name' => 'Bhojpuri', 'flag' => '🇮🇳'],
+    'bn' => ['name' => 'Bengali', 'flag' => '🇮🇳']
 ];
 
 $active_lang = isset($lang_details[$current_lang]) ? $lang_details[$current_lang] : $lang_details['en'];
