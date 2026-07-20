@@ -101,7 +101,7 @@ require_once __DIR__ . '/includes/header.php';
 /* Left Brand Panel Styles */
 .auth-brand-panel {
     flex: 1.1;
-    background: linear-gradient(135deg, #090d16 0%, #1245C5 100%);
+    background: linear-gradient(135deg, #090d16 0%, #2563eb 100%);
     color: #ffffff;
     padding: 3.5rem 3rem;
     position: relative;
@@ -653,8 +653,8 @@ require_once __DIR__ . '/includes/header.php';
             <div class="abstract-shape shape-1"></div>
             <div class="abstract-shape shape-2"></div>
             
-            <div class="brand-header-mini">
-                <i class="fa-solid fa-briefcase"></i> GoWorker
+            <div class="brand-header-mini" style="display: flex; align-items: center; gap: 8px;">
+                <img src="images/logo_icon.png" alt="GoWorker Logo" style="height: 28px; width: auto; object-fit: contain;" onerror="this.src='assets/logo.jfif';"> GoWorker
             </div>
             
             <div class="brand-main-content">

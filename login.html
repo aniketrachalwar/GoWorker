@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GoWorker - Log In</title>
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  
+  <!-- Theme Stylesheet -->
+  <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+
+  <main class="auth-wrapper">
+    <!-- LEFT PANEL: PROMO PANEL -->
+    <section class="auth-promo-panel">
+      <!-- Decorative rings -->
+      <div class="decor-circle circle-1"></div>
+      <div class="decor-circle circle-2"></div>
+
+      <div class="promo-header">
+        <a class="logo" href="Index.html">
+          <img src="images/logo_icon.png" alt="GoWorker Logo" onerror="this.src='assets/logo.jfif';">
+          <span>Go<strong>Worker</strong></span>
+        </a>
+      </div>
+
+      <div class="promo-body">
+        <h1>Welcome Back</h1>
+        <p>Log in to continue finding trusted workers or managing your services.</p>
+        
+        <div class="illustration-container">
+          <img class="illustration-img" src="assets/images/login-workers.png" alt="Workers illustration" onerror="this.src='images/workers_hero.png';">
+          <div class="floating-badge badge-rating">
+            <span>⭐</span> 4.9 Average Rating
+          </div>
+          <div class="floating-badge badge-workers">
+            <span>👷</span> 15K+ Verified Workers
+          </div>
+        </div>
+      </div>
+
+      <div class="promo-footer">
+        <figure class="testimonial-card">
+          <p>“GoWorker made it easy to find reliable work and build my business. I can connect directly with clients without hassle.”</p>
+          <figcaption class="testimonial-author">
+            <strong>Ramesh Kumar</strong> — Electrician, Pune
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- RIGHT PANEL: FORM PANEL -->
+    <section class="auth-form-panel">
+      <!-- Top controls: dropdown list for language / theme -->
+      <div class="auth-top-controls">
+        <div class="language-dropdown-container">
+          <button class="control-btn language-dropdown-btn" type="button" aria-haspopup="listbox" aria-expanded="false">
+            <i class="fa-solid fa-globe"></i>
+            <span class="selected-lang">English</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
+          <div class="language-dropdown-menu" style="display: none; position: absolute; top: calc(100% + 6px); right: 0; background: var(--white); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-soft); min-width: 150px; z-index: 100;">
+            <a href="#" data-lang="en" style="display: block; padding: 10px 14px; text-decoration: none; color: var(--primary-text); font-size: 13px; font-weight: 600;" class="active">🇬🇧 English</a>
+            <a href="#" data-lang="hi" style="display: block; padding: 10px 14px; text-decoration: none; color: var(--primary-text); font-size: 13px; font-weight: 600;">🇮🇳 हिन्दी</a>
+            <a href="#" data-lang="mr" style="display: block; padding: 10px 14px; text-decoration: none; color: var(--primary-text); font-size: 13px; font-weight: 600;">🇮🇳 मराठी</a>
+            <a href="#" data-lang="gu" style="display: block; padding: 10px 14px; text-decoration: none; color: var(--primary-text); font-size: 13px; font-weight: 600;">🇮🇳 ગુજરાતી</a>
+            <a href="#" data-lang="ta" style="display: block; padding: 10px 14px; text-decoration: none; color: var(--primary-text); font-size: 13px; font-weight: 600;">🇮🇳 தமிழ்</a>
+            <a href="#" data-lang="kn" style="display: block; padding: 10px 14px; text-decoration: none; color: var(--primary-text); font-size: 13px; font-weight: 600;">🇮🇳 ಕನ್ನಡ</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="auth-card">
+        <header class="auth-card-header">
+          <h2>Sign in to your account</h2>
+          <p>Continue where you left off.</p>
+        </header>
+
+        <!-- Role Selection -->
+        <div class="role-selector">
+          <button type="button" class="role-btn active" data-role="customer">
+            <i class="fa-regular fa-user"></i> Customer
+          </button>
+          <button type="button" class="role-btn" data-role="worker">
+            <i class="fa-solid fa-briefcase"></i> Worker
+          </button>
+        </div>
+
+        <form action="#" method="POST" id="login-form">
+          <input type="hidden" name="role" id="selected-role" value="customer">
+
+          <!-- Email Field -->
+          <div class="form-group">
+            <label for="login-email">Email Address</label>
+            <div class="input-wrapper">
+              <i class="fa-regular fa-envelope input-icon"></i>
+              <input type="email" id="login-email" class="form-input" placeholder="you@example.com" required autocomplete="email">
+            </div>
+          </div>
+
+          <!-- Password Field -->
+          <div class="form-group">
+            <label for="login-password">Password</label>
+            <div class="input-wrapper">
+              <i class="fa-solid fa-lock input-icon"></i>
+              <input type="password" id="login-password" class="form-input" placeholder="Enter your password" required autocomplete="current-password">
+              <button type="button" class="pass-toggle-btn" aria-label="Toggle password visibility">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Form Options (Remember & Forgot) -->
+          <div class="form-options">
+            <label class="checkbox-container">
+              <input type="checkbox" name="remember" id="remember-me">
+              Remember Me
+            </label>
+            <a class="forgot-link" href="#">Forgot Password?</a>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="btn-primary-auth">
+            <span>Log In</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </form>
+
+        <div class="auth-divider">OR CONTINUE WITH</div>
+
+        <!-- Google button -->
+        <button class="btn-google-auth" type="button">
+          <img src="images/google.svg" alt="Google">
+          <span>Continue with Google</span>
+        </button>
+
+        <footer class="auth-card-footer">
+          Don't have an account?
+          <a href="signup.html">Sign Up</a>
+        </footer>
+      </div>
+    </section>
+  </main>
+
+  <script src="auth.js"></script>
+</body>
+</html>

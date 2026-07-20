@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GoWorker - Chat & Messages</title>
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  
+  <!-- Global Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+  
+  <!-- Page Specific Stylesheet -->
+  <link rel="stylesheet" href="chat.css">
+</head>
+<body>
+
+  <!-- ================= NAVBAR ================= -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">
+        <img src="images/logo_icon.png" alt="GoWorker Logo" onerror="this.src='assets/logo.jfif';">
+        <span>Go<strong>Worker</strong></span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="Index.html">Home</a></li>
+        <li><a href="find-workers.html">Find Workers</a></li>
+        <li><a href="worker-registration.html">Become a Worker</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+      <div class="nav-right">
+        <button class="login-btn" onclick="location.href='login.html'">Login</button>
+        <button class="signup-btn" onclick="location.href='signup.html'">Sign Up</button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ================= CHAT CONTAINER ================= -->
+  <main class="container">
+    <div class="chat-layout">
+      <!-- LEFT PANEL: Conversation List -->
+      <section class="chat-left-panel">
+        <div class="chat-left-header">
+          <input type="text" class="chat-search-input" placeholder="Search conversations...">
+        </div>
+        <div class="conv-list">
+          <!-- Active Card -->
+          <div class="conv-card active">
+            <div class="conv-avatar-container">
+              <img class="conv-avatar" src="https://images.unsplash.com/photo-1540569014015-19a7be504e3a?w=100&fit=crop" alt="Ramesh">
+            </div>
+            <div class="conv-meta">
+              <div class="conv-name-row">
+                <span>Ramesh Kumar</span>
+                <span style="font-weight: 400; font-size: 10px; color: var(--secondary-text);">09:12 AM</span>
+              </div>
+              <div class="conv-last-msg">Electrician - I am on my way to your address.</div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="conv-card">
+            <div class="conv-avatar-container">
+              <img class="conv-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&fit=crop" alt="Sohan">
+            </div>
+            <div class="conv-meta">
+              <div class="conv-name-row">
+                <span>Sohan Singh</span>
+                <span style="font-weight: 400; font-size: 10px; color: var(--secondary-text);">Yesterday</span>
+              </div>
+              <div class="conv-last-msg">Plumber - Pipe leakage resolved!</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CENTER PANEL: Chat Space -->
+      <section class="chat-center-panel">
+        <header class="chat-center-header">
+          <div>
+            <h4 id="active-chat-name" style="font-size: 15px; font-weight: 700; margin-bottom: 2px;">Ramesh Kumar</h4>
+            <p id="active-chat-prof" style="font-size: 11px; color: var(--secondary-text); margin-bottom: 0;">Electrician • Online</p>
+          </div>
+          <div>
+            <button class="btn-icon" onclick="alert('Initiating call simulation...')"><i class="fa-solid fa-phone"></i></button>
+          </div>
+        </header>
+
+        <!-- Messages Area -->
+        <div class="chat-msg-area" id="chat-message-area">
+          <div class="msg-bubble msg-incoming">
+            Hello, I have confirmed your booking request for the Emergency Electrical Troubleshooting.
+            <span class="msg-time">08:35 AM</span>
+          </div>
+          <div class="msg-bubble msg-outgoing">
+            Great, thank you Ramesh. How long will it take for you to reach my address?
+            <span class="msg-time">08:42 AM</span>
+          </div>
+          <div class="msg-bubble msg-incoming">
+            I am packing my tools now and starting my bike. I will reach in about 15 minutes.
+            <span class="msg-time">09:12 AM</span>
+          </div>
+        </div>
+
+        <!-- Chat Input bar -->
+        <footer class="chat-input-bar">
+          <button class="btn-icon" style="border: none; color: var(--secondary-text);"><i class="fa-regular fa-face-smile" style="font-size: 18px;"></i></button>
+          <button class="btn-icon" style="border: none; color: var(--secondary-text);"><i class="fa-solid fa-paperclip" style="font-size: 18px;"></i></button>
+          <input type="text" id="chat-message-input" class="chat-input-field" placeholder="Type a message...">
+          <button type="button" id="chat-send-btn" class="btn-book" style="padding: 12px 24px;">Send <i class="fa-solid fa-paper-plane" style="margin-left: 6px;"></i></button>
+        </footer>
+      </section>
+
+      <!-- RIGHT PANEL: Metadata Details -->
+      <section class="chat-right-panel">
+        <img src="https://images.unsplash.com/photo-1540569014015-19a7be504e3a?w=150&fit=crop" id="right-side-avatar" alt="Ramesh">
+        <h4 id="right-side-name" class="right-meta-title">Ramesh Kumar</h4>
+        <p id="right-side-prof" class="right-meta-desc">Electrician • Pune</p>
+        
+        <div style="text-align: left; width: 100%;">
+          <div class="shared-media-block">
+            <div class="shared-media-title">Active Booking Details</div>
+            <p style="font-size: 13px; margin-bottom: 6px;"><strong>Troubleshooting</strong></p>
+            <p style="font-size: 12px; color: var(--secondary-text); margin-bottom: 12px;">Date: Today, 20 July • 09:00 AM</p>
+            <button class="btn-book" style="width: 100%; font-size: 12px; padding: 10px 14px;" onclick="location.href='booking-history.html'">Track Booking</button>
+          </div>
+
+          <div class="shared-media-block">
+            <div class="shared-media-title">Shared Media (Photos)</div>
+            <div class="shared-media-grid">
+              <div class="shared-media-item"><img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=100"></div>
+              <div class="shared-media-item"><img src="https://images.unsplash.com/photo-1581092921461-eab62e97a780?w=100"></div>
+              <div class="shared-media-item"><img src="https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=100"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer style="background: var(--white); border-top: 1px solid var(--border-color); padding: 40px 0; margin-top: 80px;">
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+      <div>
+        <p style="font-weight: 700; color: var(--primary);">GoWorker</p>
+        <p style="font-size: 13px; color: var(--secondary-text);">© 2026 GoWorker. All rights reserved.</p>
+      </div>
+      <div style="display: flex; gap: 24px; font-size: 14px; color: var(--secondary-text);">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Support Center</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Chat Script -->
+  <script src="chat.js"></script>
+
+</body>
+</html>

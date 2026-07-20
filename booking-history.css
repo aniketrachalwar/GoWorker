@@ -1,0 +1,139 @@
+/* GoWorker Booking History & Tracking Styling
+   Coherent with master design system
+*/
+
+.history-layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 32px;
+    margin: 40px auto;
+    align-items: start;
+}
+
+/* Sidebar filtering controls */
+.sidebar-filters-box {
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow-sm);
+}
+
+/* Booking Cards */
+.booking-item-card {
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+}
+
+.booking-item-card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.booking-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+}
+
+.booking-id-tag {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--secondary-text);
+}
+
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.status-ongoing {
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+.status-completed {
+    background: rgba(34, 197, 94, 0.08);
+    color: var(--success);
+}
+
+/* Real-Time Tracker Step Timeline */
+.tracker-timeline {
+    position: relative;
+    padding-left: 32px;
+    margin-top: 24px;
+}
+
+.tracker-timeline::before {
+    content: "";
+    position: absolute;
+    top: 6px;
+    left: 7px;
+    bottom: 6px;
+    width: 3px;
+    background: var(--border-color);
+}
+
+.tracker-step {
+    position: relative;
+    margin-bottom: 24px;
+}
+
+.tracker-step::before {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: -32px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--white);
+    border: 3px solid var(--border-color);
+    transition: var(--transition);
+}
+
+.tracker-step.completed::before {
+    border-color: var(--success);
+    background: var(--success);
+}
+
+.tracker-step.active::before {
+    border-color: var(--primary);
+    background: var(--primary);
+    box-shadow: 0 0 0 4px var(--primary-light);
+}
+
+.tracker-step-title {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--primary-text);
+}
+
+.tracker-step.completed .tracker-step-title {
+    color: var(--success);
+}
+
+.tracker-step.active .tracker-step-title {
+    color: var(--primary);
+}
+
+.tracker-step-time {
+    font-size: 11px;
+    color: var(--secondary-text);
+}
+
+@media (max-width: 992px) {
+    .history-layout {
+        grid-template-columns: 1fr;
+    }
+}
