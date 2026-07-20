@@ -17,30 +17,23 @@ document.addEventListener("click", () => {
 });
 
 // ============================
-// DARK / LIGHT MODE
+// SYSTEM DARK / LIGHT MODE DETECTION
 // ============================
+const systemThemeQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
-const themeBtn = document.querySelector(".theme-btn");
-
-themeBtn.addEventListener("click", () => {
-
-    document.body.classList.toggle("dark-mode");
-
-    if(document.body.classList.contains("dark-mode")){
-
-        themeBtn.innerHTML =
-        '<i class="fa-solid fa-moon"></i>';
-
+function applySystemTheme(e) {
+    if (e.matches) {
+        document.body.classList.add("dark-mode");
+    } else {
+        document.body.classList.remove("dark-mode");
     }
+}
 
-    else{
+// Initial detection
+applySystemTheme(systemThemeQuery);
 
-        themeBtn.innerHTML =
-        '<i class="fa-regular fa-sun"></i>';
-
-    }
-
-});
+// Listen for system theme preference changes
+systemThemeQuery.addEventListener("change", applySystemTheme);
 
 // ============================
 // SEARCH BUTTON
