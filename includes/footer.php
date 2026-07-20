@@ -6,8 +6,8 @@
 <footer>
     <div class="container footer-grid">
         <div class="footer-brand">
-            <a href="index.php" class="logo">
-                <i class="fa-solid fa-briefcase"></i> Go<span>Worker</span>
+            <a href="index.php" class="logo" style="display: inline-block; margin-bottom: 0.5rem;">
+                <img src="images/logo.jpg" alt="GoWorker" style="height: 52px; width: auto; object-fit: contain; border-radius: 8px;">
             </a>
             <p>Your trusted marketplace for local services. Connect with verified service workers in your neighborhood, negotiate pricing, and get work done easily.</p>
         </div>

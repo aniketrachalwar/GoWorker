@@ -3,76 +3,84 @@
 document.addEventListener('DOMContentLoaded', () => {
     console.log('GoWorker platform loaded.');
 
-    // --- Mobile Menu Toggle ---
-    const menuToggle = document.getElementById('menu-toggle');
-    const navMenu = document.getElementById('nav-menu');
+    // --- Mobile Slide-in Drawer Toggle ---
+    const drawerToggle = document.getElementById('drawer-toggle');
+    const drawerClose = document.getElementById('drawer-close');
+    const drawerOverlay = document.getElementById('drawer-overlay');
+    const mobileDrawer = document.getElementById('mobile-drawer');
 
-    if (menuToggle && navMenu) {
-        menuToggle.addEventListener('click', (e) => {
+    if (drawerToggle && mobileDrawer && drawerOverlay) {
+        // Open drawer
+        drawerToggle.addEventListener('click', (e) => {
             e.stopPropagation();
-            navMenu.classList.toggle('open');
-            const icon = menuToggle.querySelector('i');
-            if (icon) {
-                if (navMenu.classList.contains('open')) {
-                    icon.classList.remove('fa-bars');
-                    icon.classList.add('fa-xmark');
-                } else {
-                    icon.classList.remove('fa-xmark');
-                    icon.classList.add('fa-bars');
-                }
-            }
+            mobileDrawer.classList.add('open');
+            drawerOverlay.classList.add('open');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
         });
 
-        // Close menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!navMenu.contains(e.target) && !menuToggle.contains(e.target)) {
-                navMenu.classList.remove('open');
-                const icon = menuToggle.querySelector('i');
-                if (icon) {
-                    icon.classList.remove('fa-xmark');
-                    icon.classList.add('fa-bars');
-                }
-            }
-        });
-    }
+        // Close drawer functions
+        const closeMenu = () => {
+            mobileDrawer.classList.remove('open');
+            drawerOverlay.classList.remove('open');
+            document.body.style.overflow = ''; // Restore scrolling
+        };
 
-    // --- Light/Dark Theme Toggle Foundation ---
-    const themeToggle = document.getElementById('theme-toggle');
-    const htmlElement = document.documentElement;
-
-    // Check for saved theme preference, otherwise use system preference
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-        htmlElement.setAttribute('data-theme', savedTheme);
-        updateThemeIcon(savedTheme);
-    } else {
-        // Default to system preference (or fallback to light)
-        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const defaultTheme = systemPrefersDark ? 'dark' : 'light';
-        htmlElement.setAttribute('data-theme', defaultTheme);
-        updateThemeIcon(defaultTheme);
-    }
-
-    if (themeToggle) {
-        themeToggle.addEventListener('click', () => {
-            const currentTheme = htmlElement.getAttribute('data-theme') || 'light';
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            
-            htmlElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            updateThemeIcon(newTheme);
-        });
-    }
-
-    function updateThemeIcon(theme) {
-        if (!themeToggle) return;
-        const icon = themeToggle.querySelector('i');
-        if (icon) {
-            if (theme === 'dark') {
-                icon.className = 'fa-solid fa-sun';
-            } else {
-                icon.className = 'fa-solid fa-moon';
-            }
+        if (drawerClose) {
+            drawerClose.addEventListener('click', closeMenu);
         }
+        drawerOverlay.addEventListener('click', closeMenu);
+
+        // Escape key accessibility to close mobile drawer
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && mobileDrawer.classList.contains('open')) {
+                closeMenu();
+            }
+        });
+    }
+
+    // --- Automatic System Theme Synchronizer ---
+    const htmlElement = document.documentElement;
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+    function applySystemTheme(e) {
+        const isDark = e.matches;
+        if (isDark) {
+            htmlElement.setAttribute('data-theme', 'dark');
+        } else {
+            htmlElement.setAttribute('data-theme', 'light');
+        }
+    }
+
+    // Apply operating system default theme initially
+    applySystemTheme(systemPrefersDark);
+
+    // Keep theme in sync dynamically if OS preference changes
+    if (systemPrefersDark.addEventListener) {
+        systemPrefersDark.addEventListener('change', applySystemTheme);
+    } else if (systemPrefersDark.addListener) {
+        systemPrefersDark.addListener(applySystemTheme);
+    }
+
+    // --- Dynamic Intersection Observer Scroll Reveal ---
+    const fadeElements = document.querySelectorAll('.fade-in-up-premium');
+    if (fadeElements.length > 0) {
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // Trigger only once
+                }
+            });
+        }, observerOptions);
+
+        fadeElements.forEach(element => {
+            observer.observe(element);
+        });
     }
 });

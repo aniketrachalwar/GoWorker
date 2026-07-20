@@ -136,8 +136,8 @@ require_once __DIR__ . '/includes/header.php';
 <div class="auth-wrapper">
     <div class="card">
         <div class="auth-header">
-            <a href="index.php" class="auth-logo">
-                <i class="fa-solid fa-briefcase"></i> Go<span>Worker</span>
+            <a href="index.php" class="auth-logo" style="display: inline-block; margin-bottom: 1.5rem;">
+                <img src="images/logo.jpg" alt="GoWorker" style="height: 72px; width: auto; object-fit: contain; border-radius: 10px;">
             </a>
             <h2>Create an Account</h2>
             <p style="color: var(--text-muted);">Join GoWorker to connect with local services</p>
