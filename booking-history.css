@@ -27,11 +27,13 @@
     padding: 24px;
     margin-bottom: 20px;
     box-shadow: var(--shadow-sm);
-    transition: var(--transition);
+    transition: all 0.35s ease;
 }
 
 .booking-item-card:hover {
-    box-shadow: var(--shadow-md);
+    transform: translateY(-8px);
+    box-shadow: 0 25px 60px rgba(13,77,255,.20);
+    border-color: rgba(13, 77, 255, 0.25);
 }
 
 .booking-item-header {

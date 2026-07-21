@@ -17,7 +17,7 @@ class Database {
         }
 
         // Handle configuration saves from the offline recovery page
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'save_config') {
+        if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'save_config') {
             $new_config = [
                 'db_host' => trim($_POST['db_host'] ?? ''),
                 'db_port' => trim($_POST['db_port'] ?? ''),

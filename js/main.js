@@ -1,4 +1,9 @@
-// GoWorker Client-side Interactive Logic
+// Auto-load Visual Effects Engine if not already present
+if (!document.querySelector('script[src*="effects.js"]')) {
+    const effectsScript = document.createElement('script');
+    effectsScript.src = 'js/effects.js';
+    document.head.appendChild(effectsScript);
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log('GoWorker platform loaded.');
@@ -61,26 +66,64 @@ document.addEventListener('DOMContentLoaded', () => {
         systemPrefersDark.addListener(applySystemTheme);
     }
 
-    // --- Dynamic Intersection Observer Scroll Reveal ---
-    const fadeElements = document.querySelectorAll('.fade-in-up-premium');
-    if (fadeElements.length > 0) {
+    // --- Dynamic Intersection Observer Scroll Reveal for All Cards & Sections ---
+    const scrollRevealTargets = document.querySelectorAll('.card, .worker-card, .service-card, .feature-card, .step, .category-card, .stat-card, .section, .fade-in-up-premium');
+    if (scrollRevealTargets.length > 0) {
         const observerOptions = {
             root: null,
-            rootMargin: '0px',
+            rootMargin: '0px 0px -50px 0px',
             threshold: 0.1
         };
 
-        const observer = new IntersectionObserver((entries, observer) => {
+        const revealObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target); // Trigger only once
+                    entry.target.classList.add('visible', 'fade-up-scroll');
+                    observer.unobserve(entry.target);
                 }
             });
         }, observerOptions);
 
-        fadeElements.forEach(element => {
-            observer.observe(element);
+        scrollRevealTargets.forEach(element => {
+            revealObserver.observe(element);
         });
     }
+
+    // --- Interactive Ripple Effect for Primary Buttons ---
+    const primaryButtons = document.querySelectorAll('.btn-primary, .signup-btn, button[type="submit"]');
+    primaryButtons.forEach(button => {
+        button.addEventListener('click', function (e) {
+            const circle = document.createElement('span');
+            const diameter = Math.max(this.clientWidth, this.clientHeight);
+            const radius = diameter / 2;
+            const rect = this.getBoundingClientRect();
+
+            circle.style.width = circle.style.height = `${diameter}px`;
+            circle.style.left = `${e.clientX - rect.left - radius}px`;
+            circle.style.top = `${e.clientY - rect.top - radius}px`;
+            circle.style.position = 'absolute';
+            circle.style.borderRadius = '50%';
+            circle.style.background = 'rgba(255, 255, 255, 0.4)';
+            circle.style.transform = 'scale(0)';
+            circle.style.animation = 'ripple 0.6s linear';
+            circle.style.pointerEvents = 'none';
+
+            const rippleStyle = document.getElementById('ripple-style');
+            if (!rippleStyle) {
+                const style = document.createElement('style');
+                style.id = 'ripple-style';
+                style.innerHTML = `@keyframes ripple { to { transform: scale(4); opacity: 0; } }`;
+                document.head.appendChild(style);
+            }
+
+            const existingRipple = this.querySelector('span.ripple-effect');
+            if (existingRipple) {
+                existingRipple.remove();
+            }
+
+            circle.classList.add('ripple-effect');
+            this.appendChild(circle);
+        });
+    });
 });
+

@@ -30,7 +30,7 @@ body {
 /* Left Gradient Panel */
 .left-panel {
     width: 40%;
-    background: linear-gradient(135deg, #0F3DAE 0%, #0A2F8F 100%);
+    background: linear-gradient(135deg, #0D4DFF 0%, #4A7BFF 100%);
     color: #FFFFFF;
     padding: 50px 50px 0 50px; /* bottom 0 to let workers sit on edge */
     display: flex;

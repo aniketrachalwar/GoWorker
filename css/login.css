@@ -20,7 +20,7 @@ body {
 /* Left Panel */
 .left-panel {
     width: 40%;
-    background-color: #0F3CC9;
+    background: linear-gradient(135deg, #0D4DFF 0%, #4A7BFF 100%);
     color: #FFFFFF;
     padding: 3rem 3rem 0 3rem; /* bottom padding 0 to let workers image sit on edge */
     display: flex;

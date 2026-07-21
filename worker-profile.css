@@ -23,7 +23,7 @@
 
 .cover-banner {
     height: 240px;
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+    background: linear-gradient(135deg, #0D4DFF 0%, #4A7BFF 100%);
     position: relative;
 }
 
@@ -43,8 +43,14 @@
     height: 140px;
     border-radius: 50%;
     border: 5px solid var(--white);
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
     background: var(--white);
+    overflow: hidden;
+    transition: transform 0.5s ease;
+}
+
+.avatar-wrapper:hover {
+    transform: scale(1.05);
 }
 
 .avatar-img {
@@ -52,6 +58,11 @@
     height: 100%;
     border-radius: 50%;
     object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.avatar-wrapper:hover .avatar-img {
+    transform: scale(1.08);
 }
 
 .status-dot {
@@ -81,6 +92,14 @@
     gap: 10px;
 }
 
+.profile-title-section .fa-check-circle, .verified-badge {
+    transition: transform 0.3s ease;
+}
+
+.profile-title-section:hover .fa-check-circle, .profile-title-section:hover .verified-badge {
+    transform: scale(1.15);
+}
+
 .profile-title-section .profession {
     color: var(--secondary-text);
     font-size: 16px;
@@ -104,6 +123,12 @@
 
 .meta-stats i {
     color: var(--primary);
+    transition: transform 0.3s ease;
+}
+
+.meta-stats span:hover i {
+    transform: scale(1.15);
+    filter: drop-shadow(0 0 8px rgba(13, 77, 255, 0.4));
 }
 
 .action-buttons-group {
@@ -118,7 +143,14 @@
     border-radius: var(--radius-lg);
     padding: 32px;
     margin-bottom: 32px;
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 10px 30px rgba(0,0,0,.06);
+    transition: all 0.35s ease;
+}
+
+.profile-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 60px rgba(13,77,255,.20);
+    border-color: rgba(13, 77, 255, 0.25);
 }
 
 .profile-card h3 {
