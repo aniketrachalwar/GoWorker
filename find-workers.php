@@ -385,12 +385,12 @@ require_once __DIR__ . '/includes/header.php';
           <?php foreach ($workers as $worker): ?>
             <article class="worker-card">
               <div class="worker-card-header">
-                <div class="worker-avatar-container">
+                <a href="worker-profile.php?id=<?php echo $worker['id']; ?>" class="worker-avatar-container">
                   <img class="worker-avatar" src="<?php echo e($worker['profile_picture'] ?: 'images/avatar_placeholder.png'); ?>" alt="Worker">
                   <div class="verified-badge"><i class="fa-solid fa-check"></i></div>
-                </div>
+                </a>
                 <div class="worker-meta">
-                  <h4><?php echo e($worker['worker_name']); ?></h4>
+                  <h4><a href="worker-profile.php?id=<?php echo $worker['id']; ?>" style="color: inherit; text-decoration: none;"><?php echo e($worker['worker_name']); ?></a></h4>
                   <p><?php echo e(translate_category_name($worker['category_name'])); ?></p>
                 </div>
               </div>
