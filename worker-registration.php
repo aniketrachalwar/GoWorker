@@ -2,8 +2,19 @@
 /**
  * GoWorker - Become a Professional Partner (Worker Registration)
  */
+require_once __DIR__ . '/config/database.php';
 require_once __DIR__ . '/includes/functions.php';
 require_once __DIR__ . '/includes/header.php';
+
+$categories = [];
+if (isset($pdo)) {
+    try {
+        $stmt = $pdo->query("SELECT * FROM categories ORDER BY name ASC");
+        $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Database query failed: " . $e->getMessage());
+    }
+}
 ?>
 <link rel="stylesheet" href="worker-registration.css">
 
@@ -92,76 +103,19 @@ require_once __DIR__ . '/includes/header.php';
             <div class="form-group">
               <label>Service Category</label>
               <select class="form-input" style="padding-left: 16px;" required>
-                <option value="electrician"><?php echo e(__('cat_electrician')); ?></option>
-                <option value="plumber"><?php echo e(__('cat_plumber')); ?></option>
-                <option value="carpenter"><?php echo e(__('cat_carpenter')); ?></option>
-                <option value="painter"><?php echo e(__('cat_painter')); ?></option>
-                <option value="cleaner"><?php echo e(__('cat_cleaner')); ?></option>
-                <option value="appliance"><?php echo e(__('cat_appliance')); ?></option>
-                <option value="mechanic"><?php echo e(__('cat_mechanic')); ?></option>
-                <option value="mason">Mason (Mistri)</option>
-                <option value="construction_labour">Construction Labour</option>
-                <option value="helper_labour">Helper Labour</option>
-                <option value="tile_fitter">Tile Fitter</option>
-                <option value="pop_worker">POP Worker</option>
-                <option value="painter_labour">Painter Labour</option>
-                <option value="concrete_worker">Concrete Worker</option>
-                <option value="scaffolding_worker">Scaffolding Worker</option>
-                <option value="wireman">Wireman</option>
-                <option value="cctv_installer">CCTV Installer</option>
-                <option value="inverter_technician">Inverter Technician</option>
-                <option value="solar_panel_technician">Solar Panel Technician</option>
-                <option value="borewell_technician">Borewell Technician</option>
-                <option value="water_tank_cleaner">Water Tank Cleaner</option>
-                <option value="furniture_assembler">Furniture Assembler</option>
-                <option value="modular_furniture_installer">Modular Furniture Installer</option>
-                <option value="house_cleaner">House Cleaner</option>
-                <option value="deep_cleaning_service">Deep Cleaning Service</option>
-                <option value="sofa_cleaner">Sofa Cleaner</option>
-                <option value="carpet_cleaner">Carpet Cleaner</option>
-                <option value="bathroom_cleaner">Bathroom Cleaner</option>
-                <option value="ac_technician">AC Technician</option>
-                <option value="refrigerator_repair">Refrigerator Repair</option>
-                <option value="washing_machine_repair">Washing Machine Repair</option>
-                <option value="tv_repair">TV Repair</option>
-                <option value="microwave_repair">Microwave Repair</option>
-                <option value="water_purifier_repair">Water Purifier Repair</option>
-                <option value="gardener">Gardener</option>
-                <option value="pest_control">Pest Control</option>
-                <option value="security_guard">Security Guard</option>
-                <option value="driver">Driver</option>
-                <option value="cook">Cook</option>
-                <option value="maid">Maid</option>
-                <option value="babysitter">Babysitter</option>
-                <option value="elder_care_assistant">Elder Care Assistant</option>
-                <option value="welder">Welder</option>
-                <option value="fabricator">Fabricator</option>
-                <option value="steel_worker">Steel Worker</option>
-                <option value="aluminium_worker">Aluminium Worker</option>
-                <option value="loader">Loader</option>
-                <option value="unloader">Unloader</option>
-                <option value="packers_movers">Packers & Movers</option>
-                <option value="tempo_service">Tempo Service</option>
-                <option value="truck_helper">Truck Helper</option>
-                <option value="bike_repair">Bike Repair</option>
-                <option value="car_washing">Car Washing</option>
-                <option value="puncture_repair">Puncture Repair</option>
-                <option value="computer_repair">Computer Repair</option>
-                <option value="laptop_repair">Laptop Repair</option>
-                <option value="mobile_repair">Mobile Repair</option>
-                <option value="network_technician">Network Technician</option>
-                <option value="farm_labour">Farm Labour</option>
-                <option value="tractor_driver">Tractor Driver</option>
-                <option value="irrigation_worker">Irrigation Worker</option>
-                <option value="dairy_worker">Dairy Worker</option>
-                <option value="photographer">Photographer</option>
-                <option value="videographer">Videographer</option>
-                <option value="dj_service">DJ Service</option>
-                <option value="event_decorator">Event Decorator</option>
-                <option value="beautician">Beautician</option>
-                <option value="hair_stylist">Hair Stylist</option>
-                <option value="makeup_artist">Makeup Artist</option>
-                <option value="mehendi_artist">Mehendi Artist</option>
+                <?php if (!empty($categories)): ?>
+                    <?php foreach ($categories as $cat): ?>
+                        <option value="<?php echo e($cat['id']); ?>"><?php echo e($cat['name']); ?></option>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <option value="1">Electrician</option>
+                    <option value="2">Plumber</option>
+                    <option value="3">Carpenter</option>
+                    <option value="4">Painter</option>
+                    <option value="5">Cleaner</option>
+                    <option value="6">Appliance Repair</option>
+                    <option value="7">Mechanic</option>
+                <?php endif; ?>
               </select>
             </div>
             <div class="form-group">
