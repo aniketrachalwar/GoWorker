@@ -85,7 +85,9 @@ function translate_category_name($name) {
     if (isset($mapping[$name])) {
         return __($mapping[$name]);
     }
-    return $name;
+    $key = 'cat_' . strtolower(trim(preg_replace('/[^a-zA-Z0-9]+/', '_', $name), '_'));
+    $translated = __($key);
+    return ($translated !== $key) ? $translated : $name;
 }
 
 /**
