@@ -139,19 +139,158 @@ header, footer, .container[style*="margin-top: 1.5rem; margin-bottom: -1.5rem;"]
     display: none !important;
 }
 
-.feature-text-wrapper p {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.95rem;
-    color: rgba(255,255,255,0.75);
+/* Base Reset and Layout */
+body {
+    background-color: #FFFFFF !important;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    display: block;
 }
 
-/* Workers Graphic Image */
-.workers-graphic-container {
-    width: 110%;
-    margin-left: -5%;
-    margin-top: auto;
+.signup-container {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* Left Panel */
+.left-panel {
+    width: 40%;
+    background: linear-gradient(135deg, #0D4DFF 0%, #4A7BFF 100%);
+    color: #FFFFFF;
+    padding: 3rem 3rem 0 3rem;
+    display: flex;
+    flex-direction: column;
     position: relative;
+    overflow: hidden;
+}
+
+/* Right Panel */
+.right-panel {
+    width: 60%;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 2rem 3rem;
+    position: relative;
+}
+
+/* Left Panel Content Styling */
+.left-logo-area {
+    margin-bottom: 2rem;
+}
+
+.left-logo {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+}
+
+.left-logo span {
+    font-weight: 400;
+}
+
+.left-logo-tagline {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-left: 2.3rem;
+    margin-top: -0.25rem;
+    letter-spacing: 0.05em;
+    font-family: 'Inter', sans-serif;
+}
+
+.left-hero-content h1 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    line-height: 1.25;
+    color: #FFFFFF;
+    margin-bottom: 1rem;
+}
+
+.left-hero-content h1 span.accent {
+    color: #86A3FF;
+}
+
+.left-hero-desc {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 1.5rem;
+    max-width: 90%;
+}
+
+.left-divider {
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.15);
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+
+/* Features */
+.features-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 2;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.feature-icon-wrapper {
+    background: rgba(255, 255, 255, 0.1);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.feature-icon-wrapper i {
+    color: #FFFFFF;
+    font-size: 1.1rem;
+}
+
+.feature-text-wrapper h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #FFFFFF;
+    margin-bottom: 0.1rem;
+}
+
+.feature-text-wrapper p {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.75);
+    margin: 0;
+}
+
+/* Workers Graphic */
+.workers-graphic-container {
+    position: absolute;
+    bottom: 0;
+    right: 10px;
+    width: 260px;
     z-index: 1;
+    pointer-events: none;
     display: flex;
     align-items: flex-end;
 }
@@ -159,29 +298,30 @@ header, footer, .container[style*="margin-top: 1.5rem; margin-bottom: -1.5rem;"]
 .workers-graphic {
     width: 100%;
     height: auto;
-    display: block;
     object-fit: contain;
+    display: block;
 }
 
 /* Testimonial Card */
 .testimonial-card {
-    position: absolute;
-    bottom: 40px;
-    right: 40px;
     background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255,255,255,0.12);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 16px;
-    padding: 20px 24px;
-    max-width: 320px;
+    padding: 1rem 1.25rem;
+    width: 320px;
+    position: absolute;
+    bottom: 2rem;
+    left: 3rem;
     z-index: 3;
 }
 
 .testimonial-quote {
-    font-size: 0.9rem;
-    line-height: 1.45;
-    color: #ffffff;
-    margin-bottom: 12px;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    color: #FFFFFF;
+    margin-bottom: 8px;
     font-style: italic;
 }
 
@@ -192,48 +332,27 @@ header, footer, .container[style*="margin-top: 1.5rem; margin-bottom: -1.5rem;"]
 }
 
 .testimonial-author {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 600;
-    color: rgba(255,255,255,0.9);
+    color: rgba(255, 255, 255, 0.9);
 }
 
 .testimonial-stars {
     display: flex;
-    gap: 3px;
+    gap: 2px;
 }
 
 .testimonial-stars i {
     color: #FFC738;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
 }
 
-/* Top buttons (Theme and Language) */
+/* Right Panel Elements */
 .right-panel-top {
-    position: absolute;
-    top: 40px;
-    right: 40px;
     display: flex;
+    justify-content: flex-end;
     align-items: center;
-    gap: 15px;
-}
-
-.theme-toggle-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1.2rem;
-    color: #4B5563;
-    padding: 8px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-}
-
-.theme-toggle-btn:hover {
-    background-color: #F3F4F6;
-    color: #1F2937;
+    margin-bottom: 1.5rem;
 }
 
 .language-dropdown-container {
@@ -242,7 +361,7 @@ header, footer, .container[style*="margin-top: 1.5rem; margin-bottom: -1.5rem;"]
 
 .language-select {
     appearance: none;
-    background-color: #ffffff;
+    background-color: #FFFFFF;
     border: 1px solid #E5E7EB;
     border-radius: 8px;
     padding: 8px 32px 8px 12px;
@@ -271,46 +390,46 @@ header, footer, .container[style*="margin-top: 1.5rem; margin-bottom: -1.5rem;"]
     pointer-events: none;
 }
 
-/* Form Container elements */
+/* Form Container */
 .form-container {
     width: 100%;
-    max-width: 580px;
+    max-width: 520px;
     margin: auto;
-    padding: 20px 0;
 }
 
 .signup-header {
-    margin-bottom: 30px;
+    margin-bottom: 1.5rem;
 }
 
 .signup-header h2 {
     font-family: 'Inter', sans-serif;
-    font-size: 2.1rem;
+    font-size: 1.8rem;
     font-weight: 700;
     color: #1F2937;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
 }
 
 .signup-header p {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: #6B7280;
+    margin: 0;
 }
 
-/* Tabs switcher */
+/* Tabs */
 .signup-tabs {
     display: flex;
     background-color: #F3F4F6;
-    padding: 6px;
-    border-radius: 12px;
-    margin-bottom: 30px;
+    padding: 4px;
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
 }
 
 .tab-btn {
     flex: 1;
     border: none;
     background: none;
-    padding: 12px;
-    font-size: 0.9rem;
+    padding: 10px;
+    font-size: 0.85rem;
     font-weight: 600;
     color: #4B5563;
     border-radius: 8px;
@@ -318,21 +437,17 @@ header, footer, .container[style*="margin-top: 1.5rem; margin-bottom: -1.5rem;"]
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 6px;
     transition: all 0.2s ease;
-}
-
-.tab-btn i {
-    font-size: 1rem;
 }
 
 .tab-btn.active {
     background-color: #ffffff;
     color: #0D3FB7;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 
-/* Form layout elements */
+/* Form inputs */
 .auth-form-custom {
     display: flex;
     flex-direction: column;
@@ -341,8 +456,8 @@ header, footer, .container[style*="margin-top: 1.5rem; margin-bottom: -1.5rem;"]
 .form-grid-custom {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin-bottom: 25px;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
 }
 
 .form-group-full {
@@ -355,10 +470,10 @@ header, footer, .container[style*="margin-top: 1.5rem; margin-bottom: -1.5rem;"]
 }
 
 .form-label-custom {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 600;
     color: #374151;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
 
 .input-icon-wrapper {
@@ -371,16 +486,16 @@ header, footer, .container[style*="margin-top: 1.5rem; margin-bottom: -1.5rem;"]
     position: absolute;
     left: 14px;
     color: #9CA3AF;
-    font-size: 1rem;
+    font-size: 0.95rem;
     pointer-events: none;
 }
 
 .form-control-custom {
     width: 100%;
-    padding: 13px 14px 13px 42px;
+    padding: 11px 14px 11px 40px;
     border: 1.5px solid #E5E7EB;
-    border-radius: 10px;
-    font-size: 0.9rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
     color: #1F2937;
     outline: none;
     transition: all 0.2s ease;
@@ -388,7 +503,7 @@ header, footer, .container[style*="margin-top: 1.5rem; margin-bottom: -1.5rem;"]
 
 .form-control-custom:focus {
     border-color: #0D3FB7;
-    box-shadow: 0 0 0 4px rgba(13,63,183,0.1);
+    box-shadow: 0 0 0 3px rgba(13,63,183,0.1);
 }
 
 .password-toggle-btn {
@@ -398,7 +513,7 @@ header, footer, .container[style*="margin-top: 1.5rem; margin-bottom: -1.5rem;"]
     border: none;
     cursor: pointer;
     color: #9CA3AF;
-    font-size: 1rem;
+    font-size: 0.95rem;
     padding: 4px;
     display: flex;
     align-items: center;
@@ -409,29 +524,29 @@ header, footer, .container[style*="margin-top: 1.5rem; margin-bottom: -1.5rem;"]
     color: #4B5563;
 }
 
-/* Submit Button styling */
+/* Buttons */
 .btn-signup-custom {
     background-color: #0D3FB7;
     color: #ffffff;
     border: none;
-    border-radius: 10px;
-    padding: 14px;
-    font-size: 0.95rem;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 0.9rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 14px rgba(13,63,183,0.3);
+    box-shadow: 0 4px 12px rgba(13,63,183,0.25);
 }
 
 .btn-signup-custom:hover {
     background-color: #0B359C;
-    box-shadow: 0 6px 18px rgba(13,63,183,0.4);
+    box-shadow: 0 6px 16px rgba(13,63,183,0.35);
 }
 
-/* Divider styling */
+/* Divider */
 .divider-custom {
     display: flex;
     align-items: center;
@@ -440,7 +555,7 @@ header, footer, .container[style*="margin-top: 1.5rem; margin-bottom: -1.5rem;"]
     font-size: 0.75rem;
     font-weight: 600;
     letter-spacing: 0.05em;
-    margin: 25px 0;
+    margin: 1.25rem 0;
 }
 
 .divider-custom::before, .divider-custom::after {
@@ -450,27 +565,27 @@ header, footer, .container[style*="margin-top: 1.5rem; margin-bottom: -1.5rem;"]
 }
 
 .divider-custom::before {
-    margin-right: 15px;
+    margin-right: 12px;
 }
 
 .divider-custom::after {
-    margin-left: 15px;
+    margin-left: 12px;
 }
 
-/* Google Sign-in button */
+/* Google Sign-in */
 .btn-google-custom {
     background-color: #ffffff;
     color: #374151;
     border: 1.5px solid #E5E7EB;
-    border-radius: 10px;
-    padding: 13px;
-    font-size: 0.9rem;
+    border-radius: 8px;
+    padding: 11px;
+    font-size: 0.85rem;
     font-weight: 600;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 8px;
     transition: all 0.2s ease;
 }
 
@@ -480,16 +595,16 @@ header, footer, .container[style*="margin-top: 1.5rem; margin-bottom: -1.5rem;"]
 }
 
 .btn-google-custom img {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
 }
 
 /* Redirect text */
 .login-redirect-text {
     text-align: center;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: #4B5563;
-    margin-top: 25px;
+    margin-top: 1.25rem;
 }
 
 .login-redirect-text a {
@@ -502,20 +617,20 @@ header, footer, .container[style*="margin-top: 1.5rem; margin-bottom: -1.5rem;"]
     text-decoration: underline;
 }
 
-/* Footer security badging */
+/* Security footer */
 .right-panel-bottom {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: #9CA3AF;
-    margin-top: 15px;
+    margin-top: 1.25rem;
 }
 
 .right-panel-bottom i {
     color: #10B981;
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 
 .right-panel-bottom span strong {
@@ -523,14 +638,9 @@ header, footer, .container[style*="margin-top: 1.5rem; margin-bottom: -1.5rem;"]
     font-weight: 600;
 }
 
-/* Dark Mode Theme overrides for custom login page elements */
+/* Dark Mode Theme overrides */
 [data-theme="dark"] body {
     background-color: #090d16 !important;
-}
-
-[data-theme="dark"] .signup-container {
-    background: #121b2d;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
 }
 
 [data-theme="dark"] .right-panel {
@@ -574,7 +684,7 @@ header, footer, .container[style*="margin-top: 1.5rem; margin-bottom: -1.5rem;"]
 
 [data-theme="dark"] .form-control-custom:focus {
     border-color: #4B8DFF;
-    box-shadow: 0 0 0 4px rgba(75, 141, 255, 0.15);
+    box-shadow: 0 0 0 3px rgba(75, 141, 255, 0.15);
 }
 
 [data-theme="dark"] .password-toggle-btn:hover {
@@ -608,64 +718,39 @@ header, footer, .container[style*="margin-top: 1.5rem; margin-bottom: -1.5rem;"]
 }
 
 /* Responsiveness overrides */
-@media (max-width: 1200px) {
-    .signup-container {
-        height: auto;
-    }
-    .left-panel {
-        padding: 40px;
-    }
-    .right-panel {
-        padding: 40px;
-    }
-    .testimonial-card {
-        width: 300px;
-        left: 40px;
-    }
-    .workers-graphic-container {
-        width: 220px;
-    }
-}
-
 @media (max-width: 992px) {
     .signup-container {
         flex-direction: column;
-        height: auto;
+        min-height: 100vh;
     }
     .left-panel {
         width: 100%;
-        border-radius: 24px 24px 0 0;
-        padding: 40px 40px 380px 40px;
+        padding: 30px;
+        min-height: auto;
     }
     .right-panel {
         width: 100%;
-        border-radius: 0 0 24px 24px;
-        padding: 40px 20px;
+        padding: 30px 20px;
+        min-height: auto;
     }
     .workers-graphic-container {
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
+        display: none !important;
     }
     .testimonial-card {
-        bottom: 40px;
-        left: 40px;
+        position: relative;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        margin-top: 1.5rem;
     }
 }
 
 @media (max-width: 768px) {
-    body {
-        padding: 0;
-    }
-    .signup-container {
-        width: 100%;
-        border-radius: 0;
-    }
     .left-panel {
         display: none !important;
     }
     .right-panel {
-        border-radius: 0;
+        width: 100%;
         padding: 40px 15px;
     }
     .form-grid-custom {
@@ -673,9 +758,6 @@ header, footer, .container[style*="margin-top: 1.5rem; margin-bottom: -1.5rem;"]
     }
     .form-group-full {
         grid-column: span 1;
-    }
-    .signup-header h2 {
-        font-size: 36px;
     }
 }
 </style>

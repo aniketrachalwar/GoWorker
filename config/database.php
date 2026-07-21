@@ -1,30 +1,5 @@
 <?php
 /**
-<<<<<<< HEAD
- * Database Configuration File - Standard XAMPP Setup
- * Establishes a PDO connection to the MySQL database.
- */
-
-$host = "localhost";
-$dbname = "goworker";
-$username = "root";
-$password = "";
-
-$pdo = null;
-
-try {
-    $pdo = new PDO(
-        "mysql:host=$host;dbname=$dbname;charset=utf8mb4",
-        $username,
-        $password
-    );
-
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    error_log("Database connection error: " . $e->getMessage());
-    $db_connection_error = "Database 'goworker' not found. Please import database/goworker.sql in phpMyAdmin.";
-=======
  * GoWorker - Database Bridge Configuration
  * 
  * Central database bridge. Delegates connection management to the new
@@ -49,6 +24,5 @@ try {
 } catch (Exception $e) {
     error_log("Database bridge connection error: " . $e->getMessage());
     $db_connection_error = "Unable to connect to the database. Please verify your connection configuration.";
->>>>>>> a52a51d990b13a5026bd6eb55d95ed265ddac057
 }
 ?>
