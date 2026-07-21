@@ -107,8 +107,8 @@ if (isset($pdo)) {
         }
 
         // Search Query
-        $sql = "SELECT w.*, u.name as worker_name, u.email, u.phone, c.name as category_name 
-                FROM workers w 
+        $sql = "SELECT w.*, w.location as service_area, u.full_name as worker_name, u.email, u.phone, c.name as category_name 
+                FROM worker_profiles w 
                 JOIN users u ON w.user_id = u.id 
                 JOIN categories c ON w.category_id = c.id
                 WHERE 1=1";
@@ -119,11 +119,11 @@ if (isset($pdo)) {
             $params[] = $category_id;
         }
         if (!empty($location)) {
-            $sql .= " AND w.service_area LIKE ?";
+            $sql .= " AND w.location LIKE ?";
             $params[] = "%$location%";
         }
         if (!empty($search_query)) {
-            $sql .= " AND (u.name LIKE ? OR w.skills LIKE ?)";
+            $sql .= " AND (u.full_name LIKE ? OR w.skills LIKE ?)";
             $params[] = "%$search_query%";
             $params[] = "%$search_query%";
         }
@@ -138,11 +138,11 @@ if (isset($pdo)) {
             $fallback_city = get_nearest_location_fallback($location);
             
             // Re-run search with fallback city
-            $sql_fallback = "SELECT w.*, u.name as worker_name, u.email, u.phone, c.name as category_name 
-                             FROM workers w 
+            $sql_fallback = "SELECT w.*, w.location as service_area, u.full_name as worker_name, u.email, u.phone, c.name as category_name 
+                             FROM worker_profiles w 
                              JOIN users u ON w.user_id = u.id 
                              JOIN categories c ON w.category_id = c.id
-                             WHERE w.service_area LIKE ?";
+                             WHERE w.location LIKE ?";
             $params_fallback = ["%$fallback_city%"];
             
             if ($category_id > 0) {
@@ -150,7 +150,7 @@ if (isset($pdo)) {
                 $params_fallback[] = $category_id;
             }
             if (!empty($search_query)) {
-                $sql_fallback .= " AND (u.name LIKE ? OR w.skills LIKE ?)";
+                $sql_fallback .= " AND (u.full_name LIKE ? OR w.skills LIKE ?)";
                 $params_fallback[] = "%$search_query%";
                 $params_fallback[] = "%$search_query%";
             }
