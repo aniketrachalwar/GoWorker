@@ -5,6 +5,13 @@ if (!document.querySelector('script[src*="effects.js"]')) {
     document.head.appendChild(effectsScript);
 }
 
+// Auto-load Location Auto-Detection Engine if not already present
+if (!document.querySelector('script[src*="location.js"]')) {
+    const locScript = document.createElement('script');
+    locScript.src = 'js/location.js';
+    document.head.appendChild(locScript);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     console.log('GoWorker platform loaded.');
 

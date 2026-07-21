@@ -188,9 +188,9 @@ body.dark-mode .search-box{
   border:1.5px solid rgba(13,77,255,0.15);
   border-radius:18px;
   font-size:16px;
-  background:rgba(255,255,255,0.9);
+  background:#fff;
   color:#111827;
-  transition:all 0.3s ease;
+  transition:border-color 0.25s ease, box-shadow 0.25s ease;
 }
 body.dark-mode .search-box select,
 body.dark-mode .search-box input{
@@ -201,8 +201,7 @@ body.dark-mode .search-box input{
 .search-box select:focus,
 .search-box input:focus{
   border-color:#0D4DFF;
-  box-shadow:0 0 0 5px rgba(13,77,255,.10);
-  transform:scale(1.01);
+  box-shadow:0 0 0 4px rgba(13,77,255,.10);
   outline:none;
 }
 .search-box button{
@@ -214,11 +213,11 @@ body.dark-mode .search-box input{
   font-size:16px;
   font-weight:600;
   cursor:pointer;
-  transition:all 0.35s ease;
+  transition:transform 0.25s ease, box-shadow 0.25s ease;
 }
 .search-box button:hover{
-  transform:translateY(-3px);
-  box-shadow:0 15px 35px rgba(13,77,255,.30);
+  transform:translateY(-2px);
+  box-shadow:0 8px 20px rgba(13, 77, 255, 0.20);
 }
 .features{
   display:flex;
@@ -281,17 +280,22 @@ body.dark-mode .search-box input{
     text-align:center;
     cursor:pointer;
     border:1px solid #edf2ff;
-    transition:all 0.35s ease;
-    box-shadow:0 10px 30px rgba(0,0,0,.06);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    box-shadow: 0 4px 16px rgba(0,0,0,.04);
 }
 body.dark-mode .card, body.dark-mode .service-card, body.dark-mode .worker-card, body.dark-mode .step{
     background:#101726;
     border-color:rgba(255,255,255,0.08);
 }
 .card:hover, .service-card:hover, .worker-card:hover, .step:hover{
-    transform:translateY(-8px);
-    box-shadow:0 25px 60px rgba(13,77,255,.20);
-    border-color:rgba(13,77,255,0.25);
+    transform:translateY(-4px);
+    box-shadow:0 12px 30px rgba(13,77,255,.12);
+    border-color:rgba(13,77,255,0.20);
+}
+.category-card:hover{
+    transform:scale(1.03);
+    box-shadow:0 12px 30px rgba(13,77,255,.12);
+    border-color:rgba(13,77,255,0.20);
 }
 .card i{
     width:70px;
@@ -302,13 +306,12 @@ body.dark-mode .card, body.dark-mode .service-card, body.dark-mode .worker-card,
     background:rgba(13,77,255,0.08);
     border-radius:50%;
     margin-bottom:18px;
-    transition:all 0.35s ease;
+    transition:transform 0.25s ease, background 0.25s ease, color 0.25s ease;
 }
 .card:hover i{
     background:#0D4DFF;
     color:#fff;
-    transform:scale(1.15);
-    filter:drop-shadow(0 0 8px rgba(13,77,255,0.4));
+    transform:scale(1.08);
 }
 .card h3{
     font-size:18px;
@@ -665,67 +668,5 @@ body.dark-mode .card h3{ color:#F3F4F6; }
     color:white;
 }
 
-/* Card Spotlight Radial Overlay */
-.spotlight-card {
-  position: relative;
-  overflow: hidden;
-}
 
-.spotlight-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border-radius: inherit;
-  background: radial-gradient(500px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(13, 77, 255, 0.14), transparent 40%);
-  opacity: 0;
-  transition: opacity 0.35s ease;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.spotlight-card:hover::before {
-  opacity: 1;
-}
-
-/* Ambient Floating Background Blobs */
-.ambient-blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  pointer-events: none;
-  opacity: 0.18;
-}
-
-.blob-1 {
-  top: 10%;
-  left: -5%;
-  width: 450px;
-  height: 450px;
-  background: radial-gradient(circle, #0D4DFF 0%, #4A7BFF 100%);
-  animation: floatBlob1 18s ease-in-out infinite alternate;
-}
-
-.blob-2 {
-  bottom: 15%;
-  right: -5%;
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, #4A7BFF 0%, #8AB4FF 100%);
-  animation: floatBlob2 22s ease-in-out infinite alternate;
-}
-
-@keyframes floatBlob1 {
-  0% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(60px, -40px) scale(1.1); }
-  100% { transform: translate(-30px, 50px) scale(0.95); }
-}
-
-@keyframes floatBlob2 {
-  0% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(-50px, 60px) scale(1.15); }
-  100% { transform: translate(40px, -30px) scale(0.9); }
-}
 
