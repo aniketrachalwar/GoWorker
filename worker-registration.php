@@ -92,11 +92,13 @@ require_once __DIR__ . '/includes/header.php';
             <div class="form-group">
               <label>Service Category</label>
               <select class="form-input" style="padding-left: 16px;" required>
-                <option value="electrician">Electrician</option>
-                <option value="plumber">Plumber</option>
-                <option value="carpenter">Carpenter</option>
-                <option value="painter">Painter</option>
-                <option value="cleaner">Cleaner</option>
+                <option value="electrician"><?php echo e(__('cat_electrician')); ?></option>
+                <option value="plumber"><?php echo e(__('cat_plumber')); ?></option>
+                <option value="carpenter"><?php echo e(__('cat_carpenter')); ?></option>
+                <option value="painter"><?php echo e(__('cat_painter')); ?></option>
+                <option value="cleaner"><?php echo e(__('cat_cleaner')); ?></option>
+                <option value="appliance"><?php echo e(__('cat_appliance')); ?></option>
+                <option value="mechanic"><?php echo e(__('cat_mechanic')); ?></option>
               </select>
             </div>
             <div class="form-group">

@@ -45,9 +45,9 @@
         </div>
     </div>
     
-    <div class="container footer-bottom">
-        <p>&copy; <?php echo date('Y'); ?> GoWorker. All rights reserved. Developed as a college project.</p>
-        <p>Phase 1 Foundation</p>
+    <div class="container footer-bottom" style="text-align: center; border-top: 1px solid var(--border-color); padding-top: 1.5rem; margin-top: 2rem;">
+        <p>&copy; <?php echo date('Y'); ?> <strong>GoWorker™</strong>. All rights reserved. GoWorker is a registered trademark.</p>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">Licensed under the Academic Project Commons License. All services simulated for demonstration purposes.</p>
     </div>
 </footer>
 

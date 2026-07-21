@@ -686,7 +686,7 @@ header, footer, .container[style*="margin-top: 1.5rem; margin-bottom: -1.5rem;"]
         <!-- Top Logo Area -->
         <div class="left-logo-area">
             <a href="index.php" class="left-logo logo">
-                <i class="fa-solid fa-briefcase"></i> Go<span>Worker</span>
+                <i class="fa-solid fa-screwdriver-wrench"></i> Go<span>Worker</span>
             </a>
             <div class="left-logo-tagline"><?php echo e(__('tagline')); ?></div>
         </div>
@@ -870,6 +870,9 @@ header, footer, .container[style*="margin-top: 1.5rem; margin-bottom: -1.5rem;"]
 
                 <!-- Submit Button -->
                 <button type="submit" class="btn-signup-custom"><?php echo e(__('create_account_btn')); ?></button>
+                <p style="font-size: 0.8rem; color: var(--text-muted); text-align: center; margin-top: 1rem;">
+                    By signing up, you agree to the <strong>GoWorker™</strong> <a href="#" onclick="alert('Terms & Conditions:\n1. All service requests are simulations.\n2. Users must respect safety guidelines.\n3. Data is managed securely.')" style="text-decoration: underline; color: var(--primary);">Terms & Conditions</a> and <a href="#" onclick="alert('Privacy Policy:\n1. We protect user profile data.\n2. No third-party data sharing.')" style="text-decoration: underline; color: var(--primary);">Privacy Policy</a>.
+                </p>
             </form>
 
             <!-- Divider -->

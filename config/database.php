@@ -4,11 +4,19 @@
  * Establishes a PDO connection to the MySQL database.
  */
 
-// Database connection parameters
-$host = 'localhost';
-$db   = 'goworker';
-$user = 'root';
-$pass = '';
+// Database connection parameters - Check for cloud database URLs or standard environment variables
+if (getenv('DATABASE_URL')) {
+    $dbparts = parse_url(getenv('DATABASE_URL'));
+    $host = $dbparts['host'] ?? 'localhost';
+    $user = $dbparts['user'] ?? 'root';
+    $pass = $dbparts['pass'] ?? '';
+    $db   = ltrim($dbparts['path'] ?? 'goworker', '/');
+} else {
+    $host = getenv('DB_HOST') ?: 'localhost';
+    $db   = getenv('DB_NAME') ?: 'goworker';
+    $user = getenv('DB_USER') ?: 'root';
+    $pass = getenv('DB_PASS') !== false ? getenv('DB_PASS') : '';
+}
 $charset = 'utf8mb4';
 
 // Data Source Name

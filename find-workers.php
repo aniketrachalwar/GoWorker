@@ -11,16 +11,36 @@ $category_id = intval($_GET['category'] ?? 0);
 $search_query = trim($_GET['q'] ?? '');
 
 $workers = [];
+$categories_list = [];
 if (isset($pdo)) {
     try {
         // Retrieve categories for filters list
-        $cat_stmt = $pdo->query("SELECT * FROM categories ORDER BY name ASC");
-        $categories_list = $cat_stmt->fetchAll(PDO::FETCH_ASSOC);
+        try {
+            $cat_stmt = $pdo->query("SELECT * FROM categories ORDER BY name ASC");
+            $categories_list = $cat_stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            $categories_list = [];
+        }
+        if (empty($categories_list)) {
+            $categories_list = [
+                ['id' => 1, 'name' => 'Electrician'],
+                ['id' => 2, 'name' => 'Plumber'],
+                ['id' => 3, 'name' => 'Carpenter'],
+                ['id' => 4, 'name' => 'Painter'],
+                ['id' => 5, 'name' => 'Cleaner'],
+                ['id' => 6, 'name' => 'Appliance Repair'],
+                ['id' => 7, 'name' => 'Mechanic']
+            ];
+        }
 
         if ($category_id > 0) {
-            $stmt = $pdo->prepare("SELECT name FROM categories WHERE id = ?");
-            $stmt->execute([$category_id]);
-            $category_name = $stmt->fetchColumn() ?: '';
+            $category_name = '';
+            foreach ($categories_list as $cat) {
+                if ($cat['id'] == $category_id) {
+                    $category_name = $cat['name'];
+                    break;
+                }
+            }
         }
 
         // Search Query
@@ -48,6 +68,38 @@ if (isset($pdo)) {
         $stmt = $pdo->prepare($sql);
         $stmt->execute($params);
         $workers = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Fallback nearest location check if no workers found
+        $location_info_message = '';
+        if (empty($workers) && !empty($location)) {
+            $fallback_city = get_nearest_location_fallback($location);
+            
+            // Re-run search with fallback city
+            $sql_fallback = "SELECT w.*, u.name as worker_name, u.email, u.phone, c.name as category_name 
+                             FROM workers w 
+                             JOIN users u ON w.user_id = u.id 
+                             JOIN categories c ON w.category_id = c.id
+                             WHERE w.service_area LIKE ?";
+            $params_fallback = ["%$fallback_city%"];
+            
+            if ($category_id > 0) {
+                $sql_fallback .= " AND w.category_id = ?";
+                $params_fallback[] = $category_id;
+            }
+            if (!empty($search_query)) {
+                $sql_fallback .= " AND (u.name LIKE ? OR w.skills LIKE ?)";
+                $params_fallback[] = "%$search_query%";
+                $params_fallback[] = "%$search_query%";
+            }
+            
+            $stmt_fallback = $pdo->prepare($sql_fallback);
+            $stmt_fallback->execute($params_fallback);
+            $workers = $stmt_fallback->fetchAll(PDO::FETCH_ASSOC);
+            
+            if (!empty($workers)) {
+                $location_info_message = "No workers found in '" . e($location) . "'. Showing nearest workers in '" . e($fallback_city) . "'.";
+            }
+        }
 
     } catch (PDOException $e) {
         error_log("Database error on find-workers.php: " . $e->getMessage());
@@ -236,7 +288,7 @@ require_once __DIR__ . '/includes/header.php';
             <?php foreach ($categories_list as $cat): ?>
               <label class="checkbox-label">
                 <input type="checkbox" <?php echo ($category_id == $cat['id']) ? 'checked' : ''; ?> onclick="location.href='find-workers.php?category=<?php echo $cat['id']; ?>'">
-                <?php echo e($cat['name']); ?>
+                <?php echo e(translate_category_name($cat['name'])); ?>
               </label>
             <?php endforeach; ?>
           <?php endif; ?>
@@ -256,6 +308,13 @@ require_once __DIR__ . '/includes/header.php';
         </form>
       </div>
 
+      <?php if (!empty($location_info_message)): ?>
+        <div style="background: rgba(18, 69, 197, 0.06); border: 1.5px solid rgba(18, 69, 197, 0.15); color: var(--primary); border-radius: var(--radius-md); padding: 14px 20px; margin-bottom: 24px; font-weight: 500; display: flex; align-items: center; gap: 12px; font-size: 14px;">
+            <i class="fa-solid fa-circle-info" style="font-size: 16px;"></i>
+            <span><?php echo $location_info_message; ?></span>
+        </div>
+      <?php endif; ?>
+
       <h3 style="margin-bottom: 24px; font-weight: 600;"><?php echo count($workers); ?> Workers Found</h3>
 
       <div class="workers-grid">
@@ -269,7 +328,7 @@ require_once __DIR__ . '/includes/header.php';
                 </div>
                 <div class="worker-meta">
                   <h4><?php echo e($worker['worker_name']); ?></h4>
-                  <p><?php echo e($worker['category_name']); ?></p>
+                  <p><?php echo e(translate_category_name($worker['category_name'])); ?></p>
                 </div>
               </div>
               <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">

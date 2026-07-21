@@ -653,8 +653,11 @@ require_once __DIR__ . '/includes/header.php';
             <div class="abstract-shape shape-1"></div>
             <div class="abstract-shape shape-2"></div>
             
-            <div class="brand-header-mini" style="display: flex; align-items: center; gap: 8px;">
-                <img src="images/logo_icon.png" alt="GoWorker Logo" style="height: 28px; width: auto; object-fit: contain;" onerror="this.src='assets/logo.jfif';"> GoWorker
+            <div class="brand-header-mini" style="display: flex; align-items: center; gap: 10px;">
+                <div style="display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; background: #3b82f6; border-radius: 6px; color: #ffffff; flex-shrink: 0;">
+                    <i class="fa-solid fa-screwdriver-wrench" style="font-size: 13px;"></i>
+                </div>
+                <span>GoWorker</span>
             </div>
             
             <div class="brand-main-content">
@@ -787,6 +790,9 @@ require_once __DIR__ . '/includes/header.php';
                 <button type="submit" class="btn-primary-auth">
                     <i class="fa-solid fa-right-to-bracket"></i> <?php echo e(__('login')); ?>
                 </button>
+                <p style="font-size: 0.8rem; color: var(--text-muted); text-align: center; margin-top: 1rem;">
+                    By logging in, you agree to the <strong>GoWorker™</strong> <a href="#" onclick="alert('Terms & Conditions:\n1. All service requests are simulations.\n2. Users must respect safety guidelines.\n3. Data is managed securely.')" style="text-decoration: underline; color: var(--primary);">Terms & Conditions</a> and <a href="#" onclick="alert('Privacy Policy:\n1. We protect user profile data.\n2. No third-party data sharing.')" style="text-decoration: underline; color: var(--primary);">Privacy Policy</a>.
+                </p>
             </form>
 
             <div class="auth-footer">

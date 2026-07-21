@@ -56,15 +56,96 @@ function csrf_field() {
     return '<input type="hidden" name="csrf_token" value="' . e($token) . '">';
 }
 
-/**
- * Safe redirection helper
- * 
- * @param string $url
- * @return void
- */
 function redirect($url) {
-    header("Location: $url");
+    session_write_close();
+    if (!headers_sent()) {
+        header("Location: $url");
+    } else {
+        echo "<script>window.location.href='" . addslashes($url) . "';</script>";
+    }
     exit();
+}
+
+/**
+ * Translates a dynamic category name using language key mapping
+ * 
+ * @param string $name
+ * @return string
+ */
+function translate_category_name($name) {
+    $mapping = [
+        'Electrician' => 'cat_electrician',
+        'Plumber' => 'cat_plumber',
+        'Carpenter' => 'cat_carpenter',
+        'Painter' => 'cat_painter',
+        'Cleaner' => 'cat_cleaner',
+        'Appliance Repair' => 'cat_appliance',
+        'Mechanic' => 'cat_mechanic'
+    ];
+    if (isset($mapping[$name])) {
+        return __($mapping[$name]);
+    }
+    return $name;
+}
+
+/**
+ * Returns the nearest main city fallback for location searches with no exact matches
+ * 
+ * @param string $searched_location
+ * @return string
+ */
+function get_nearest_location_fallback($searched_location) {
+    $searched = strtolower(trim($searched_location));
+    if (empty($searched)) {
+        return 'Pune';
+    }
+    
+    // Map of suburbs/areas to main cities where workers are located
+    $map = [
+        'kothrud' => 'Pune',
+        'hadapsar' => 'Pune',
+        'hinjewadi' => 'Pune',
+        'baner' => 'Pune',
+        'vimannagar' => 'Pune',
+        'wakad' => 'Pune',
+        'pimpri' => 'Pune',
+        'chinchwad' => 'Pune',
+        'camp' => 'Pune',
+        
+        'thane' => 'Mumbai',
+        'navi mumbai' => 'Mumbai',
+        'andheri' => 'Mumbai',
+        'bandra' => 'Mumbai',
+        'borivali' => 'Mumbai',
+        
+        'whitefield' => 'Bangalore',
+        'indiranagar' => 'Bangalore',
+        'koramangala' => 'Bangalore',
+        'jayanagar' => 'Bangalore',
+        
+        'noida' => 'Delhi',
+        'gurugram' => 'Delhi',
+        'gurgaon' => 'Delhi',
+        'ghaziabad' => 'Delhi',
+        
+        'secunderabad' => 'Hyderabad',
+        'gachibowli' => 'Hyderabad',
+        
+        'adyar' => 'Chennai',
+        'tambaram' => 'Chennai',
+        
+        'howrah' => 'Kolkata',
+        'salt lake' => 'Kolkata'
+    ];
+    
+    foreach ($map as $suburb => $city) {
+        if (strpos($searched, $suburb) !== false || strpos($suburb, $searched) !== false) {
+            return $city;
+        }
+    }
+    
+    // If no match, return Pune as default main city where database seeds have workers
+    return 'Pune';
 }
 
 /**
