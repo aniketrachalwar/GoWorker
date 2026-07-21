@@ -2,14 +2,64 @@
 /**
  * GoWorker - Complete Booking
  */
+require_once __DIR__ . '/config/database.php';
 require_once __DIR__ . '/includes/auth.php';
 
 // Enforce customer login
 requireCustomer();
 
+$worker_id = intval($_GET['worker'] ?? 1);
+
+$worker = null;
+$rating_avg = 5.0;
+$rating_count = 0;
+
+if (isset($pdo)) {
+    try {
+        $stmt = $pdo->prepare("
+            SELECT w.*, u.full_name as worker_name, u.email, u.phone, c.name as category_name 
+            FROM worker_profiles w
+            JOIN users u ON w.user_id = u.id
+            JOIN categories c ON w.category_id = c.id
+            WHERE w.id = ?
+        ");
+        $stmt->execute([$worker_id]);
+        $worker = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($worker) {
+            $rev_stmt = $pdo->prepare("SELECT COUNT(*) as cnt, AVG(rating) as avg FROM reviews WHERE worker_id = ?");
+            $rev_stmt->execute([$worker['user_id']]);
+            $rev_info = $rev_stmt->fetch(PDO::FETCH_ASSOC);
+            if ($rev_info && $rev_info['cnt'] > 0) {
+                $rating_count = $rev_info['cnt'];
+                $rating_avg = round($rev_info['avg'], 1);
+            }
+        }
+    } catch (PDOException $e) {
+        error_log("Database error in booking.php: " . $e->getMessage());
+    }
+}
+
+// Fallback to static sample if not found
+if (!$worker) {
+    $worker = [
+        'id' => 1,
+        'user_id' => 2,
+        'worker_name' => 'Ramesh Kumar',
+        'category_name' => 'Electrician',
+        'hourly_rate' => 299.00,
+        'profile_picture' => 'https://images.unsplash.com/photo-1540569014015-19a7be504e3a?w=100&fit=crop'
+    ];
+    $rating_avg = 4.9;
+    $rating_count = 128;
+}
+
 require_once __DIR__ . '/includes/header.php';
 ?>
 <link rel="stylesheet" href="booking.css">
+<script>
+    window.workerHourlyRate = <?php echo intval($worker['hourly_rate']); ?>;
+</script>
 
 <!-- ================= BOOKING CONTAINER ================= -->
 <main class="container" style="margin-top: 40px; min-height: 80vh;">
@@ -41,11 +91,11 @@ require_once __DIR__ . '/includes/header.php';
 
       <!-- Selected Worker Info -->
       <div class="selected-worker-box">
-        <img src="https://images.unsplash.com/photo-1540569014015-19a7be504e3a?w=100&fit=crop" alt="Ramesh" style="width: 56px; height: 56px; border-radius: 50%; object-fit: cover;">
+        <img src="<?php echo e($worker['profile_picture'] ?: 'images/avatar_placeholder.png'); ?>" alt="<?php echo e($worker['worker_name']); ?>" style="width: 56px; height: 56px; border-radius: 50%; object-fit: cover;">
         <div>
-          <h4 style="font-size: 15px; font-weight: 700; margin-bottom: 2px;">Ramesh Kumar <span style="color: var(--primary); font-size: 11px;"><i class="fa-solid fa-circle-check"></i> Verified</span></h4>
-          <p style="font-size: 12px; color: var(--secondary-text); margin-bottom: 4px;">Electrician • ★ 4.9 (128 reviews)</p>
-          <a href="worker-profile.php" style="font-size: 12px; color: var(--primary); font-weight: 600;">View Profile</a>
+          <h4 style="font-size: 15px; font-weight: 700; margin-bottom: 2px;"><?php echo e($worker['worker_name']); ?> <span style="color: var(--primary); font-size: 11px;"><i class="fa-solid fa-circle-check"></i> Verified</span></h4>
+          <p style="font-size: 12px; color: var(--secondary-text); margin-bottom: 4px;"><?php echo e(translate_category_name($worker['category_name'])); ?> • ★ <?php echo $rating_avg; ?> (<?php echo $rating_count; ?> reviews)</p>
+          <a href="worker-profile.php?id=<?php echo $worker['id']; ?>" style="font-size: 12px; color: var(--primary); font-weight: 600;">View Profile</a>
         </div>
       </div>
 
@@ -54,9 +104,18 @@ require_once __DIR__ . '/includes/header.php';
         <div class="form-group" style="margin-bottom: 24px;">
           <label for="booking-service" style="display: block; font-weight: 600; margin-bottom: 8px; font-size: 14px;">Select Service</label>
           <select id="booking-service" class="form-input" style="padding-left: 16px;" required>
-            <option value="troubleshooting">Emergency Troubleshooting - ₹299/hr</option>
-            <option value="wiring">Smart Home Automation & Wiring - ₹399/hr</option>
-            <option value="ac">AC Installation & Repair - ₹599/hr</option>
+            <?php 
+            $skills_list = array_filter(array_map('trim', explode(',', $worker['skills'] ?? '')));
+            if (!empty($skills_list)):
+                foreach ($skills_list as $skill):
+            ?>
+                <option value="<?php echo e(strtolower(str_replace(' ', '_', $skill))); ?>" data-rate="<?php echo intval($worker['hourly_rate']); ?>"><?php echo e($skill); ?> - ₹<?php echo e($worker['hourly_rate']); ?>/hr</option>
+            <?php 
+                endforeach;
+            else:
+            ?>
+                <option value="general" data-rate="<?php echo intval($worker['hourly_rate']); ?>"><?php echo e($worker['category_name']); ?> Services - ₹<?php echo e($worker['hourly_rate']); ?>/hr</option>
+            <?php endif; ?>
           </select>
         </div>
 
@@ -145,7 +204,7 @@ require_once __DIR__ . '/includes/header.php';
         
         <div class="summary-row">
           <span>Professional:</span>
-          <span style="font-weight: 600; color: var(--primary-text);">Ramesh Kumar</span>
+          <span style="font-weight: 600; color: var(--primary-text);"><?php echo e($worker['worker_name']); ?></span>
         </div>
 
         <div class="summary-row">
@@ -162,7 +221,7 @@ require_once __DIR__ . '/includes/header.php';
 
         <div class="summary-row">
           <span>Subtotal:</span>
-          <span id="summary-subtotal">₹299</span>
+          <span id="summary-subtotal">₹<?php echo intval($worker['hourly_rate']); ?></span>
         </div>
 
         <div class="summary-row">

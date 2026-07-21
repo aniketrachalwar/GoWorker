@@ -3,18 +3,18 @@
  * GoWorker Database Setup and Initialization Tool
  * 
  * This command-line script initializes the MySQL database for development.
- * It reads credentials from config/database.php, creates the database if it doesn't
- * exist, and runs the goworker.sql schema file.
+ * It reads credentials from config.php, creates the database if it doesn't
+ * exist, and runs the database.sql schema file.
  */
 
-define('CONFIG_PATH', __DIR__ . '/../config/database.php');
-define('SCHEMA_PATH', __DIR__ . '/goworker.sql');
+define('CONFIG_PATH', __DIR__ . '/../config.php');
+define('SCHEMA_PATH', __DIR__ . '/../database.sql');
 
 echo "=== GoWorker Database Setup ===\n";
 
 if (!file_exists(CONFIG_PATH)) {
-    echo "ERROR: Config file not found at " . CONFIG_PATH . "\n";
-    echo "Please ensure you have configured your database connection file.\n";
+    echo "ERROR: Central configuration file not found at " . CONFIG_PATH . "\n";
+    echo "Please ensure you have configured your config.php file.\n";
     exit(1);
 }
 
@@ -23,35 +23,16 @@ if (!file_exists(SCHEMA_PATH)) {
     exit(1);
 }
 
-// Read database parameters from configuration file
-// We do this by temporarily overriding connection errors or parsing parameters.
-// Since database.php connects immediately on include/require, let's parse or capture.
-$configContent = file_get_contents(CONFIG_PATH);
+// Load centralized settings
+require_once CONFIG_PATH;
 
-// Simple extraction of parameters using regex so we don't trigger PDO error if db doesn't exist yet
-$host = 'localhost';
-$db = 'goworker';
-$user = 'root';
-$pass = '';
-$charset = 'utf8mb4';
+$host = DB_HOST;
+$db = DB_NAME;
+$user = DB_USER;
+$pass = DB_PASS;
+$charset = DB_CHARSET;
 
-if (preg_match('/\$host\s*=\s*[\'"]([^\'"]+)[\'"]/', $configContent, $matches)) {
-    $host = $matches[1];
-}
-if (preg_match('/\$db\s*=\s*[\'"]([^\'"]+)[\'"]/', $configContent, $matches)) {
-    $db = $matches[1];
-}
-if (preg_match('/\$user\s*=\s*[\'"]([^\'"]+)[\'"]/', $configContent, $matches)) {
-    $user = $matches[1];
-}
-if (preg_match('/\$pass\s*=\s*[\'"]([^\'"]*)[\'"]/', $configContent, $matches)) {
-    $pass = $matches[1];
-}
-if (preg_match('/\$charset\s*=\s*[\'"]([^\'"]+)[\'"]/', $configContent, $matches)) {
-    $charset = $matches[1];
-}
-
-echo "Detected Configuration:\n";
+echo "Detected Configuration from config.php:\n";
 echo "  Host:      $host\n";
 echo "  Database:  $db\n";
 echo "  User:      $user\n";
@@ -60,17 +41,28 @@ echo "  Charset:   $charset\n\n";
 
 try {
     echo "1. Connecting to MySQL server at $host...\n";
-    $pdo = new PDO("mysql:host=$host;charset=$charset", $user, $pass, [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        PDO::ATTR_EMULATE_PREPARES => false,
-    ]);
-    echo "   [SUCCESS] Connected to MySQL server.\n\n";
+    // We connect directly to the MySQL server (without database parameter) to create the database if needed
+    try {
+        $pdo = new PDO("mysql:host=$host;charset=$charset", $user, $pass, [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES => false,
+        ]);
+        echo "   [SUCCESS] Connected to MySQL server as user '$user'.\n\n";
+    } catch (PDOException $ex) {
+        echo "   [INFO] Connection failed as user '$user'. Retrying with default XAMPP administrator 'root'...\n";
+        $pdo = new PDO("mysql:host=$host;charset=$charset", 'root', '', [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES => false,
+        ]);
+        echo "   [SUCCESS] Connected to MySQL server as user 'root'.\n\n";
+    }
 } catch (PDOException $e) {
     echo "   [ERROR] Could not connect to MySQL server. Details: " . $e->getMessage() . "\n";
     echo "\nTroubleshooting Tips:\n";
     echo "1. Check if MySQL/MariaDB server is running (e.g. in XAMPP control panel).\n";
-    echo "2. Verify host, user, and password in config/database.php.\n";
+    echo "2. Verify host, user, and password in config.php.\n";
     exit(1);
 }
 
@@ -90,7 +82,7 @@ try {
     
     // We execute the SQL schema.
     $pdo->exec($sql);
-    echo "   [SUCCESS] Schema and categories imported successfully.\n\n";
+    echo "   [SUCCESS] Schema, users, categories and records imported successfully.\n\n";
     echo "=== Setup Completed Successfully! ===\n";
     echo "You can now open the project in your browser, e.g. http://localhost/GoWorker/GoWorker/\n";
 } catch (PDOException $e) {

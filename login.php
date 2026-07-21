@@ -657,11 +657,8 @@ require_once __DIR__ . '/includes/header.php';
             <div class="abstract-shape shape-1"></div>
             <div class="abstract-shape shape-2"></div>
             
-            <div class="brand-header-mini" style="display: flex; align-items: center; gap: 10px;">
-                <div style="display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; background: #3b82f6; border-radius: 6px; color: #ffffff; flex-shrink: 0;">
-                    <i class="fa-solid fa-screwdriver-wrench" style="font-size: 13px;"></i>
-                </div>
-                <span>GoWorker</span>
+            <div class="brand-header-mini" style="display: flex; align-items: center; gap: 8px;">
+                <img src="images/logo_icon.png" alt="GoWorker Logo" style="height: 28px; width: auto; object-fit: contain;" onerror="this.src='assets/logo.jfif';"> GoWorker
             </div>
             
             <div class="brand-main-content">

@@ -105,9 +105,7 @@ $current_page = basename($_SERVER['SCRIPT_NAME']);
     <div class="nav-container-premium">
         <!-- Logo Section -->
         <a href="index.php" class="logo-container-premium">
-            <div style="display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; background: linear-gradient(135deg, #1245C5 0%, #0d3494 100%); border-radius: 10px; color: #ffffff; box-shadow: 0 4px 10px rgba(18, 69, 197, 0.25); flex-shrink: 0;">
-                <i class="fa-solid fa-screwdriver-wrench" style="font-size: 18px;"></i>
-            </div>
+            <img src="images/logo_icon.png" alt="GoWorker Logo" class="logo-icon-premium">
             <div class="logo-text-group-premium">
                 <span class="logo-brand-name-premium">GoWorker</span>
                 <span class="logo-tagline-premium"><?php echo e(__('tagline')); ?></span>
@@ -191,9 +189,7 @@ $current_page = basename($_SERVER['SCRIPT_NAME']);
 <div class="mobile-drawer-premium" id="mobile-drawer">
     <div class="drawer-header-premium">
         <a href="index.php" class="logo-container-premium">
-            <div style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; background: linear-gradient(135deg, #1245C5 0%, #0d3494 100%); border-radius: 8px; color: #ffffff; box-shadow: 0 4px 8px rgba(18, 69, 197, 0.25); flex-shrink: 0;">
-                <i class="fa-solid fa-screwdriver-wrench" style="font-size: 14px;"></i>
-            </div>
+            <img src="images/logo_icon.png" alt="GoWorker Logo" class="logo-icon-premium" style="width: 40px; height: 40px;">
             <div class="logo-text-group-premium">
                 <span class="logo-brand-name-premium" style="font-size: 26px;">GoWorker</span>
             </div>

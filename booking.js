@@ -81,9 +81,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // 5. CALCULATE TOTALS
-    const basePriceVal = 299;
+    const serviceSelect = document.getElementById("booking-service");
     const platformFeeVal = 20;
     const taxRate = 0.05; // 5% GST
+
+    function getBasePrice() {
+        if (serviceSelect) {
+            const selectedOpt = serviceSelect.options[serviceSelect.selectedIndex];
+            if (selectedOpt && selectedOpt.hasAttribute("data-rate")) {
+                return parseInt(selectedOpt.getAttribute("data-rate")) || window.workerHourlyRate || 299;
+            }
+        }
+        return window.workerHourlyRate || 299;
+    }
 
     function calculateTotals() {
         const subtotalEl = document.getElementById("summary-subtotal");
@@ -91,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const discountRowEl = document.getElementById("summary-discount-row");
         const totalEl = document.getElementById("summary-total");
 
-        const subtotal = basePriceVal;
+        const subtotal = getBasePrice();
         const tax = Math.round(subtotal * taxRate);
         const finalTotal = subtotal + platformFeeVal + tax - discountAmount;
 
@@ -108,6 +118,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         
         if (totalEl) totalEl.textContent = `₹${finalTotal}`;
+    }
+
+    if (serviceSelect) {
+        serviceSelect.addEventListener("change", calculateTotals);
     }
 
     // Initialize totals on start
