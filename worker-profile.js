@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const card = btn.closest(".service-card");
             const name = card.querySelector("h4").textContent;
             alert(`Selected service: ${name}. Directing you to complete the booking!`);
-            window.location.href = "booking.html";
+            window.location.href = "booking.php";
         });
     });
 
@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const chatBtn = document.getElementById("chat-worker-btn");
     if (chatBtn) {
         chatBtn.addEventListener("click", () => {
-            window.location.href = "chat.html";
+            window.location.href = "chat.php";
         });
     }
 

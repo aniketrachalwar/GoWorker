@@ -140,7 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
             setTimeout(() => {
                 submitBtn.classList.remove("loading");
                 alert("Booking created successfully! Redirecting to confirmation page...");
-                window.location.href = "booking-history.html";
+                window.location.href = "booking-history.php";
             }, 1800);
         });
     }

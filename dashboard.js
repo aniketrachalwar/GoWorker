@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
     trackBtns.forEach(btn => {
         btn.addEventListener("click", () => {
             alert("Redirecting to real-time order tracking map...");
-            window.location.href = "booking-history.html";
+            window.location.href = "booking-history.php";
         });
     });
 

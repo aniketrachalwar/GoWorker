@@ -128,7 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     setTimeout(() => {
                         submitBtn.classList.remove("loading");
                         alert("Account verified successfully! Redirecting...");
-                        window.location.href = "index.html";
+                        window.location.href = "index.php";
                     }, 1500);
                 }
             }

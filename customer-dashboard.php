@@ -39,8 +39,18 @@ require_once __DIR__ . '/includes/header.php';
                         </a>
                     </li>
                     <li>
-                        <a href="booking.php" class="sidebar-link">
+                        <a href="booking-history.php" class="sidebar-link">
                             <i class="fa-solid fa-calendar-check"></i> My Bookings
+                        </a>
+                    </li>
+                    <li>
+                        <a href="chat.php" class="sidebar-link">
+                            <i class="fa-solid fa-comments"></i> Messages
+                        </a>
+                    </li>
+                    <li>
+                        <a href="notifications.php" class="sidebar-link">
+                            <i class="fa-solid fa-bell"></i> Notifications
                         </a>
                     </li>
                     <li>

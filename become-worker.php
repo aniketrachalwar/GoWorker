@@ -23,16 +23,19 @@ require_once __DIR__ . '/includes/header.php';
             <?php else: ?>
                 <p style="color: var(--text-muted); max-width: 500px; margin: 0 auto 1.5rem auto;">
                     Hi <strong><?php echo e($_SESSION['full_name']); ?></strong>, you are currently logged in as a customer. 
-                    The module to convert or register your secondary worker profile (setting your service category, skills, hourly rate, and location) is coming in Phase 2!
+                    You can register your secondary worker profile (setting your service category, skills, hourly rate, and location) using our onboarding module.
                 </p>
-                <a href="customer-dashboard.php" class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i> Return to Dashboard</a>
+                <div style="display: flex; gap: 1rem; justify-content: center;">
+                    <a href="worker-registration.php" class="btn btn-primary"><i class="fa-solid fa-user-tie"></i> Register Worker Profile</a>
+                    <a href="customer-dashboard.php" class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i> Return to Dashboard</a>
+                </div>
             <?php endif; ?>
         <?php else: ?>
             <p style="color: var(--text-muted); max-width: 500px; margin: 0 auto 1.5rem auto;">
-                Want to offer your professional skills on GoWorker? In Phase 2, registered customers will be able to fill out worker profiles and start receiving booking requests in their locality.
+                Want to offer your professional skills on GoWorker? You can fill out worker profiles and start receiving booking requests in your locality.
             </p>
             <div style="display: flex; gap: 1rem; justify-content: center;">
-                <a href="signup.php" class="btn btn-primary"><i class="fa-solid fa-user-plus"></i> Sign Up as Worker</a>
+                <a href="worker-registration.php" class="btn btn-primary"><i class="fa-solid fa-user-plus"></i> Join as Worker Partner</a>
                 <a href="index.php" class="btn btn-secondary">Learn More</a>
             </div>
         <?php endif; ?>

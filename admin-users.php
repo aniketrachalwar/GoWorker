@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GoWorker - User Management</title>
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  
+  <!-- Global Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+  
+  <!-- Page Specific Stylesheet -->
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+  <div class="admin-layout">
+    <!-- ADMIN SIDEBAR -->
+    <aside class="admin-sidebar">
+      <div class="admin-logo">
+        <img src="images/logo_icon.png" alt="Logo" onerror="this.src='assets/logo.jfif';">
+        <span>Go<strong>Admin</strong></span>
+      </div>
+
+      <ul class="admin-menu">
+        <li><a href="admin-dashboard.php" class="admin-link"><i class="fa-solid fa-chart-line"></i> Dashboard</a></li>
+        <li><a href="admin-users.php" class="admin-link active"><i class="fa-solid fa-users"></i> Users</a></li>
+        <li><a href="admin-worker-verification.php" class="admin-link"><i class="fa-solid fa-user-shield"></i> Verifications</a></li>
+        <li><a href="admin-bookings.php" class="admin-link"><i class="fa-solid fa-calendar-check"></i> Bookings</a></li>
+        <li><a href="admin-payments.php" class="admin-link"><i class="fa-solid fa-wallet"></i> Payments</a></li>
+      </ul>
+    </aside>
+
+    <!-- RIGHT MAIN WORKSPACE -->
+    <div style="display: flex; flex-direction: column; overflow: hidden; width: 100%;">
+      <!-- Top Navbar -->
+      <header class="admin-header">
+        <div class="admin-search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" placeholder="Search users by name/email...">
+        </div>
+        <button class="btn-icon" style="border: none;" onclick="location.href='index.php'"><i class="fa-solid fa-arrow-left-long"></i> View Site</button>
+      </header>
+
+      <!-- Content Area -->
+      <main class="admin-content">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+          <div>
+            <h2 style="font-size: 22px; font-weight: 700; margin-bottom: 4px;">User Management</h2>
+            <p style="font-size: 13px; color: var(--secondary-text); margin-bottom: 0;">Manage platform accounts, profile details, user roles, and system permission levels.</p>
+          </div>
+          <button class="btn-coupon" id="admin-export-btn"><i class="fa-solid fa-file-export"></i> Export Users</button>
+        </div>
+
+        <!-- Users Statistics -->
+        <div class="admin-stats-grid">
+          <div class="admin-stat-card">
+            <h4 style="font-size: 13px; color: var(--secondary-text); margin-bottom: 8px;">Total Users</h4>
+            <h3 style="font-size: 24px; font-weight: 700; color: var(--primary-text);">18,452</h3>
+          </div>
+          <div class="admin-stat-card">
+            <h4 style="font-size: 13px; color: var(--secondary-text); margin-bottom: 8px;">Customers</h4>
+            <h3 style="font-size: 24px; font-weight: 700; color: var(--primary-text);">6,062</h3>
+          </div>
+          <div class="admin-stat-card">
+            <h4 style="font-size: 13px; color: var(--secondary-text); margin-bottom: 8px;">Workers</h4>
+            <h3 style="font-size: 24px; font-weight: 700; color: var(--primary-text);">12,390</h3>
+          </div>
+        </div>
+
+        <!-- Users Table -->
+        <div class="admin-table-container">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>User Details</th>
+                <th>Email Address</th>
+                <th>Role</th>
+                <th>City</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="admin-table-user">
+                    <img class="row-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" alt="Avatar">
+                    <span class="row-name">Aniket Rachalwar</span>
+                  </div>
+                </td>
+                <td>aniket@example.com</td>
+                <td class="row-profession">Customer</td>
+                <td>Pune</td>
+                <td><span class="status-badge" style="background: rgba(34, 197, 94, 0.08); color: var(--success);">Active</span></td>
+                <td>
+                  <button class="btn-book" style="background: var(--white); border: 1px solid var(--border-color); color: var(--danger); font-size: 11px; padding: 6px 12px;" onclick="alert('User Account Suspended')">Suspend</button>
+                </td>
+              </tr>
+
+              <tr>
+                <td>
+                  <div class="admin-table-user">
+                    <img class="row-avatar" src="https://images.unsplash.com/photo-1540569014015-19a7be504e3a?w=100" alt="Avatar">
+                    <span class="row-name">Ramesh Kumar</span>
+                  </div>
+                </td>
+                <td>ramesh@example.com</td>
+                <td class="row-profession">Worker</td>
+                <td>Pune</td>
+                <td><span class="status-badge" style="background: rgba(34, 197, 94, 0.08); color: var(--success);">Active</span></td>
+                <td>
+                  <button class="btn-book" style="background: var(--white); border: 1px solid var(--border-color); color: var(--danger); font-size: 11px; padding: 6px 12px;" onclick="alert('User Account Suspended')">Suspend</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- DETAILS DRAWER PANEL -->
+  <div class="drawer-overlay" id="admin-drawer-overlay"></div>
+  <aside class="drawer-panel" id="admin-detail-drawer">
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 16px; margin-bottom: 24px;">
+      <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 0;">User Details</h3>
+      <span class="drawer-close-btn" style="cursor: pointer; font-size: 20px;"><i class="fa-solid fa-xmark"></i></span>
+    </div>
+    <div style="text-align: center; margin-bottom: 24px;">
+      <img id="drawer-avatar" src="" alt="Avatar" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 12px; border: 3px solid var(--border-color);">
+      <h4 id="drawer-name" style="font-size: 16px; font-weight: 700; margin-bottom: 4px;">User Name</h4>
+      <p id="drawer-prof" style="font-size: 13px; color: var(--secondary-text);">Customer</p>
+    </div>
+    <div>
+      <button class="btn-primary-auth" style="width: 100%; height: 46px; background: var(--danger);" onclick="alert('Account Blocked Successfully')">Block Account</button>
+    </div>
+  </aside>
+
+  <script src="admin.js"></script>
+
+</body>
+</html>

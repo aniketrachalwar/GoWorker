@@ -114,16 +114,19 @@ $current_page = basename($_SERVER['SCRIPT_NAME']);
             <li><a href="become-worker.php" class="nav-link-premium <?php echo $current_page === 'become-worker.php' ? 'active' : ''; ?>"><?php echo e(__('become_worker')); ?></a></li>
             <?php if (isset($_SESSION['user_id'])): ?>
                 <?php if ($_SESSION['user_type'] === 'customer'): ?>
-                    <li><a href="booking.php" class="nav-link-premium <?php echo $current_page === 'booking.php' ? 'active' : ''; ?>"><?php echo e(__('my_bookings')); ?></a></li>
+                    <li><a href="booking-history.php" class="nav-link-premium <?php echo $current_page === 'booking-history.php' ? 'active' : ''; ?>"><?php echo e(__('my_bookings')); ?></a></li>
                     <li><a href="customer-dashboard.php" class="nav-link-premium <?php echo $current_page === 'customer-dashboard.php' ? 'active' : ''; ?>"><?php echo e(__('dashboard')); ?></a></li>
                 <?php else: ?>
                     <li><a href="worker-dashboard.php" class="nav-link-premium <?php echo $current_page === 'worker-dashboard.php' ? 'active' : ''; ?>"><?php echo e(__('dashboard')); ?></a></li>
                 <?php endif; ?>
+                <li><a href="chat.php" class="nav-link-premium <?php echo $current_page === 'chat.php' ? 'active' : ''; ?>">Messages</a></li>
+                <li><a href="notifications.php" class="nav-link-premium <?php echo $current_page === 'notifications.php' ? 'active' : ''; ?>">Notifications</a></li>
                 <li><a href="profile.php" class="nav-link-premium <?php echo $current_page === 'profile.php' ? 'active' : ''; ?>"><?php echo e(__('profile')); ?></a></li>
             <?php endif; ?>
             <li><a href="index.php#how-it-works" class="nav-link-premium"><?php echo e(__('how_it_works')); ?></a></li>
-            <li><a href="#" class="nav-link-premium"><?php echo e(__('about_us')); ?></a></li>
-            <li><a href="#" class="nav-link-premium"><?php echo e(__('contact_us')); ?></a></li>
+            <li><a href="about.php" class="nav-link-premium <?php echo $current_page === 'about.php' ? 'active' : ''; ?>"><?php echo e(__('about_us')); ?></a></li>
+            <li><a href="contact.php" class="nav-link-premium <?php echo $current_page === 'contact.php' ? 'active' : ''; ?>"><?php echo e(__('contact_us')); ?></a></li>
+            <li><a href="admin-dashboard.php" class="nav-link-premium <?php echo $current_page === 'admin-dashboard.php' ? 'active' : ''; ?>">Admin Panel</a></li>
         </ul>
         
         <!-- Actions Area -->
@@ -198,16 +201,19 @@ $current_page = basename($_SERVER['SCRIPT_NAME']);
         <li><a href="become-worker.php" class="drawer-link-premium <?php echo $current_page === 'become-worker.php' ? 'active' : ''; ?>"><?php echo e(__('become_worker')); ?></a></li>
         <?php if (isset($_SESSION['user_id'])): ?>
             <?php if ($_SESSION['user_type'] === 'customer'): ?>
-                <li><a href="booking.php" class="drawer-link-premium <?php echo $current_page === 'booking.php' ? 'active' : ''; ?>"><?php echo e(__('my_bookings')); ?></a></li>
+                <li><a href="booking-history.php" class="drawer-link-premium <?php echo $current_page === 'booking-history.php' ? 'active' : ''; ?>"><?php echo e(__('my_bookings')); ?></a></li>
                 <li><a href="customer-dashboard.php" class="drawer-link-premium <?php echo $current_page === 'customer-dashboard.php' ? 'active' : ''; ?>"><?php echo e(__('dashboard')); ?></a></li>
             <?php else: ?>
                 <li><a href="worker-dashboard.php" class="drawer-link-premium <?php echo $current_page === 'worker-dashboard.php' ? 'active' : ''; ?>"><?php echo e(__('dashboard')); ?></a></li>
             <?php endif; ?>
+            <li><a href="chat.php" class="drawer-link-premium <?php echo $current_page === 'chat.php' ? 'active' : ''; ?>">Messages</a></li>
+            <li><a href="notifications.php" class="drawer-link-premium <?php echo $current_page === 'notifications.php' ? 'active' : ''; ?>">Notifications</a></li>
             <li><a href="profile.php" class="drawer-link-premium <?php echo $current_page === 'profile.php' ? 'active' : ''; ?>"><?php echo e(__('profile')); ?></a></li>
         <?php endif; ?>
         <li><a href="index.php#how-it-works" class="drawer-link-premium"><?php echo e(__('how_it_works')); ?></a></li>
-        <li><a href="#" class="drawer-link-premium"><?php echo e(__('about_us')); ?></a></li>
-        <li><a href="#" class="drawer-link-premium"><?php echo e(__('contact_us')); ?></a></li>
+        <li><a href="about.php" class="drawer-link-premium <?php echo $current_page === 'about.php' ? 'active' : ''; ?>"><?php echo e(__('about_us')); ?></a></li>
+        <li><a href="contact.php" class="drawer-link-premium <?php echo $current_page === 'contact.php' ? 'active' : ''; ?>"><?php echo e(__('contact_us')); ?></a></li>
+        <li><a href="admin-dashboard.php" class="drawer-link-premium <?php echo $current_page === 'admin-dashboard.php' ? 'active' : ''; ?>">Admin Panel</a></li>
     </ul>
     
     <!-- Drawer Responsive Action Buttons -->

@@ -134,13 +134,23 @@ document.querySelectorAll(".card,.step,.stat,.feature").forEach(el=>{
 
 const loginBtn = document.querySelector(".login-btn");
 
-loginBtn.addEventListener("click", () => {
-    window.location.href = "login.html";
-});
+if (loginBtn) {
+    loginBtn.addEventListener("click", (e) => {
+        // Only redirect if there is no inline onclick handler already defined
+        if (!loginBtn.getAttribute("onclick")) {
+            window.location.href = "login.php";
+        }
+    });
+}
 
 
 const signupBtn = document.querySelector(".signup-btn");
 
-signupBtn.addEventListener("click", () => {
-    window.location.href = "signup.html";
-});
+if (signupBtn) {
+    signupBtn.addEventListener("click", (e) => {
+        // Only redirect if there is no inline onclick handler already defined
+        if (!signupBtn.getAttribute("onclick")) {
+            window.location.href = "signup.php";
+        }
+    });
+}

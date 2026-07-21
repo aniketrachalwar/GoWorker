@@ -305,7 +305,7 @@ require_once __DIR__ . '/includes/header.php';
                 Starting Price
                 <strong>₹299/hr</strong>
               </div>
-              <button class="btn btn-primary" onclick="location.href='booking.html'">Book Now</button>
+              <button class="btn btn-primary" onclick="location.href='booking.php'">Book Now</button>
             </div>
           </article>
         <?php endif; ?>

@@ -77,8 +77,9 @@ if (isset($pdo)) {
             <li><a href="find-workers.php"><?php echo e(__('find_workers')); ?></a></li>
             <li><a href="become-worker.php"><?php echo e(__('become_worker')); ?></a></li>
             <li><a href="#how-it-works"><?php echo e(__('how_it_works')); ?></a></li>
-            <li><a href="#"><?php echo e(__('about_us')); ?></a></li>
-            <li><a href="#"><?php echo e(__('contact_us')); ?></a></li>
+            <li><a href="about.php"><?php echo e(__('about_us')); ?></a></li>
+            <li><a href="contact.php"><?php echo e(__('contact_us')); ?></a></li>
+            <li><a href="admin-dashboard.php">Admin Panel</a></li>
         </ul>
 
         <div class="nav-right">
