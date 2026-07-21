@@ -12,6 +12,13 @@ if (!document.querySelector('script[src*="location.js"]')) {
     document.head.appendChild(locScript);
 }
 
+// Auto-load Phase 1 Engine if not already present
+if (!document.querySelector('script[src*="phase1.js"]')) {
+    const p1Script = document.createElement('script');
+    p1Script.src = 'js/phase1.js';
+    document.head.appendChild(p1Script);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     console.log('GoWorker platform loaded.');
 

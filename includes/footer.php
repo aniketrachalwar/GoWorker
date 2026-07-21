@@ -55,5 +55,6 @@
 <script src="js/main.js"></script>
 <script src="js/effects.js"></script>
 <script src="js/location.js"></script>
+<script src="js/phase1.js"></script>
 </body>
 </html>

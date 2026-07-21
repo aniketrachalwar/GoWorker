@@ -152,3 +152,23 @@ INSERT INTO `categories` (`name`, `icon_class`) VALUES
 ('Makeup Artist', 'fa-wand-magic-sparkles'),
 ('Mehendi Artist', 'fa-hand-sparkles')
 ON DUPLICATE KEY UPDATE `icon_class` = VALUES(`icon_class`);
+
+-- Phase 1 Tables: Favorites & Worker Availability
+CREATE TABLE IF NOT EXISTS `favorites` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `customer_id` INT NOT NULL,
+  `worker_id` INT NOT NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT `fk_fav_customer` FOREIGN KEY (`customer_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_fav_worker` FOREIGN KEY (`worker_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  UNIQUE KEY `unique_user_fav` (`customer_id`, `worker_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `worker_availability` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `worker_id` INT NOT NULL UNIQUE,
+  `is_online` TINYINT(1) DEFAULT 1,
+  `status_text` VARCHAR(100) DEFAULT 'Available Now',
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT `fk_avail_worker` FOREIGN KEY (`worker_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

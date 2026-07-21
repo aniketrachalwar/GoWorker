@@ -393,6 +393,9 @@ require_once __DIR__ . '/includes/header.php';
                   <h4><?php echo e($worker['worker_name']); ?></h4>
                   <p><?php echo e(translate_category_name($worker['category_name'])); ?></p>
                 </div>
+                <button class="fav-btn" data-worker-id="<?php echo $worker['id']; ?>" title="Save Worker" style="background: rgba(243, 244, 246, 0.8); border: none; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; margin-left: auto; transition: transform 0.2s ease;">
+                  <i class="fa-regular fa-heart" style="font-size: 16px; color: #9CA3AF;"></i>
+                </button>
               </div>
               <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
                 <i class="fa-solid fa-location-dot"></i> Service Area: <?php echo e($worker['service_area']); ?>

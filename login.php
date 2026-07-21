@@ -37,33 +37,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Authenticate user
         if (empty($errors)) {
-            try {
-                $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email");
-                $stmt->execute(['email' => $email]);
-                $user = $stmt->fetch();
+            if (!isset($pdo) || !$pdo) {
+                $errors[] = isset($db_connection_error) ? $db_connection_error : "Database 'goworker' not found. Please import database/goworker.sql in phpMyAdmin.";
+            } else {
+                try {
+                    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email");
+                    $stmt->execute(['email' => $email]);
+                    $user = $stmt->fetch();
 
-                if ($user && password_verify($password, $user['password'])) {
-                    // Password is correct, set up session variables
-                    $_SESSION['user_id'] = $user['id'];
-                    $_SESSION['full_name'] = $user['full_name'];
-                    $_SESSION['email'] = $user['email'];
-                    $_SESSION['user_type'] = $user['user_type'];
+                    if ($user && password_verify($password, $user['password'])) {
+                        $user_name = $user['name'] ?? ($user['full_name'] ?? 'User');
 
-                    // Flash welcome message and redirect based on role
-                    flash('success', "Welcome back, " . e($user['full_name']) . "!");
-                    
-                    if ($user['user_type'] === 'customer') {
-                        redirect('customer-dashboard.php');
+                        // Password is correct, set up session variables
+                        $_SESSION['user_id'] = $user['id'];
+                        $_SESSION['full_name'] = $user_name;
+                        $_SESSION['user_name'] = $user_name;
+                        $_SESSION['email'] = $user['email'];
+                        $_SESSION['user_type'] = $user['user_type'];
+
+                        // Flash welcome message and redirect to profile.php
+                        flash('success', "Welcome back, " . e($user_name) . "!");
+                        
+                        header('Location: profile.php');
+                        exit();
                     } else {
-                        redirect('worker-dashboard.php');
+                        // Invalid email or password
+                        $errors[] = 'Invalid email or password.';
                     }
-                } else {
-                    // Invalid email or password
-                    $errors[] = 'Invalid email or password.';
+                } catch (PDOException $e) {
+                    error_log("Database query error on login.php: " . $e->getMessage());
+                    $errors[] = "Database 'goworker' not found. Please import database/goworker.sql in phpMyAdmin.";
                 }
-            } catch (PDOException $e) {
-                error_log("Database connection error on login.php: " . $e->getMessage());
-                $errors[] = 'A connection error occurred. Please try again later.';
             }
         }
     }
