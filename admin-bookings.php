@@ -24,10 +24,8 @@
   <div class="admin-layout">
     <!-- ADMIN SIDEBAR -->
     <aside class="admin-sidebar">
-      <div class="admin-logo" style="display: flex; align-items: center; gap: 10px;">
-        <div style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: rgba(255, 255, 255, 0.1); border-radius: 6px; color: #ffffff;">
-            <i class="fa-solid fa-user-shield" style="font-size: 14px;"></i>
-        </div>
+      <div class="admin-logo">
+        <img src="images/logo_icon.png" alt="Logo" onerror="this.src='assets/logo.jfif';">
         <span>Go<strong>Admin</strong></span>
       </div>
 

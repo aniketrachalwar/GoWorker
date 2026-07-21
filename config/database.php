@@ -1,39 +1,27 @@
 <?php
 /**
- * Database Configuration File
- * Establishes a PDO connection to the MySQL database.
+ * GoWorker - Database Bridge Configuration
+ * 
+ * Central database bridge. Delegates connection management to the new
+ * centralized includes/Database.php class, preserving global variables
+ * for backward compatibility.
  */
 
-// Database connection parameters - Check for cloud database URLs or standard environment variables
-if (getenv('DATABASE_URL')) {
-    $dbparts = parse_url(getenv('DATABASE_URL'));
-    $host = $dbparts['host'] ?? 'localhost';
-    $user = $dbparts['user'] ?? 'root';
-    $pass = $dbparts['pass'] ?? '';
-    $db   = ltrim($dbparts['path'] ?? 'goworker', '/');
-} else {
-    $host = getenv('DB_HOST') ?: 'localhost';
-    $db   = getenv('DB_NAME') ?: 'goworker';
-    $user = getenv('DB_USER') ?: 'root';
-    $pass = getenv('DB_PASS') !== false ? getenv('DB_PASS') : '';
-}
-$charset = 'utf8mb4';
+// Load the centralized project configuration
+require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/../includes/Database.php';
 
-// Data Source Name
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-
-// PDO options
-$options = [
-    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES   => false,
-];
+// Expose individual connection parameter variables for reference
+$host = DB_HOST;
+$db   = DB_NAME;
+$user = DB_USER;
+$pass = DB_PASS;
+$charset = DB_CHARSET;
 
 try {
-    $pdo = new PDO($dsn, $user, $pass, $options);
-} catch (\PDOException $e) {
-    // In production/local development connection failures, log the actual message 
-    // and show a user-friendly error without exposing passwords or configuration details.
-    error_log("Database connection error: " . $e->getMessage());
-    $db_connection_error = "Unable to connect to the database. Please verify your MySQL server is running in XAMPP and the database 'goworker' exists.";
+    // Fetch the Singleton database connection
+    $pdo = Database::getInstance()->getConnection();
+} catch (Exception $e) {
+    error_log("Database bridge connection error: " . $e->getMessage());
+    $db_connection_error = "Unable to connect to the database. Please verify your connection configuration.";
 }

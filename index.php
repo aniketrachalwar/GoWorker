@@ -73,11 +73,8 @@ if (isset($pdo)) {
 <header>
     <nav class="navbar">
         <div class="logo">
-            <a href="index.php" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
-                <div style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: linear-gradient(135deg, #1245C5 0%, #0d3494 100%); border-radius: 8px; color: #ffffff; box-shadow: 0 4px 8px rgba(18, 69, 197, 0.25);">
-                    <i class="fa-solid fa-screwdriver-wrench" style="font-size: 16px;"></i>
-                </div>
-                <span style="font-size: 20px; font-weight: 700; color: var(--dark-navy);">GoWorker</span>
+            <a href="index.php">
+                <img src="images/logo_icon.png" alt="Logo" style="height: 55px; width: auto; object-fit: contain; border-radius: 8px;" onerror="this.src='assets/logo.jfif';">
             </a>
         </div>
 
