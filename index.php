@@ -127,71 +127,12 @@ if (empty($categories)) {
     ];
 }
 ?>
-<!DOCTYPE html>
-<html lang="<?php echo e($current_lang); ?>">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GoWorker</title>
-
-    <link rel="stylesheet" href="style.css">
-
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-</head>
-<body>
-
-<!-- ================= NAVBAR ================= -->
-<header>
-    <nav class="navbar">
-        <div class="logo">
-            <a href="index.php">
-                <img src="images/logo_icon.png" alt="Logo" style="height: 55px; width: auto; object-fit: contain; border-radius: 8px;" onerror="this.src='assets/logo.jfif';">
-            </a>
-        </div>
-
-        <ul class="nav-links">
-            <li><a href="find-workers.php"><?php echo e(__('find_workers')); ?></a></li>
-            <li><a href="become-worker.php"><?php echo e(__('become_worker')); ?></a></li>
-            <li><a href="#how-it-works"><?php echo e(__('how_it_works')); ?></a></li>
-            <li><a href="about.php"><?php echo e(__('about_us')); ?></a></li>
-            <li><a href="contact.php"><?php echo e(__('contact_us')); ?></a></li>
-            <li><a href="admin-dashboard.php">Admin Panel</a></li>
-        </ul>
-
-        <div class="nav-right">
-            <!-- Language -->
-            <div class="language-dropdown">
-                <button class="language-btn">
-                    <i class="fa-solid fa-globe"></i>
-                    <?php echo $active_lang['name']; ?>
-                    <i class="fa-solid fa-chevron-down"></i>
-                </button>
-                <div class="dropdown-content">
-                    <?php foreach ($lang_details as $code => $detail): ?>
-                        <a href="?lang=<?php echo $code; ?>">
-                            <?php echo $detail['flag'] . ' ' . $detail['name']; ?>
-                        </a>
-                    <?php endforeach; ?>
-                </div>
-            </div>
-            <?php if (isset($_SESSION['user_id'])): ?>
-                <?php if ($_SESSION['user_type'] === 'customer'): ?>
-                    <button class="login-btn" onclick="location.href='customer-dashboard.php'"><?php echo e(__('dashboard')); ?></button>
-                <?php else: ?>
-                    <button class="login-btn" onclick="location.href='worker-dashboard.php'"><?php echo e(__('dashboard')); ?></button>
-                <?php endif; ?>
-                <button class="signup-btn" onclick="location.href='logout.php'"><?php echo e(__('logout')); ?></button>
-            <?php else: ?>
-                <button class="login-btn" onclick="location.href='login.php'"><?php echo e(__('login')); ?></button>
-                <button class="signup-btn" onclick="location.href='signup.php'"><?php echo e(__('signup')); ?></button>
-            <?php endif; ?>
-        </div>
-    </nav>
-</header>
+<?php
+require_once __DIR__ . '/includes/header.php';
+?>
+<link rel="stylesheet" href="style.css">
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <!-- ================= HERO ================= -->
 <section class="hero">

@@ -5,13 +5,10 @@
 require_once __DIR__ . '/config/database.php';
 require_once __DIR__ . '/includes/functions.php';
 
-// Redirect to dashboard if already logged in
+// Redirect to profile if already logged in
 if (isset($_SESSION['user_id'])) {
-    if ($_SESSION['user_type'] === 'customer') {
-        redirect('customer-dashboard.php');
-    } else {
-        redirect('worker-dashboard.php');
-    }
+    header('Location: profile.php');
+    exit();
 }
 
 $errors = [];

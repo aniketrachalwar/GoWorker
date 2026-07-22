@@ -121,7 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 submitBtn.innerHTML = `Submit Application`;
                 submitBtn.disabled = false;
                 alert("Your GoWorker professional registration application has been submitted! Our admin team will review your details and documents within 48 hours.");
-                window.location.href = "worker-dashboard.php";
+                window.location.href = "worker-dashboard.html";
             }, 2000);
         });
     }

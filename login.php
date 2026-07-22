@@ -5,13 +5,10 @@
 require_once __DIR__ . '/config/database.php';
 require_once __DIR__ . '/includes/functions.php';
 
-// Redirect to dashboard if already logged in
+// Redirect to profile if already logged in
 if (isset($_SESSION['user_id'])) {
-    if ($_SESSION['user_type'] === 'customer') {
-        redirect('customer-dashboard.php');
-    } else {
-        redirect('worker-dashboard.php');
-    }
+    header('Location: profile.php');
+    exit();
 }
 
 $errors = [];
@@ -51,13 +48,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         // Password is correct, set up session variables
                         $_SESSION['user_id'] = $user['id'];
                         $_SESSION['full_name'] = $user_name;
-                        $_SESSION['user_name'] = $user_name;
                         $_SESSION['email'] = $user['email'];
                         $_SESSION['user_type'] = $user['user_type'];
 
-                        // Flash welcome message and redirect to profile.php
-                        flash('success', "Welcome back, " . e($user_name) . "!");
-                        
                         header('Location: profile.php');
                         exit();
                     } else {
@@ -658,7 +651,7 @@ require_once __DIR__ . '/includes/header.php';
             <div class="abstract-shape shape-2"></div>
             
             <div class="brand-header-mini" style="display: flex; align-items: center; gap: 8px;">
-                <img src="images/logo_icon.png" alt="GoWorker Logo" style="height: 28px; width: auto; object-fit: contain;" onerror="this.src='assets/logo.jfif';"> GoWorker
+                <img src="images/logo_icon.png" alt="GoWorker Logo" style="height: 28px; width: auto; object-fit: contain;" onerror="this.src='images/logo.jpg';"> GoWorker
             </div>
             
             <div class="brand-main-content">

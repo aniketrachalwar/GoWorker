@@ -18,6 +18,11 @@
   
   <!-- Page Specific Stylesheet -->
   <link rel="stylesheet" href="dashboard.css">
+
+  <!-- Firebase SDK CDN -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 </head>
 <body>
 
@@ -37,7 +42,7 @@
       </ul>
       <div class="nav-right">
         <button class="theme-btn" title="Toggle dark mode"><i class="fa-solid fa-moon"></i></button>
-        <button class="login-btn" onclick="location.href='logout.php'">Logout</button>
+        <button class="login-btn" onclick="localStorage.removeItem('user_session'); location.href='login.html'">Logout</button>
       </div>
     </nav>
   </header>
@@ -97,6 +102,21 @@
             <div class="stat-info">
               <h3>₹5,490</h3>
               <p>Monthly Earnings</p>
+            </div>
+          </div>
+
+          <!-- Digital Identity Card -->
+          <div class="stat-card" id="dashboard-id-card" style="display: flex; flex-direction: column; align-items: stretch; gap: 8px;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div class="stat-icon" style="background: rgba(13, 77, 255, 0.08); color: var(--primary);"><i class="fa-regular fa-id-card"></i></div>
+              <div class="stat-info">
+                <h3 id="dashboard-worker-id" style="font-size: 15px; font-weight: 700; margin-bottom: 2px;">GW-2026-000001</h3>
+                <p>Digital Identity</p>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 8px; border-top: 1px dashed var(--border-color); padding-top: 8px;">
+              <span id="dashboard-verification-status" class="status-badge" style="background: rgba(245, 158, 11, 0.1); color: var(--warning); padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;">Pending Verification</span>
+              <a href="profile.html#my-id-card" class="btn-book" style="font-size: 11px; padding: 4px 10px; height: auto; text-decoration: none; display: inline-block;">Download ID</a>
             </div>
           </div>
         </div>

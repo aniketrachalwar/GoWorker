@@ -138,7 +138,7 @@ if (loginBtn) {
     loginBtn.addEventListener("click", (e) => {
         // Only redirect if there is no inline onclick handler already defined
         if (!loginBtn.getAttribute("onclick")) {
-            window.location.href = "login.php";
+            window.location.href = "login.html";
         }
     });
 }
@@ -150,7 +150,30 @@ if (signupBtn) {
     signupBtn.addEventListener("click", (e) => {
         // Only redirect if there is no inline onclick handler already defined
         if (!signupBtn.getAttribute("onclick")) {
-            window.location.href = "signup.php";
+            window.location.href = "signup.html";
         }
     });
 }
+
+// --- DYNAMIC SESSION NAVBAR TRIGGER ---
+document.addEventListener("DOMContentLoaded", () => {
+    const sessionStr = localStorage.getItem("user_session");
+    if (sessionStr) {
+        const session = JSON.parse(sessionStr);
+        const navRight = document.querySelector(".nav-right");
+        if (navRight) {
+            navRight.innerHTML = `
+                <button class="login-btn" onclick="location.href='profile.html'"><i class="fa-regular fa-user"></i> My Profile</button>
+                <button class="signup-btn" id="nav-logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+            `;
+            const logoutBtn = document.getElementById("nav-logout-btn");
+            if (logoutBtn) {
+                logoutBtn.addEventListener("click", () => {
+                    localStorage.removeItem("user_session");
+                    alert("Logged out successfully!");
+                    window.location.reload();
+                });
+            }
+        }
+    }
+});

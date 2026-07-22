@@ -96,15 +96,102 @@ class Database {
         
         $logDir = dirname(LOG_FILE);
         if (!is_dir($logDir)) {
-            mkdir($logDir, 0777, true);
+            @mkdir($logDir, 0777, true);
         }
         
-        file_put_contents(LOG_FILE, $logMessage, FILE_APPEND);
+        @file_put_contents(LOG_FILE, $logMessage, FILE_APPEND);
     }
 
     private function renderRecoveryPage($dsn, $user, $exception) {
         if (ob_get_level() > 0) {
             ob_clean();
+        }
+
+        // On online hosting or non-development environments, display the friendly message
+        if ((defined('ENV_MODE') && ENV_MODE !== 'development') || !in_array(DB_HOST, ['localhost', '127.0.0.1', '::1'])) {
+            ?>
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Database Connection Failed</title>
+                <link rel="preconnect" href="https://fonts.googleapis.com">
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+                <style>
+                    :root {
+                        --dark-navy: #090d16;
+                        --primary: #1245C5;
+                        --primary-light: rgba(18, 69, 197, 0.08);
+                        --border-color: #e2e8f0;
+                        --text-dark: #1e293b;
+                        --text-muted: #64748b;
+                        --white: #ffffff;
+                        --danger: #ef4444;
+                        --danger-light: rgba(239, 68, 68, 0.08);
+                        --radius-lg: 16px;
+                    }
+                    * {
+                        box-sizing: border-box;
+                        margin: 0;
+                        padding: 0;
+                        font-family: 'Poppins', sans-serif;
+                    }
+                    body {
+                        background-color: #f8fafc;
+                        color: var(--text-dark);
+                        min-height: 100vh;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        padding: 20px;
+                    }
+                    .error-card {
+                        background-color: var(--white);
+                        border: 1px solid var(--border-color);
+                        border-radius: var(--radius-lg);
+                        max-width: 550px;
+                        width: 100%;
+                        padding: 40px;
+                        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+                        text-align: center;
+                    }
+                    .error-icon {
+                        width: 72px;
+                        height: 72px;
+                        background-color: var(--danger-light);
+                        color: var(--danger);
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 32px;
+                        margin: 0 auto 20px auto;
+                    }
+                    h1 {
+                        font-size: 22px;
+                        font-weight: 700;
+                        color: var(--dark-navy);
+                        margin-bottom: 12px;
+                    }
+                    p {
+                        font-size: 14px;
+                        color: var(--text-muted);
+                        line-height: 1.6;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="error-card">
+                    <div class="error-icon">⚠️</div>
+                    <h1>Database Connection Failed</h1>
+                    <p>Database connection failed. Please verify hosting database credentials.</p>
+                </div>
+            </body>
+            </html>
+            <?php
+            exit();
         }
 
         $error_message = $exception ? $exception->getMessage() : 'Unknown Database Error';

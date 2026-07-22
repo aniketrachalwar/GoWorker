@@ -188,6 +188,128 @@ require_once __DIR__ . '/includes/header.php';
       padding: 24px;
       box-shadow: var(--shadow-sm);
     }
+    /* Custom Dropdown / Select styling */
+    .custom-select-wrapper {
+      position: relative;
+      user-select: none;
+      width: 100%;
+    }
+    .custom-select-trigger {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--white);
+      border: 1.5px solid var(--border-color);
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 14px;
+      color: var(--text-dark);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-weight: 500;
+    }
+    .custom-select-trigger:hover {
+      border-color: var(--primary);
+      background-color: rgba(18, 69, 197, 0.02);
+    }
+    .custom-select-wrapper.open .custom-select-trigger {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(18, 69, 197, 0.15);
+    }
+    .custom-select-dropdown {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      right: 0;
+      background: var(--white);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.2s ease;
+      z-index: 100;
+    }
+    .custom-select-wrapper.open .custom-select-dropdown {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .custom-select-search-container {
+      display: flex;
+      align-items: center;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border-color);
+      gap: 10px;
+    }
+    .custom-select-search-container i {
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+    .custom-select-search {
+      border: none;
+      outline: none;
+      width: 100%;
+      font-size: 13.5px;
+      color: var(--text-dark);
+    }
+    .custom-select-options {
+      max-height: 240px;
+      overflow-y: auto;
+      padding: 6px;
+    }
+    /* Custom Scrollbar for dropdown options */
+    .custom-select-options::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-select-options::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .custom-select-options::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 3px;
+    }
+    .custom-select-options::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    .custom-select-option {
+      padding: 10px 14px;
+      font-size: 13.5px;
+      color: var(--text-dark);
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.15s ease;
+      margin-bottom: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .custom-select-option:last-child {
+      margin-bottom: 0;
+    }
+    .custom-select-option:hover {
+      background-color: rgba(18, 69, 197, 0.08); /* Hover: Light Blue */
+      color: var(--primary);
+    }
+    .custom-select-option.selected {
+      background-color: var(--primary); /* Selected Option: Blue */
+      color: var(--white) !important;
+      font-weight: 600;
+    }
+    .custom-select-option.hidden {
+      display: none !important;
+    }
+    .custom-select-no-results {
+      padding: 14px;
+      font-size: 13px;
+      color: var(--text-muted);
+      text-align: center;
+      display: none;
+    }
+    .custom-select-no-results.visible {
+      display: block;
+    }
     .filter-section {
       margin-bottom: 24px;
       padding-bottom: 24px;
@@ -341,21 +463,56 @@ require_once __DIR__ . '/includes/header.php';
   <div class="marketplace-layout">
     <!-- Filters Sidebar -->
     <aside class="filter-sidebar">
-      <div class="filter-section">
+      <div class="filter-section" style="border-bottom: none; margin-bottom: 0; padding-bottom: 0;">
         <h3 class="filter-title">Filter by Category</h3>
-        <div class="filter-group">
-          <label class="checkbox-label">
-            <input type="checkbox" checked onclick="location.href='find-workers.php'"> All Categories
-          </label>
-          <?php if (!empty($categories_list)): ?>
-            <?php foreach ($categories_list as $cat): ?>
-              <label class="checkbox-label">
-                <input type="checkbox" <?php echo ($category_id == $cat['id']) ? 'checked' : ''; ?> onclick="location.href='find-workers.php?category=<?php echo $cat['id']; ?>'">
-                <?php echo e(translate_category_name($cat['name'])); ?>
-              </label>
-            <?php endforeach; ?>
-          <?php endif; ?>
+        
+        <div class="custom-select-wrapper">
+          <div class="custom-select-trigger">
+            <span><?php 
+              $selected_name = 'All Categories';
+              if ($category_id > 0) {
+                  foreach ($categories_list as $cat) {
+                      if ($cat['id'] == $category_id) {
+                          $selected_name = translate_category_name($cat['name']);
+                          break;
+                      }
+                  }
+              }
+              echo e($selected_name);
+            ?></span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </div>
+          <div class="custom-select-dropdown">
+            <div class="custom-select-search-container">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" class="custom-select-search" placeholder="Search category...">
+            </div>
+            <div class="custom-select-options">
+              <?php
+                // Build All Categories URL preserving location and search query
+                $all_cats_url = 'find-workers.php' . (!empty($location) || !empty($search_query) ? '?' : '') . 
+                  (!empty($search_query) ? 'q=' . urlencode($search_query) : '') . 
+                  (!empty($location) ? (!empty($search_query) ? '&' : '') . 'location=' . urlencode($location) : '');
+              ?>
+              <div class="custom-select-option <?php echo ($category_id == 0) ? 'selected' : ''; ?>" data-value="0" data-url="<?php echo $all_cats_url; ?>">
+                All Categories
+              </div>
+              <?php foreach ($categories_list as $cat): ?>
+                <?php
+                  // Build URL preserving location and search query
+                  $cat_url = 'find-workers.php?category=' . $cat['id'] . 
+                    (!empty($search_query) ? '&q=' . urlencode($search_query) : '') . 
+                    (!empty($location) ? '&location=' . urlencode($location) : '');
+                ?>
+                <div class="custom-select-option <?php echo ($category_id == $cat['id']) ? 'selected' : ''; ?>" data-value="<?php echo $cat['id']; ?>" data-url="<?php echo $cat_url; ?>">
+                  <?php echo e(translate_category_name($cat['name'])); ?>
+                </div>
+              <?php endforeach; ?>
+              <div class="custom-select-no-results">No categories found</div>
+            </div>
+          </div>
         </div>
+
       </div>
     </aside>
 
@@ -438,6 +595,73 @@ require_once __DIR__ . '/includes/header.php';
     </section>
   </div>
 </main>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const wrapper = document.querySelector(".custom-select-wrapper");
+    const trigger = document.querySelector(".custom-select-trigger");
+    const searchInput = document.querySelector(".custom-select-search");
+    const options = document.querySelectorAll(".custom-select-option");
+    const noResults = document.querySelector(".custom-select-no-results");
+
+    if (trigger && wrapper) {
+        trigger.addEventListener("click", (e) => {
+            e.stopPropagation();
+            wrapper.classList.toggle("open");
+            if (wrapper.classList.contains("open") && searchInput) {
+                searchInput.value = "";
+                // Dispatch input event to clear previous filters
+                searchInput.dispatchEvent(new Event('input'));
+                searchInput.focus();
+            }
+        });
+    }
+
+    if (searchInput) {
+        searchInput.addEventListener("input", (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            let hasResults = false;
+
+            options.forEach(option => {
+                const text = option.textContent.toLowerCase();
+                if (text.includes(query)) {
+                    option.classList.remove("hidden");
+                    hasResults = true;
+                } else {
+                    option.classList.add("hidden");
+                }
+            });
+
+            if (hasResults) {
+                noResults.classList.remove("visible");
+            } else {
+                noResults.classList.add("visible");
+            }
+        });
+
+        // Prevent dropdown closing when clicking inside search container
+        searchInput.addEventListener("click", (e) => {
+            e.stopPropagation();
+        });
+    }
+
+    options.forEach(option => {
+        option.addEventListener("click", () => {
+            const url = option.getAttribute("data-url");
+            if (url) {
+                window.location.href = url;
+            }
+        });
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener("click", () => {
+        if (wrapper) {
+            wrapper.classList.remove("open");
+        }
+    });
+});
+</script>
 
 <?php
 require_once __DIR__ . '/includes/footer.php';

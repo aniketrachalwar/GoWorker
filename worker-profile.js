@@ -59,17 +59,17 @@ document.addEventListener("DOMContentLoaded", () => {
             const card = btn.closest(".service-card");
             const name = card.querySelector("h4").textContent;
             alert(`Selected service: ${name}. Directing you to complete the booking!`);
-            window.location.href = "booking.php";
+            window.location.href = "booking.html";
         });
-    });
-
-    // 4. ACTION BUTTONS (Chat, Call, Save)
-    const chatBtn = document.getElementById("chat-worker-btn");
-    if (chatBtn) {
-        chatBtn.addEventListener("click", () => {
-            window.location.href = "chat.php";
-        });
-    }
+     });
+ 
+     // 4. ACTION BUTTONS (Chat, Call, Save)
+     const chatBtn = document.getElementById("chat-worker-btn");
+     if (chatBtn) {
+         chatBtn.addEventListener("click", () => {
+             window.location.href = "chat.html";
+         });
+     }
 
     const callBtn = document.getElementById("call-worker-btn");
     if (callBtn) {

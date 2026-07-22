@@ -6,8 +6,13 @@
  * and environment settings for localhost and collaborative local network (LAN) setups.
  */
 
+// Load the central configuration
+require_once __DIR__ . '/config/config.php';
+
 // Toggle between 'production' and 'development' modes
-define('ENV_MODE', 'development');
+if (!defined('ENV_MODE')) {
+    define('ENV_MODE', 'development');
+}
 
 // Default fallback credentials for XAMPP localhost
 $default_host = 'localhost';
@@ -35,12 +40,24 @@ if (file_exists($local_config_path)) {
 }
 
 // Final Database Constant definitions
-define('DB_HOST', getenv('DB_HOST') ?: ($local_config['db_host'] ?? $default_host));
-define('DB_PORT', getenv('DB_PORT') ?: ($local_config['db_port'] ?? $default_port));
-define('DB_NAME', getenv('DB_NAME') ?: ($local_config['db_name'] ?? $default_db));
-define('DB_USER', getenv('DB_USER') ?: ($local_config['db_user'] ?? $default_user));
-define('DB_PASS', getenv('DB_PASS') !== false ? getenv('DB_PASS') : ($local_config['db_pass'] ?? $default_pass));
-define('DB_CHARSET', 'utf8mb4');
+if (!defined('DB_HOST')) {
+    define('DB_HOST', getenv('DB_HOST') ?: ($local_config['db_host'] ?? $default_host));
+}
+if (!defined('DB_PORT')) {
+    define('DB_PORT', getenv('DB_PORT') ?: ($local_config['db_port'] ?? $default_port));
+}
+if (!defined('DB_NAME')) {
+    define('DB_NAME', getenv('DB_NAME') ?: ($local_config['db_name'] ?? $default_db));
+}
+if (!defined('DB_USER')) {
+    define('DB_USER', getenv('DB_USER') ?: ($local_config['db_user'] ?? $default_user));
+}
+if (!defined('DB_PASS')) {
+    define('DB_PASS', getenv('DB_PASS') !== false ? getenv('DB_PASS') : ($local_config['db_pass'] ?? $default_pass));
+}
+if (!defined('DB_CHARSET')) {
+    define('DB_CHARSET', 'utf8mb4');
+}
 
 // Connection timeout and retry options
 define('DB_CONNECT_TIMEOUT', 3);
@@ -51,10 +68,10 @@ define('DB_RETRY_DELAY', 1);
 define('BACKUP_DIR', __DIR__ . '/backups');
 define('LOG_FILE', __DIR__ . '/logs/db_error.log');
 
-// Ensure system directories exist
+// Ensure system directories exist safely (suppressing warnings if permissions are restricted on shared hosts)
 if (!is_dir(BACKUP_DIR)) {
-    mkdir(BACKUP_DIR, 0777, true);
+    @mkdir(BACKUP_DIR, 0777, true);
 }
 if (!is_dir(__DIR__ . '/logs')) {
-    mkdir(__DIR__ . '/logs', 0777, true);
+    @mkdir(__DIR__ . '/logs', 0777, true);
 }

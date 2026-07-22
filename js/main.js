@@ -23,14 +23,15 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('GoWorker platform loaded.');
 
     // --- Mobile Slide-in Drawer Toggle ---
-    const drawerToggle = document.getElementById('drawer-toggle');
-    const drawerClose = document.getElementById('drawer-close');
-    const drawerOverlay = document.getElementById('drawer-overlay');
-    const mobileDrawer = document.getElementById('mobile-drawer');
+    const drawerToggle = document.getElementById('drawer-toggle') || document.querySelector('.hamburger-menu-btn');
+    const drawerClose = document.getElementById('drawer-close') || document.querySelector('.mobile-sidebar-close-btn');
+    const drawerOverlay = document.getElementById('drawer-overlay') || document.querySelector('.mobile-sidebar-overlay');
+    const mobileDrawer = document.getElementById('mobile-drawer') || document.querySelector('.mobile-sidebar-menu');
 
     if (drawerToggle && mobileDrawer && drawerOverlay) {
         // Open drawer
         drawerToggle.addEventListener('click', (e) => {
+            e.preventDefault();
             e.stopPropagation();
             mobileDrawer.classList.add('open');
             drawerOverlay.classList.add('open');
@@ -38,7 +39,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Close drawer functions
-        const closeMenu = () => {
+        const closeMenu = (e) => {
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
             mobileDrawer.classList.remove('open');
             drawerOverlay.classList.remove('open');
             document.body.style.overflow = ''; // Restore scrolling

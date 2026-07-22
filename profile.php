@@ -36,7 +36,7 @@ if (isset($pdo) && $user_id > 0) {
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user && $user['user_type'] === 'worker') {
-            $w_stmt = $pdo->prepare("SELECT w.*, c.name as category_name FROM workers w LEFT JOIN categories c ON w.category_id = c.id WHERE w.user_id = ?");
+            $w_stmt = $pdo->prepare("SELECT w.*, c.name as category_name FROM worker_profiles w LEFT JOIN categories c ON w.category_id = c.id WHERE w.user_id = ?");
             $w_stmt->execute([$user_id]);
             $worker_profile = $w_stmt->fetch(PDO::FETCH_ASSOC);
         }
@@ -49,19 +49,30 @@ if (isset($pdo) && $user_id > 0) {
 if (!$user) {
     $user = [
         'id' => $user_id ?: 1,
-        'name' => $_SESSION['user_name'] ?? 'Ramesh Kumar',
+        'full_name' => $_SESSION['user_name'] ?? 'Ramesh Kumar',
         'email' => $_SESSION['user_email'] ?? 'ramesh.kumar@example.com',
         'phone' => '+91 98765 43210',
-        'city' => 'Pune',
-        'state' => 'Maharashtra',
+        'location' => 'Pune, Maharashtra',
         'user_type' => $_SESSION['user_type'] ?? 'customer',
-        'profile_picture' => '',
         'created_at' => '2025-07-15 10:00:00'
     ];
 }
 
+// Now, extract and define safe variables with coalesce fallbacks
+$name = $user['name'] ?? $user['full_name'] ?? 'User';
+$email = $user['email'] ?? '';
+$phone = $user['phone'] ?? '';
+
+// Handle location parsing (users table has 'location' column which is usually "City, State")
+$location_parts = !empty($user['location']) ? explode(',', $user['location']) : [];
+$city = $user['city'] ?? (isset($location_parts[0]) ? trim($location_parts[0]) : '');
+$state = $user['state'] ?? (isset($location_parts[1]) ? trim($location_parts[1]) : '');
+
+// Safe profile picture fetch (checking user array, worker_profile array, and fallback to default avatar)
+$profile_picture = !empty($user['profile_picture']) ? $user['profile_picture'] : (!empty($worker_profile['profile_picture']) ? $worker_profile['profile_picture'] : 'images/avatar_placeholder.png');
+
 // Handle Profile Details Form Update
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
+if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && isset($_POST['update_profile'])) {
     $name = trim($_POST['full_name'] ?? '');
     $phone = trim($_POST['phone'] ?? '');
     $city = trim($_POST['city'] ?? '');
@@ -69,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
     $password = trim($_POST['password'] ?? '');
 
     // Handle Profile Photo Upload
-    $photo_path = $user['profile_picture'];
+    $photo_path = $profile_picture;
     if (isset($_FILES['profile_photo']) && $_FILES['profile_photo']['error'] === UPLOAD_ERR_OK) {
         $file_tmp = $_FILES['profile_photo']['tmp_name'];
         $file_name = $_FILES['profile_photo']['name'];
@@ -77,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
 
         $allowed_exts = ['jpg', 'jpeg', 'png'];
         if (in_array($file_ext, $allowed_exts)) {
-            $new_filename = 'user_' . $user['id'] . '_' . time() . '.' . $file_ext;
+            $new_filename = 'user_' . ($user['id'] ?? $user_id) . '_' . time() . '.' . $file_ext;
             $destination = $upload_dir . $new_filename;
 
             if (move_uploaded_file($file_tmp, $destination)) {
@@ -90,21 +101,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
 
     if (empty($msg_error) && isset($pdo) && $user_id > 0) {
         try {
-            if (!empty($password)) {
-                $hashed_pwd = password_hash($password, PASSWORD_DEFAULT);
-                $upd = $pdo->prepare("UPDATE users SET name = ?, phone = ?, city = ?, state = ?, profile_picture = ?, password = ? WHERE id = ?");
-                $upd->execute([$name, $phone, $city, $state, $photo_path, $hashed_pwd, $user_id]);
-            } else {
-                $upd = $pdo->prepare("UPDATE users SET name = ?, phone = ?, city = ?, state = ?, profile_picture = ? WHERE id = ?");
-                $upd->execute([$name, $phone, $city, $state, $photo_path, $user_id]);
+            $location_str = '';
+            if (!empty($city) && !empty($state)) {
+                $location_str = "$city, $state";
+            } elseif (!empty($city)) {
+                $location_str = $city;
+            } elseif (!empty($state)) {
+                $location_str = $state;
             }
 
-            // Sync user state
-            $user['name'] = $name;
+            if (!empty($password)) {
+                $hashed_pwd = password_hash($password, PASSWORD_DEFAULT);
+                $upd = $pdo->prepare("UPDATE users SET full_name = ?, phone = ?, location = ?, password = ? WHERE id = ?");
+                $upd->execute([$name, $phone, $location_str, $hashed_pwd, $user_id]);
+            } else {
+                $upd = $pdo->prepare("UPDATE users SET full_name = ?, phone = ?, location = ? WHERE id = ?");
+                $upd->execute([$name, $phone, $location_str, $user_id]);
+            }
+
+            if (($user['user_type'] ?? 'customer') === 'worker') {
+                $wp_check = $pdo->prepare("SELECT id FROM worker_profiles WHERE user_id = ?");
+                $wp_check->execute([$user_id]);
+                if ($wp_check->fetch()) {
+                    $upd_wp = $pdo->prepare("UPDATE worker_profiles SET profile_picture = ? WHERE user_id = ?");
+                    $upd_wp->execute([$photo_path, $user_id]);
+                } else {
+                    $ins_wp = $pdo->prepare("INSERT INTO worker_profiles (user_id, profile_picture) VALUES (?, ?)");
+                    $ins_wp->execute([$user_id, $photo_path]);
+                }
+            }
+
+            // Sync user state and variables
+            $user['full_name'] = $name;
             $user['phone'] = $phone;
-            $user['city'] = $city;
-            $user['state'] = $state;
-            $user['profile_picture'] = $photo_path;
+            $user['location'] = $location_str;
+            $profile_picture = $photo_path;
             $_SESSION['user_name'] = $name;
 
             $msg_success = 'Profile updated successfully!';
@@ -113,17 +144,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
         }
     } else if (empty($msg_error)) {
         // Fallback state update
-        $user['name'] = $name;
+        $user['full_name'] = $name;
         $user['phone'] = $phone;
-        $user['city'] = $city;
-        $user['state'] = $state;
-        $user['profile_picture'] = $photo_path;
+        if (!empty($city) && !empty($state)) {
+            $user['location'] = "$city, $state";
+        } else {
+            $user['location'] = $city ?: $state;
+        }
+        $profile_picture = $photo_path;
         $msg_success = 'Profile updated successfully!';
     }
 }
 
 // Calculate Profile Completion Percentage
-$completion_fields = [$user['name'], $user['email'], $user['phone'], $user['city'], $user['state'], $user['profile_picture']];
+$completion_fields = [$name, $email, $phone, $city, $state, ($profile_picture !== 'images/avatar_placeholder.png' ? $profile_picture : '')];
 $filled = count(array_filter($completion_fields));
 $completion_percentage = min(100, max(40, intval(($filled / count($completion_fields)) * 100)));
 
@@ -175,7 +209,7 @@ require_once __DIR__ . '/includes/header.php';
             <div class="profile-hero-left">
                 <!-- 150px x 150px Circular Profile Photo -->
                 <div class="profile-avatar-container">
-                    <img id="avatar-preview" class="profile-avatar-img" src="<?php echo e(!empty($user['profile_picture']) ? $user['profile_picture'] : 'images/avatar_placeholder.png'); ?>" alt="Profile Photo" onerror="this.src='https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&fit=crop';">
+                    <img id="avatar-preview" class="profile-avatar-img" src="<?php echo e($profile_picture); ?>" alt="Profile Photo" onerror="this.src='https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&fit=crop';">
                     
                     <label for="profile_photo_input" class="profile-avatar-upload-btn" title="Upload Photo">
                         <i class="fa-solid fa-camera"></i>
@@ -185,29 +219,29 @@ require_once __DIR__ . '/includes/header.php';
                 <!-- User Information -->
                 <div class="profile-user-info">
                     <h1>
-                        <?php echo e($user['name']); ?>
+                        <?php echo e($name); ?>
                         <span class="account-badge">
-                            <i class="fa-solid <?php echo ($user['user_type'] === 'worker') ? 'fa-briefcase' : 'fa-user'; ?>"></i>
-                            <?php echo e(ucfirst($user['user_type'])); ?>
+                            <i class="fa-solid <?php echo (($user['user_type'] ?? 'customer') === 'worker') ? 'fa-briefcase' : 'fa-user'; ?>"></i>
+                            <?php echo e(ucfirst($user['user_type'] ?? 'customer')); ?>
                         </span>
                     </h1>
 
                     <div class="profile-meta-list">
                         <div class="profile-meta-item">
                             <i class="fa-solid fa-envelope"></i>
-                            <span><?php echo e($user['email']); ?></span>
+                            <span><?php echo e($email); ?></span>
                         </div>
                         <div class="profile-meta-item">
                             <i class="fa-solid fa-phone"></i>
-                            <span><?php echo e($user['phone'] ?: 'Add Phone Number'); ?></span>
+                            <span><?php echo e($phone ?: 'Add Phone Number'); ?></span>
                         </div>
                         <div class="profile-meta-item">
                             <i class="fa-solid fa-location-dot"></i>
-                            <span><?php echo e(($user['city'] || $user['state']) ? trim($user['city'] . ', ' . $user['state'], ', ') : 'Pune, Maharashtra'); ?></span>
+                            <span><?php echo e((!empty($city) || !empty($state)) ? trim($city . ', ' . $state, ', ') : 'Location Not Added'); ?></span>
                         </div>
                         <div class="profile-meta-item">
                             <i class="fa-solid fa-calendar-check"></i>
-                            <span>Member Since: <?php echo date('F Y', strtotime($user['created_at'])); ?></span>
+                            <span>Member Since: <?php echo date('F Y', strtotime($user['created_at'] ?? 'now')); ?></span>
                         </div>
                     </div>
 
@@ -253,7 +287,7 @@ require_once __DIR__ . '/includes/header.php';
 
                 <!-- STATISTICS CARDS GRID -->
                 <section id="stats-section" class="stats-cards-grid">
-                    <?php if ($user['user_type'] === 'customer'): ?>
+                    <?php if (($user['user_type'] ?? 'customer') === 'customer'): ?>
                         <div class="stat-metric-card">
                             <div class="stat-metric-icon">
                                 <i class="fa-solid fa-calendar-check"></i>
@@ -345,27 +379,27 @@ require_once __DIR__ . '/includes/header.php';
                         <div class="profile-form-grid">
                             <div class="profile-form-group">
                                 <label class="profile-form-label">Full Name</label>
-                                <input type="text" name="full_name" class="profile-form-input" value="<?php echo e($user['name']); ?>" required>
+                                <input type="text" name="full_name" class="profile-form-input" value="<?php echo e($name); ?>" required>
                             </div>
 
                             <div class="profile-form-group">
                                 <label class="profile-form-label">Email Address (Read-Only)</label>
-                                <input type="email" class="profile-form-input" value="<?php echo e($user['email']); ?>" readonly style="background: #F3F4F6; cursor: not-allowed;">
+                                <input type="email" class="profile-form-input" value="<?php echo e($email); ?>" readonly style="background: #F3F4F6; cursor: not-allowed;">
                             </div>
 
                             <div class="profile-form-group">
                                 <label class="profile-form-label">Phone Number</label>
-                                <input type="text" name="phone" class="profile-form-input" value="<?php echo e($user['phone']); ?>" placeholder="+91 98765 43210" required>
+                                <input type="text" name="phone" class="profile-form-input" value="<?php echo e($phone); ?>" placeholder="+91 98765 43210" required>
                             </div>
 
                             <div class="profile-form-group">
                                 <label class="profile-form-label">City</label>
-                                <input type="text" name="city" class="profile-form-input" value="<?php echo e($user['city'] ?: 'Pune'); ?>" required>
+                                <input type="text" name="city" class="profile-form-input" value="<?php echo e($city); ?>" required>
                             </div>
 
                             <div class="profile-form-group">
                                 <label class="profile-form-label">State</label>
-                                <input type="text" name="state" class="profile-form-input" value="<?php echo e($user['state'] ?: 'Maharashtra'); ?>" required>
+                                <input type="text" name="state" class="profile-form-input" value="<?php echo e($state); ?>" required>
                             </div>
 
                             <div class="profile-form-group">

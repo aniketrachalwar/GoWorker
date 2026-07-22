@@ -170,7 +170,60 @@
                   <i class="fa-solid fa-eye"></i>
                 </button>
               </div>
+            <!-- Worker Fields Container -->
+            <div id="worker-fields-container" class="form-group form-grid-full" style="display: none; grid-template-columns: repeat(2, 1fr); gap: 20px; width: 100%; margin-top: 10px;">
+              
+              <!-- Profession / Trade -->
+              <div class="form-group" style="margin-bottom: 0;">
+                <label for="signup-profession-search">Profession / Trade</label>
+                <div class="input-wrapper" style="display: flex; flex-direction: column; align-items: stretch; gap: 8px;">
+                  <div style="position: relative; width: 100%; display: flex; align-items: center;">
+                    <i class="fa-solid fa-magnifying-glass input-icon" style="top: 50%; transform: translateY(-50%);"></i>
+                    <input type="text" id="signup-profession-search" class="form-input" style="width: 100%;" placeholder="Search profession..." autocomplete="off">
+                  </div>
+                  <select id="signup-profession" class="form-input" style="padding-left: 16px; height: 46px; border-radius: 8px;" required disabled>
+                    <option value="">Select Profession</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Work Category -->
+              <div class="form-group" style="margin-bottom: 0;">
+                <label for="signup-category">Work Category</label>
+                <div class="input-wrapper">
+                  <i class="fa-solid fa-list input-icon"></i>
+                  <select id="signup-category" class="form-input" style="padding-left: 45px;" required disabled>
+                    <option value="">Select Category</option>
+                    <option value="Skilled Trades">Skilled Trades</option>
+                    <option value="Labour & Construction">Labour & Construction</option>
+                    <option value="Domestic & Care Services">Domestic & Care Services</option>
+                    <option value="Technician & Electronics">Technician & Electronics</option>
+                    <option value="Media & Events">Media & Events</option>
+                    <option value="Other Services">Other Services</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Experience (Years) -->
+              <div class="form-group" style="margin-bottom: 0;">
+                <label for="signup-experience">Experience (Years)</label>
+                <div class="input-wrapper">
+                  <i class="fa-solid fa-briefcase input-icon"></i>
+                  <input type="number" id="signup-experience" class="form-input" placeholder="e.g. 5" min="0" required disabled>
+                </div>
+              </div>
+
+              <!-- Profile Photo Upload -->
+              <div class="form-group" style="margin-bottom: 0;">
+                <label for="signup-avatar">Profile Photo</label>
+                <div class="input-wrapper">
+                  <i class="fa-regular fa-image input-icon"></i>
+                  <input type="file" id="signup-avatar" class="form-input" style="padding-left: 45px; padding-top: 10px;" accept="image/*" required disabled>
+                </div>
+              </div>
+
             </div>
+
           </div>
 
           <!-- Options Checkbox -->
@@ -204,6 +257,10 @@
     </section>
   </main>
 
+  <!-- Firebase SDK Services -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
   <script src="auth.js"></script>
 </body>
 </html>

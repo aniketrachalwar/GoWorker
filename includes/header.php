@@ -98,33 +98,484 @@ $current_page = basename($_SERVER['SCRIPT_NAME']);
     
     <!-- Global CSS -->
     <link rel="stylesheet" href="css/styles.css">
+    
+    <style>
+    /* Reusable Premium Sticky Header Styles */
+    header.main-header {
+      position: sticky !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      background-color: #FFFFFF !important;
+      border-bottom: 1.5px solid #E5E7EB !important;
+      z-index: 9999 !important; /* Header: z-index 9999 */
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04) !important;
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      box-sizing: border-box !important;
+      height: 80px !important;
+      transition: all 0.3s ease !important;
+    }
+
+    body.dark-mode header.main-header {
+      background-color: #111827 !important;
+      border-color: #374151 !important;
+    }
+
+    header.main-header nav.navbar {
+      width: 100% !important;
+      max-width: 1400px !important;
+      height: 100% !important;
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      padding: 0 40px !important;
+      margin: 0 auto !important;
+      box-sizing: border-box !important;
+    }
+
+    /* Logo Image Sizing */
+    header.main-header .logo {
+      display: flex !important;
+      align-items: center !important;
+    }
+
+    header.main-header .logo a {
+      display: flex !important;
+      align-items: center !important;
+      min-height: 44px !important;
+      min-width: 44px !important;
+      text-decoration: none !important;
+    }
+
+    header.main-header .logo-img {
+      height: 45px !important;
+      width: auto !important;
+      object-fit: contain !important;
+      border-radius: 8px !important;
+      display: block !important;
+      transition: height 0.3s ease !important;
+    }
+
+    /* Desktop Navigation Links */
+    header.main-header .nav-links-desktop {
+      display: flex !important;
+      list-style: none !important;
+      gap: 30px !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      align-items: center !important;
+    }
+
+    header.main-header .nav-links-desktop li {
+      display: block !important;
+    }
+
+    header.main-header .nav-links-desktop a {
+      text-decoration: none !important;
+      color: #1F2937 !important;
+      font-weight: 500 !important;
+      font-size: 14px !important;
+      font-family: 'Inter', sans-serif !important;
+      transition: color 0.3s ease !important;
+      padding: 12px 6px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      min-height: 44px !important;
+      box-sizing: border-box !important;
+    }
+
+    body.dark-mode header.main-header .nav-links-desktop a {
+      color: #F3F4F6 !important;
+    }
+
+    header.main-header .nav-links-desktop a:hover,
+    header.main-header .nav-links-desktop a.active {
+      color: #0D4DFF !important;
+    }
+
+    /* Desktop Right Section spacing */
+    header.main-header .nav-right-desktop {
+      display: flex !important;
+      align-items: center !important;
+      gap: 16px !important;
+    }
+
+    header.main-header .language-dropdown {
+      position: relative !important;
+    }
+
+    header.main-header .language-btn {
+      background: rgba(243, 244, 246, 0.8) !important;
+      border: 1px solid #E5E7EB !important;
+      border-radius: 12px !important;
+      padding: 10px 14px !important;
+      color: #1F2937 !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      font-family: inherit !important;
+      font-size: 13.5px !important;
+      font-weight: 500 !important;
+      cursor: pointer !important;
+      min-height: 44px !important;
+      box-sizing: border-box !important;
+      transition: all 0.3s ease !important;
+    }
+
+    body.dark-mode header.main-header .language-btn {
+      background: rgba(31, 41, 55, 0.8) !important;
+      border-color: #374151 !important;
+      color: #F3F4F6 !important;
+    }
+
+    header.main-header .language-btn:hover {
+      border-color: #0D4DFF !important;
+      background: #FFFFFF !important;
+    }
+
+    body.dark-mode header.main-header .language-btn:hover {
+      background: #1F2937 !important;
+    }
+
+    header.main-header .dropdown-content {
+      display: none !important;
+      position: absolute !important;
+      top: calc(100% + 6px) !important;
+      right: 0 !important;
+      background: #FFFFFF !important;
+      border: 1px solid #E5E7EB !important;
+      border-radius: 12px !important;
+      overflow: hidden !important;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important;
+      min-width: 160px !important;
+      z-index: 1010 !important;
+    }
+
+    body.dark-mode header.main-header .dropdown-content {
+      background: #1F2937 !important;
+      border-color: #374151 !important;
+    }
+
+    header.main-header .dropdown-content a {
+      display: block !important;
+      padding: 10px 14px !important;
+      text-decoration: none !important;
+      color: #1F2937 !important;
+      font-size: 13.5px !important;
+      transition: background 0.2s ease !important;
+    }
+
+    body.dark-mode header.main-header .dropdown-content a {
+      color: #F3F4F6 !important;
+    }
+
+    header.main-header .dropdown-content a:hover {
+      background: rgba(13, 77, 255, 0.08) !important;
+      color: #0D4DFF !important;
+    }
+
+    header.main-header .language-dropdown:hover .dropdown-content {
+      display: block !important;
+    }
+
+    header.main-header .login-btn {
+      padding: 10px 20px !important;
+      background: #FFFFFF !important;
+      border: 1.5px solid #0D4DFF !important;
+      color: #0D4DFF !important;
+      border-radius: 12px !important;
+      font-weight: 600 !important;
+      font-size: 13.5px !important;
+      cursor: pointer !important;
+      min-height: 44px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      box-sizing: border-box !important;
+      transition: all 0.3s ease !important;
+    }
+
+    header.main-header .login-btn:hover {
+      background: #0D4DFF !important;
+      color: #FFFFFF !important;
+    }
+
+    header.main-header .signup-btn {
+      padding: 10px 20px !important;
+      background: linear-gradient(135deg, #0D4DFF 0%, #4A7BFF 100%) !important;
+      color: #FFFFFF !important;
+      border: none !important;
+      border-radius: 12px !important;
+      font-weight: 600 !important;
+      font-size: 13.5px !important;
+      cursor: pointer !important;
+      min-height: 44px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      box-sizing: border-box !important;
+      transition: all 0.3s ease !important;
+    }
+
+    header.main-header .signup-btn:hover {
+      box-shadow: 0 6px 15px rgba(13, 77, 255, 0.3) !important;
+    }
+
+    /* Hamburger menu controls */
+    header.main-header .hamburger-menu-btn,
+    #drawer-toggle {
+      display: none !important;
+      background: transparent !important;
+      border: none !important;
+      font-size: 24px !important;
+      color: #1F2937 !important;
+      cursor: pointer !important;
+      padding: 10px !important;
+      min-height: 44px !important;
+      min-width: 44px !important;
+      align-items: center !important;
+      justify-content: center !important;
+      box-sizing: border-box !important;
+    }
+
+    body.dark-mode header.main-header .hamburger-menu-btn,
+    body.dark-mode #drawer-toggle {
+      color: #F3F4F6 !important;
+    }
+
+    /* Mobile Sidebar Menu Drawer style */
+    .mobile-sidebar-menu,
+    #mobile-drawer {
+      position: fixed !important;
+      top: 0 !important;
+      right: -300px !important;
+      width: 280px !important;
+      height: 100vh !important;
+      background-color: #FFFFFF !important;
+      box-shadow: -5px 0 25px rgba(0, 0, 0, 0.08) !important;
+      z-index: 10000 !important; /* Mobile Menu: z-index 10000 */
+      display: flex !important;
+      flex-direction: column !important;
+      box-sizing: border-box !important;
+      transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      padding: 20px !important;
+      pointer-events: auto !important; /* Ensure links are clickable */
+    }
+
+    body.dark-mode .mobile-sidebar-menu,
+    body.dark-mode #mobile-drawer {
+      background-color: #111827 !important;
+      box-shadow: -5px 0 25px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    .mobile-sidebar-menu.open,
+    #mobile-drawer.open {
+      right: 0 !important;
+    }
+
+    .mobile-sidebar-header {
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      margin-bottom: 24px !important;
+      border-bottom: 1.5px solid #F3F4F6 !important;
+      padding-bottom: 16px !important;
+    }
+
+    body.dark-mode .mobile-sidebar-header {
+      border-bottom-color: #1F2937 !important;
+    }
+
+    .mobile-sidebar-close-btn,
+    #drawer-close {
+      background: transparent !important;
+      border: none !important;
+      font-size: 24px !important;
+      color: #4B5563 !important;
+      cursor: pointer !important;
+      min-width: 44px !important;
+      min-height: 44px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+
+    body.dark-mode .mobile-sidebar-close-btn,
+    body.dark-mode #drawer-close {
+      color: #D1D5DB !important;
+    }
+
+    .mobile-nav-links {
+      list-style: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 8px !important;
+      overflow-y: auto !important;
+      flex: 1 !important;
+    }
+
+    .mobile-nav-links li {
+      width: 100% !important;
+    }
+
+    .mobile-nav-links a {
+      display: flex !important;
+      align-items: center !important;
+      gap: 12px !important;
+      padding: 12px 14px !important;
+      text-decoration: none !important;
+      color: #374151 !important;
+      font-weight: 500 !important;
+      font-size: 15px !important;
+      border-radius: 8px !important;
+      min-height: 44px !important;
+      box-sizing: border-box !important;
+      transition: all 0.2s ease !important;
+    }
+
+    body.dark-mode .mobile-nav-links a {
+      color: #D1D5DB !important;
+    }
+
+    .mobile-nav-links a:hover,
+    .mobile-nav-links a.active {
+      background-color: rgba(13, 77, 255, 0.08) !important;
+      color: #0D4DFF !important;
+    }
+
+    .mobile-nav-divider {
+      height: 1px !important;
+      background-color: #E5E7EB !important;
+      margin: 12px 0 !important;
+    }
+
+    body.dark-mode .mobile-nav-divider {
+      background-color: #374151 !important;
+    }
+
+    .mobile-lang-item {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 8px !important;
+      padding: 8px 14px !important;
+    }
+
+    .mobile-lang-title {
+      font-size: 13.5px !important;
+      color: #6B7280 !important;
+      font-weight: 500 !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 10px !important;
+    }
+
+    body.dark-mode .mobile-lang-title {
+      color: #9CA3AF !important;
+    }
+
+    .mobile-lang-select {
+      width: 100% !important;
+      padding: 10px !important;
+      border: 1px solid #D1D5DB !important;
+      border-radius: 8px !important;
+      background-color: #F9FAFB !important;
+      color: #1F2937 !important;
+      font-size: 14px !important;
+      font-family: inherit !important;
+      min-height: 44px !important;
+    }
+
+    body.dark-mode .mobile-lang-select {
+      background-color: #1F2937 !important;
+      border-color: #374151 !important;
+      color: #F3F4F6 !important;
+    }
+
+    /* Backdrop overlay style */
+    .mobile-sidebar-overlay,
+    #drawer-overlay {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      background-color: rgba(0, 0, 0, 0.4) !important;
+      z-index: 9998 !important; /* Overlay: z-index 9998 */
+      opacity: 0 !important;
+      visibility: hidden !important;
+      transition: all 0.3s ease !important;
+    }
+
+    .mobile-sidebar-overlay.active,
+    .mobile-sidebar-overlay.open,
+    #drawer-overlay.active,
+    #drawer-overlay.open {
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+
+    /* MEDIA QUERIES FOR RESPONSIVE BEHAVIOR */
+    @media (max-width: 1024px) {
+      header.main-header nav.navbar {
+        padding: 0 24px !important;
+      }
+      header.main-header .nav-links-desktop {
+        gap: 16px !important;
+      }
+    }
+
+    @media (max-width: 900px) {
+      header.main-header .nav-links-desktop,
+      header.main-header .nav-right-desktop {
+        display: none !important;
+      }
+      header.main-header .hamburger-menu-btn,
+      #drawer-toggle {
+        display: flex !important;
+      }
+      header.main-header .logo-img {
+        height: 38px !important; /* Scale correctly on mobile */
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        overflow-x: hidden !important;
+      }
+    }
+    </style>
 </head>
 <body>
 
-<header>
+<header class="main-header">
     <nav class="navbar">
+        <!-- Logo Left -->
         <div class="logo">
             <a href="index.php">
-                <img src="images/logo_icon.png" alt="Logo" style="height: 55px; width: auto; object-fit: contain; border-radius: 8px;" onerror="this.src='assets/logo.jfif';">
+                <img src="images/logo_icon.png" alt="GoWorker Logo" class="logo-img" onerror="this.src='images/logo.jpg';">
             </a>
         </div>
 
-        <ul class="nav-links">
+        <!-- Center links desktop -->
+        <ul class="nav-links-desktop">
             <li><a href="index.php" class="<?php echo ($current_page === 'index.php' || $current_page === '') ? 'active' : ''; ?>"><?php echo e(__('home')); ?></a></li>
             <li><a href="find-workers.php" class="<?php echo $current_page === 'find-workers.php' ? 'active' : ''; ?>"><?php echo e(__('find_workers')); ?></a></li>
             <li><a href="become-worker.php" class="<?php echo $current_page === 'become-worker.php' ? 'active' : ''; ?>"><?php echo e(__('become_worker')); ?></a></li>
             <li><a href="index.php#how-it-works"><?php echo e(__('how_it_works')); ?></a></li>
             <li><a href="about.php" class="<?php echo $current_page === 'about.php' ? 'active' : ''; ?>"><?php echo e(__('about_us')); ?></a></li>
             <li><a href="contact.php" class="<?php echo $current_page === 'contact.php' ? 'active' : ''; ?>"><?php echo e(__('contact_us')); ?></a></li>
-            <li><a href="admin-dashboard.php" class="<?php echo $current_page === 'admin-dashboard.php' ? 'active' : ''; ?>">Admin Panel</a></li>
         </ul>
 
-        <div class="nav-right">
-            <!-- Language Selector Dropdown -->
+        <!-- Right navigation items desktop -->
+        <div class="nav-right-desktop">
             <div class="language-dropdown">
                 <button class="language-btn">
                     <i class="fa-solid fa-globe"></i>
-                    <?php echo $active_lang['name']; ?>
+                    <span><?php echo $active_lang['name']; ?></span>
                     <i class="fa-solid fa-chevron-down"></i>
                 </button>
                 <div class="dropdown-content">
@@ -148,7 +599,65 @@ $current_page = basename($_SERVER['SCRIPT_NAME']);
                 <button class="signup-btn" onclick="location.href='signup.php'"><?php echo e(__('signup')); ?></button>
             <?php endif; ?>
         </div>
+
+        <!-- Hamburger Icon for Mobile (Right) -->
+        <button id="drawer-toggle" class="hamburger-menu-btn" aria-label="Toggle Navigation Menu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
     </nav>
+ 
+    <!-- Mobile Slide-out Menu Drawer -->
+    <div id="mobile-drawer" class="mobile-sidebar-menu">
+        <div class="mobile-sidebar-header">
+            <div class="logo">
+                <a href="index.php">
+                    <img src="images/logo_icon.png" alt="GoWorker Logo" style="height: 38px; width: auto; object-fit: contain; border-radius: 8px;" onerror="this.src='images/logo.jpg';">
+                </a>
+            </div>
+            <button id="drawer-close" class="mobile-sidebar-close-btn" aria-label="Close Navigation Menu">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        
+        <ul class="mobile-nav-links">
+            <li><a href="index.php" class="<?php echo ($current_page === 'index.php' || $current_page === '') ? 'active' : ''; ?>"><i class="fa-solid fa-house"></i> <?php echo e(__('home')); ?></a></li>
+            <li><a href="find-workers.php" class="<?php echo $current_page === 'find-workers.php' ? 'active' : ''; ?>"><i class="fa-solid fa-magnifying-glass"></i> <?php echo e(__('find_workers')); ?></a></li>
+            <li><a href="become-worker.php" class="<?php echo $current_page === 'become-worker.php' ? 'active' : ''; ?>"><i class="fa-solid fa-briefcase"></i> <?php echo e(__('become_worker')); ?></a></li>
+            <li><a href="index.php#how-it-works"><i class="fa-solid fa-circle-info"></i> <?php echo e(__('how_it_works')); ?></a></li>
+            <li><a href="about.php" class="<?php echo $current_page === 'about.php' ? 'active' : ''; ?>"><i class="fa-solid fa-circle-question"></i> <?php echo e(__('about_us')); ?></a></li>
+            <li><a href="contact.php" class="<?php echo $current_page === 'contact.php' ? 'active' : ''; ?>"><i class="fa-solid fa-envelope"></i> <?php echo e(__('contact_us')); ?></a></li>
+            
+            <li class="mobile-nav-divider"></li>
+            
+            <li class="mobile-lang-item">
+                <span class="mobile-lang-title"><i class="fa-solid fa-globe"></i> Language:</span>
+                <select onchange="location.href=this.value" class="mobile-lang-select" aria-label="Language Selector">
+                    <?php foreach ($lang_details as $code => $detail): ?>
+                        <option value="<?php echo e(get_lang_switch_url($code)); ?>" <?php echo ($current_lang === $code) ? 'selected' : ''; ?>>
+                            <?php echo $detail['flag'] . ' ' . $detail['name']; ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </li>
+
+            <li class="mobile-nav-divider"></li>
+
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <?php if ($_SESSION['user_type'] === 'customer'): ?>
+                    <li><a href="customer-dashboard.php" class="<?php echo $current_page === 'customer-dashboard.php' ? 'active' : ''; ?>"><i class="fa-solid fa-gauge"></i> <?php echo e(__('dashboard')); ?></a></li>
+                <?php else: ?>
+                    <li><a href="worker-dashboard.php" class="<?php echo $current_page === 'worker-dashboard.php' ? 'active' : ''; ?>"><i class="fa-solid fa-gauge"></i> <?php echo e(__('dashboard')); ?></a></li>
+                <?php endif; ?>
+                <li><a href="profile.php" class="<?php echo $current_page === 'profile.php' ? 'active' : ''; ?>"><i class="fa-solid fa-user-gear"></i> <?php echo e(__('profile')); ?></a></li>
+                <li><a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i> <?php echo e(__('logout')); ?></a></li>
+            <?php else: ?>
+                <li><a href="login.php" class="<?php echo $current_page === 'login.php' ? 'active' : ''; ?>"><i class="fa-solid fa-right-to-bracket"></i> <?php echo e(__('login')); ?></a></li>
+                <li><a href="signup.php" class="<?php echo $current_page === 'signup.php' ? 'active' : ''; ?>"><i class="fa-solid fa-user-plus"></i> <?php echo e(__('signup')); ?></a></li>
+            <?php endif; ?>
+        </ul>
+    </div>
+    
+    <div id="drawer-overlay" class="mobile-sidebar-overlay"></div>
 </header>
 
 <!-- Alert Banner Section -->
