@@ -605,12 +605,10 @@ $current_page = basename($_SERVER['SCRIPT_NAME']);
             </div>
             
             <?php if (isset($_SESSION['user_id'])): ?>
-                <?php if ($_SESSION['user_type'] === 'customer'): ?>
+                <?php if (($_SESSION['user_type'] ?? '') === 'customer'): ?>
                     <button class="login-btn" onclick="location.href='customer-dashboard.php'"><?php echo e(__('dashboard')); ?></button>
-                <?php else: ?>
-                    <button class="login-btn" onclick="location.href='worker-dashboard.php'"><?php echo e(__('dashboard')); ?></button>
+                    <button class="signup-btn" onclick="location.href='logout.php'"><?php echo e(__('logout')); ?></button>
                 <?php endif; ?>
-                <button class="signup-btn" onclick="location.href='logout.php'"><?php echo e(__('logout')); ?></button>
             <?php else: ?>
                 <button class="login-btn" onclick="location.href='login.php'"><?php echo e(__('login')); ?></button>
                 <button class="signup-btn" onclick="location.href='signup.php'"><?php echo e(__('signup')); ?></button>

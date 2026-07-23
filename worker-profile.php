@@ -5,42 +5,95 @@
 require_once __DIR__ . '/config/database.php';
 require_once __DIR__ . '/includes/functions.php';
 
-$worker_id = intval($_GET['id'] ?? 1);
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 $worker = null;
-if (isset($pdo)) {
-    try {
-        $stmt = $pdo->prepare("
-            SELECT w.*, u.full_name as worker_name, u.email, u.phone, c.name as category_name 
-            FROM worker_profiles w
-            JOIN users u ON w.user_id = u.id
-            JOIN categories c ON w.category_id = c.id
-            WHERE w.id = ?
-        ");
-        $stmt->execute([$worker_id]);
-        $worker = $stmt->fetch(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        error_log("Database error in worker-profile.php: " . $e->getMessage());
+$is_viewing_self = false;
+
+if (isset($_SESSION['user_id']) && ($_SESSION['user_type'] ?? '') === 'worker') {
+    $userId = $_SESSION['user_id'];
+    $is_viewing_self = true;
+    if (isset($pdo)) {
+        try {
+            $stmt = $pdo->prepare("
+                SELECT w.*, u.id as user_id, u.full_name as worker_name, u.email, u.phone, u.created_at as user_created_at, u.location as user_location, c.name as category_name 
+                FROM users u
+                LEFT JOIN worker_profiles w ON w.user_id = u.id
+                LEFT JOIN categories c ON w.category_id = c.id
+                WHERE u.id = ? AND u.user_type = 'worker'
+            ");
+            $stmt->execute([$userId]);
+            $worker = $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Database error in worker-profile.php: " . $e->getMessage());
+        }
+    }
+} else {
+    $worker_id = intval($_GET['id'] ?? 1);
+    if (isset($pdo)) {
+        try {
+            $stmt = $pdo->prepare("
+                SELECT w.*, u.id as user_id, u.full_name as worker_name, u.email, u.phone, u.created_at as user_created_at, u.location as user_location, c.name as category_name 
+                FROM worker_profiles w
+                JOIN users u ON w.user_id = u.id
+                JOIN categories c ON w.category_id = c.id
+                WHERE w.id = ?
+            ");
+            $stmt->execute([$worker_id]);
+            $worker = $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Database error in worker-profile.php: " . $e->getMessage());
+        }
     }
 }
 
-// Fallback to static sample if not found in database
+// Fallback to dynamic session data if logged in as worker, otherwise static Ramesh
 if (!$worker) {
-    $worker = [
-        'id' => 1,
-        'user_id' => 2,
-        'worker_name' => 'Ramesh Kumar',
-        'category_name' => 'Electrician',
-        'title' => 'Senior Certified Electrician',
-        'bio' => 'I am a certified, professional electrician with over 5 years of experience serving residential and commercial properties in Pune. I specialize in complete house wiring, smart home automation, AC servicing, and emergency electrical troubleshooting.',
-        'hourly_rate' => 299.00,
-        'location' => 'Pune',
-        'experience_years' => 5,
-        'availability' => 'Mon, Tue, Wed, Thu, Fri',
-        'skills' => 'Wiring, Fuse repairs, Smart Home, Inverter Setup',
-        'profile_picture' => 'https://images.unsplash.com/photo-1540569014015-19a7be504e3a?w=200&fit=crop'
-    ];
+    if (isset($_SESSION['user_id']) && ($_SESSION['user_type'] ?? '') === 'worker') {
+        $worker = [
+            'id' => $_SESSION['user_id'],
+            'user_id' => $_SESSION['user_id'],
+            'worker_name' => $_SESSION['full_name'] ?? 'Worker Professional',
+            'email' => $_SESSION['email'] ?? '',
+            'phone' => '+91 98765 43210',
+            'category_name' => 'General Trade',
+            'title' => 'Service Specialist',
+            'bio' => 'Verified GoWorker professional contractor. Contact for home maintenance and repairs.',
+            'hourly_rate' => 299.00,
+            'location' => 'Pune',
+            'experience_years' => 5,
+            'availability' => 'Mon, Tue, Wed, Thu, Fri',
+            'skills' => 'Repair, Maintenance',
+            'profile_picture' => 'images/avatar_placeholder.png',
+            'user_created_at' => date('Y-m-d H:i:s'),
+            'user_location' => 'Pune'
+        ];
+    } else {
+        $worker = [
+            'id' => 1,
+            'user_id' => 2,
+            'worker_name' => 'Ramesh Kumar',
+            'category_name' => 'Electrician',
+            'title' => 'Senior Certified Electrician',
+            'bio' => 'I am a certified, professional electrician with over 5 years of experience serving residential and commercial properties in Pune. I specialize in complete house wiring, smart home automation, AC servicing, and emergency electrical troubleshooting.',
+            'hourly_rate' => 299.00,
+            'location' => 'Pune',
+            'experience_years' => 5,
+            'availability' => 'Mon, Tue, Wed, Thu, Fri',
+            'skills' => 'Wiring, Fuse repairs, Smart Home, Inverter Setup',
+            'profile_picture' => 'https://images.unsplash.com/photo-1540569014015-19a7be504e3a?w=200&fit=crop',
+            'user_created_at' => '2025-07-15 10:00:00',
+            'user_location' => 'Pune'
+        ];
+    }
 }
+
+// Coalesce locations and picture variables for safe rendering
+$worker['location'] = $worker['location'] ?: ($worker['user_location'] ?: 'Pune');
+$worker['profile_picture'] = $worker['profile_picture'] ?: 'images/avatar_placeholder.png';
+$worker['user_id'] = $worker['user_id'] ?: ($worker['id'] ?: 2);
 
 $reviews = [];
 $rating_avg = 5.0;
@@ -256,6 +309,7 @@ require_once __DIR__ . '/includes/header.php';
           <span>Available: <?php echo e($worker['availability'] ?: 'Contact for Schedule'); ?></span>
         </div>
 
+        <?php if (($_SESSION['user_type'] ?? '') !== 'worker'): ?>
         <button class="btn-primary-auth" style="width: 100%; margin-bottom: 12px; height: 50px;" onclick="location.href='booking.php?worker=<?php echo $worker['id']; ?>'">
           <span>Book Now</span>
           <i class="fa-solid fa-calendar-days"></i>
@@ -270,9 +324,10 @@ require_once __DIR__ . '/includes/header.php';
           <i class="fa-solid fa-phone"></i>
           <span>Call Worker</span>
         </button>
+        <?php endif; ?>
 
         <!-- Download Virtual ID Card Button -->
-        <button class="btn-primary-auth" id="download-id-card-btn" style="width: 100%; height: 50px; background: linear-gradient(135deg, #10B981 0%, #059669 100%); border: none; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);" onclick="downloadIDCard('<?php echo e(addslashes($worker['worker_name'])); ?>', <?php echo $worker['id']; ?>, '<?php echo e(addslashes($worker['title'] ?: $worker['category_name'])); ?>', '<?php echo e(addslashes($worker['profile_picture'] ?: 'images/avatar_placeholder.png')); ?>', '<?php echo e(addslashes($worker['location'])); ?>', '<?php echo e($worker['experience_years']); ?>')">
+        <button class="btn-primary-auth" id="download-id-card-btn" style="width: 100%; height: 50px; background: linear-gradient(135deg, #10B981 0%, #059669 100%); border: none; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);" onclick="downloadIDCard('<?php echo e(addslashes($worker['worker_name'])); ?>', <?php echo $worker['user_id']; ?>, '<?php echo e(addslashes($worker['title'] ?: $worker['category_name'])); ?>', '<?php echo e(addslashes($worker['profile_picture'] ?: 'images/avatar_placeholder.png')); ?>', '<?php echo e(addslashes($worker['location'])); ?>', '<?php echo e($worker['experience_years']); ?>', '<?php echo e(addslashes($worker['email'] ?? '')); ?>', '<?php echo e(addslashes($worker['phone'] ?? '')); ?>', '<?php echo e(date('F Y', strtotime($worker['user_created_at'] ?? 'now'))); ?>')">
           <i class="fa-solid fa-id-card" style="margin-right: 8px;"></i>
           <span>Download ID Card</span>
         </button>

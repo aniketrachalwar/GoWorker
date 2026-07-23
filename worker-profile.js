@@ -103,9 +103,9 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Global function to trigger Worker ID Card Download/Print Layout
-window.downloadIDCard = function(workerName, workerId, profession, avatar, location, experience) {
+window.downloadIDCard = function(workerName, workerUserId, profession, avatar, location, experience, email, phone, memberSince) {
     const printWindow = window.open("", "_blank", "width=800,height=600");
-    const idCode = "GW-" + String(workerId).padStart(5, '0');
+    const idCode = "GW-" + String(workerUserId).padStart(5, '0');
     
     printWindow.document.write(`
         <html>
@@ -155,6 +155,9 @@ window.downloadIDCard = function(workerName, workerId, profession, avatar, locat
                     font-size: 10px;
                     text-transform: uppercase;
                     letter-spacing: 1px;
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 4px;
                 }
                 .photo-container {
                     margin-top: -50px;
@@ -189,31 +192,10 @@ window.downloadIDCard = function(workerName, workerId, profession, avatar, locat
                     font-weight: 600;
                     margin: 0;
                 }
-                .info-grid {
-                    display: grid;
-                    grid-template-columns: 1fr 1fr;
-                    gap: 12px;
-                    margin: 20px 0;
-                    text-align: left;
-                    border-top: 1.5px solid #f1f5f9;
-                    border-bottom: 1.5px solid #f1f5f9;
-                    padding: 16px 0;
-                }
-                .info-label {
-                    font-size: 10px;
-                    color: #64748b;
-                    text-transform: uppercase;
-                    font-weight: 600;
-                    margin-bottom: 2px;
-                }
-                .info-value {
-                    font-size: 13px;
-                    color: #1e293b;
-                    font-weight: 600;
-                }
                 .footer {
                     font-size: 11px;
                     color: #94a3b8;
+                    margin-top: 5px;
                 }
                 @media print {
                     body {
@@ -227,32 +209,41 @@ window.downloadIDCard = function(workerName, workerId, profession, avatar, locat
             <div class="card">
                 <div class="header">
                     <div class="logo"><i class="fa-solid fa-screwdriver-wrench"></i> GoWorker</div>
-                    <span class="badge">Verified Professional</span>
+                    <span class="badge"><i class="fa-solid fa-circle-check"></i> Verified</span>
                 </div>
                 <div class="photo-container">
                     <img class="photo" src="\${avatar}" alt="\${workerName}">
                 </div>
                 <div class="content">
-                    <div>
+                    <div style="margin-bottom: 10px;">
                         <h2 class="name">\${workerName}</h2>
                         <p class="title">\${profession}</p>
+                        <p style="font-size: 11px; color: #64748b; margin: 4px 0 0 0; font-weight: 600;">ID: \${idCode}</p>
                     </div>
-                    <div class="info-grid">
-                        <div>
-                            <div class="info-label">Worker ID</div>
-                            <div class="info-value">\${idCode}</div>
+                    
+                    <div class="info-list" style="text-align: left; margin: 10px 0; border-top: 1.5px solid #f1f5f9; border-bottom: 1.5px solid #f1f5f9; padding: 12px 0; display: flex; flex-direction: column; gap: 8px;">
+                        <div style="display: flex; justify-content: space-between; font-size: 12px;">
+                            <span style="color: #64748b; font-weight: 500;">Email:</span>
+                            <span style="color: #1e293b; font-weight: 600;">\${email}</span>
                         </div>
-                        <div>
-                            <div class="info-label">Location</div>
-                            <div class="info-value">\${location}</div>
+                        <div style="display: flex; justify-content: space-between; font-size: 12px;">
+                            <span style="color: #64748b; font-weight: 500;">Phone:</span>
+                            <span style="color: #1e293b; font-weight: 600;">\${phone}</span>
                         </div>
-                        <div>
-                            <div class="info-label">Experience</div>
-                            <div class="info-value">\${experience} Years</div>
+                        <div style="display: flex; justify-content: space-between; font-size: 12px;">
+                            <span style="color: #64748b; font-weight: 500;">Location:</span>
+                            <span style="color: #1e293b; font-weight: 600;">\${location}</span>
                         </div>
-                        <div>
-                            <div class="info-label">Status</div>
-                            <div class="info-value" style="color: #10b981;"><i class="fa-solid fa-circle-check"></i> Active</div>
+                        <div style="display: flex; justify-content: space-between; font-size: 12px;">
+                            <span style="color: #64748b; font-weight: 500;">Member Since:</span>
+                            <span style="color: #1e293b; font-weight: 600;">\${memberSince}</span>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 5px;">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://goworker-demo.netlify.app/worker-profile.html?id=\${workerUserId}" style="width: 70px; height: 70px; border: 1px solid #e2e8f0; border-radius: 6px; padding: 2px;" alt="QR Code">
+                        <div style="text-align: left; font-size: 10px; color: #64748b; max-width: 140px; line-height: 1.3;">
+                            Scan QR to verify professional credentials on the GoWorker platform.
                         </div>
                     </div>
                     <div class="footer">
