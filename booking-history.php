@@ -49,7 +49,7 @@ require_once __DIR__ . '/includes/header.php';
         <div style="display: flex; gap: 16px; margin-bottom: 20px; align-items: start;">
           <img src="https://images.unsplash.com/photo-1540569014015-19a7be504e3a?w=100&fit=crop" alt="Ramesh" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
           <div>
-            <h4 style="font-size: 15px; font-weight: 700; margin-bottom: 4px; color: var(--dark-navy);">Ramesh Kumar</h4>
+            <h4 style="font-size: 15px; font-weight: 700; margin-bottom: 4px; color: var(--dark-navy);">Ramesh Kumar <span class="virtual-id-badge" style="font-size: 10px; background: var(--primary-light); color: var(--primary); padding: 1px 5px; border-radius: 4px; font-weight: 600; margin-left: 6px; vertical-align: middle;">GW-W-0001</span></h4>
             <p style="font-size: 13px; color: var(--secondary-text); margin-bottom: 4px;">Emergency Electrical Troubleshooting</p>
             <p style="font-size: 12px; color: var(--secondary-text);"><i class="fa-solid fa-calendar"></i> Today, 20 July • 09:00 AM</p>
           </div>
@@ -70,7 +70,7 @@ require_once __DIR__ . '/includes/header.php';
         <div style="display: flex; gap: 16px; margin-bottom: 20px; align-items: start;">
           <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&fit=crop" alt="Sohan" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
           <div>
-            <h4 style="font-size: 15px; font-weight: 700; margin-bottom: 4px; color: var(--dark-navy);">Sohan Singh</h4>
+            <h4 style="font-size: 15px; font-weight: 700; margin-bottom: 4px; color: var(--dark-navy);">Sohan Singh <span class="virtual-id-badge" style="font-size: 10px; background: var(--primary-light); color: var(--primary); padding: 1px 5px; border-radius: 4px; font-weight: 600; margin-left: 6px; vertical-align: middle;">GW-W-0002</span></h4>
             <p style="font-size: 13px; color: var(--secondary-text); margin-bottom: 4px;">Plumbing Maintenance & Leak Repair</p>
             <p style="font-size: 12px; color: var(--secondary-text);"><i class="fa-solid fa-calendar"></i> July 14, 2026 • 02:30 PM</p>
           </div>

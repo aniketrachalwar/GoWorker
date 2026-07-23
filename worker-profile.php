@@ -167,12 +167,24 @@ require_once __DIR__ . '/includes/header.php';
           </div>
           
           <div class="profile-title-section">
-            <h1 style="color: var(--dark-navy); font-weight: 700; margin-bottom: 4px;"><?php echo e($worker['worker_name']); ?> <span class="verified-badge" style="position: static; display: inline-flex; border: none; font-size: 13px; width: auto; height: auto; padding: 4px 8px; border-radius: 6px;"><i class="fa-solid fa-check"></i> Verified</span></h1>
+            <h1 style="color: var(--dark-navy); font-weight: 700; margin-bottom: 4px;">
+                <?php echo e($worker['worker_name']); ?>
+                <span class="virtual-id-badge" style="font-size: 13px; background: var(--primary-light); color: var(--primary); padding: 4px 8px; border-radius: 6px; font-weight: 600; margin-left: 8px; vertical-align: middle; display: inline-block;">
+                    <?php echo e(get_worker_virtual_id($worker['id'])); ?>
+                </span>
+                <span class="verified-badge" style="position: static; display: inline-flex; border: none; font-size: 13px; width: auto; height: auto; padding: 4px 8px; border-radius: 6px; vertical-align: middle; margin-left: 8px;"><i class="fa-solid fa-check"></i> <?php echo e(__('verified') !== 'verified' ? __('verified') : 'Verified'); ?></span>
+            </h1>
             <p class="profession"><?php echo e($worker['title'] ?: $worker['category_name']); ?></p>
             
+<<<<<<< HEAD
+            <div class="meta-stats">
+              <span><i class="fa-solid fa-star" style="color: #F59E0B;"></i> <?php echo $rating_avg; ?> (<?php echo $rating_count; ?> <?php echo e(__('reviews_count')); ?>)</span>
+              <span><i class="fa-solid fa-briefcase"></i> <?php echo e($worker['experience_years']); ?>+ <?php echo e(__('experience_years_lbl')); ?></span>
+=======
             <div class="meta-stats" style="margin-bottom: 8px;">
               <span><i class="fa-solid fa-star" style="color: #F59E0B;"></i> <?php echo $rating_avg; ?> (<?php echo $rating_count; ?> Reviews)</span>
               <span><i class="fa-solid fa-briefcase"></i> <?php echo e($worker['experience_years']); ?>+ Years Experience</span>
+>>>>>>> b14480304c667fd91b1dfc7014fa9074bfb58bd1
               <span><i class="fa-solid fa-location-dot"></i> <?php echo e($worker['location']); ?></span>
             </div>
             <div class="meta-stats">
@@ -190,15 +202,15 @@ require_once __DIR__ . '/includes/header.php';
 
       <!-- About Me Section -->
       <div class="profile-card" style="background: var(--white); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 24px; margin-bottom: 24px; box-shadow: var(--shadow-sm);">
-        <h3 style="color: var(--dark-navy); margin-bottom: 12px;">About <?php echo e(explode(' ', $worker['worker_name'])[0]); ?></h3>
+        <h3 style="color: var(--dark-navy); margin-bottom: 12px;"><?php echo e(__('about_worker')); ?> <?php echo e(explode(' ', $worker['worker_name'])[0]); ?></h3>
         <p style="font-size: 14px; color: var(--secondary-text); line-height: 1.6; margin-bottom: 12px;">
-          <?php echo e($worker['bio'] ?: 'No bio provided yet.'); ?>
+          <?php echo e($worker['bio'] ?: __('no_bio')); ?>
         </p>
       </div>
 
       <!-- Services Section -->
       <div class="profile-card" style="background: var(--white); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 24px; margin-bottom: 24px; box-shadow: var(--shadow-sm);">
-        <h3 style="color: var(--dark-navy); margin-bottom: 16px;">Skills & Services</h3>
+        <h3 style="color: var(--dark-navy); margin-bottom: 16px;"><?php echo e(__('skills_services')); ?></h3>
         <div class="services-list" style="display: flex; flex-direction: column; gap: 16px;">
           <?php 
           $skills_list = array_filter(array_map('trim', explode(',', $worker['skills'] ?? '')));
@@ -208,11 +220,11 @@ require_once __DIR__ . '/includes/header.php';
               <div class="service-card" style="display: flex; justify-content: space-between; align-items: center; padding: 16px; border: 1px solid var(--border-color); border-radius: var(--radius-md);">
                 <div class="service-info">
                   <h4 style="color: var(--dark-navy); margin-bottom: 4px;"><?php echo e($skill); ?></h4>
-                  <p style="font-size: 13px; color: var(--secondary-text); margin-bottom: 0;">Verified service specialist.</p>
+                  <p style="font-size: 13px; color: var(--secondary-text); margin-bottom: 0;"><?php echo e(__('verified_specialist')); ?></p>
                 </div>
                 <div style="display: flex; align-items: center; gap: 20px;">
                   <span style="font-weight: 700; color: var(--primary);">₹<?php echo e($worker['hourly_rate']); ?>/hr</span>
-                  <button class="btn-book" onclick="location.href='booking.php?worker=<?php echo $worker['id']; ?>'">Select</button>
+                  <button class="btn-book" onclick="location.href='booking.php?worker=<?php echo $worker['id']; ?>'"><?php echo e(__('select_btn')); ?></button>
                 </div>
               </div>
           <?php 
@@ -221,12 +233,12 @@ require_once __DIR__ . '/includes/header.php';
           ?>
               <div class="service-card" style="display: flex; justify-content: space-between; align-items: center; padding: 16px; border: 1px solid var(--border-color); border-radius: var(--radius-md);">
                 <div class="service-info">
-                  <h4 style="color: var(--dark-navy); margin-bottom: 4px;"><?php echo e($worker['category_name']); ?> Services</h4>
-                  <p style="font-size: 13px; color: var(--secondary-text); margin-bottom: 0;">General service and repairs.</p>
+                  <h4 style="color: var(--dark-navy); margin-bottom: 4px;"><?php echo e(translate_category_name($worker['category_name'])); ?></h4>
+                  <p style="font-size: 13px; color: var(--secondary-text); margin-bottom: 0;"><?php echo e(__('general_repairs')); ?></p>
                 </div>
                 <div style="display: flex; align-items: center; gap: 20px;">
                   <span style="font-weight: 700; color: var(--primary);">₹<?php echo e($worker['hourly_rate']); ?>/hr</span>
-                  <button class="btn-book" onclick="location.href='booking.php?worker=<?php echo $worker['id']; ?>'">Select</button>
+                  <button class="btn-book" onclick="location.href='booking.php?worker=<?php echo $worker['id']; ?>'"><?php echo e(__('select_btn')); ?></button>
                 </div>
               </div>
           <?php endif; ?>
@@ -235,7 +247,7 @@ require_once __DIR__ . '/includes/header.php';
 
       <!-- Work Gallery Grid -->
       <div class="profile-card" style="background: var(--white); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 24px; margin-bottom: 24px; box-shadow: var(--shadow-sm);">
-        <h3 style="color: var(--dark-navy); margin-bottom: 16px;">Work Portfolio</h3>
+        <h3 style="color: var(--dark-navy); margin-bottom: 16px;"><?php echo e(__('work_portfolio')); ?></h3>
         <div class="gallery-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px;">
           <div class="gallery-item" style="cursor: pointer;"><img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=300" alt="Work 1" style="width: 100%; border-radius: var(--radius-sm); object-fit: cover;"></div>
           <div class="gallery-item" style="cursor: pointer;"><img src="https://images.unsplash.com/photo-1581092921461-eab62e97a780?w=300" alt="Work 2" style="width: 100%; border-radius: var(--radius-sm); object-fit: cover;"></div>
@@ -246,11 +258,11 @@ require_once __DIR__ . '/includes/header.php';
 
       <!-- Reviews Section -->
       <div class="profile-card" style="background: var(--white); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-sm);">
-        <h3 style="color: var(--dark-navy); margin-bottom: 16px;">Ratings & Reviews</h3>
+        <h3 style="color: var(--dark-navy); margin-bottom: 16px;"><?php echo e(__('ratings_reviews')); ?></h3>
         <div class="review-summary" style="display: flex; gap: 32px; align-items: center; margin-bottom: 24px; flex-wrap: wrap;">
           <div class="rating-big" style="font-size: 42px; font-weight: 800; color: var(--primary-text); line-height: 1;">
             <?php echo $rating_avg; ?>
-            <p style="font-size: 12px; color: var(--secondary-text); margin-bottom: 0;">out of 5.0</p>
+            <p style="font-size: 12px; color: var(--secondary-text); margin-bottom: 0;"><?php echo e(__('out_of_5')); ?></p>
           </div>
           
           <div class="rating-breakdown" style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
@@ -265,7 +277,7 @@ require_once __DIR__ . '/includes/header.php';
                 }
             ?>
                 <div class="breakdown-row" style="display: flex; align-items: center; gap: 12px; font-size: 13px;">
-                  <span><?php echo $i; ?> Stars</span>
+                  <span><?php echo $i; ?> <?php echo e(__('stars')); ?></span>
                   <div class="progress-bar-bg" style="flex: 1; height: 6px; background: var(--border-color); border-radius: 3px;"><div class="progress-bar-fill" style="width: <?php echo $percentage; ?>%; height: 100%; background: #F59E0B; border-radius: 3px;"></div></div>
                   <span><?php echo $percentage; ?>%</span>
                 </div>
@@ -288,7 +300,7 @@ require_once __DIR__ . '/includes/header.php';
                   </div>
               <?php endforeach; ?>
           <?php else: ?>
-              <p style="color: var(--secondary-text); font-size: 14px; text-align: center; padding: 20px 0;">No reviews yet for this worker.</p>
+              <p style="color: var(--secondary-text); font-size: 14px; text-align: center; padding: 20px 0;"><?php echo e(__('no_reviews')); ?></p>
           <?php endif; ?>
         </div>
       </div>
@@ -299,30 +311,30 @@ require_once __DIR__ . '/includes/header.php';
       <div class="booking-sidebar-card" style="background: var(--white); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-sm);">
         <div class="sidebar-price-row">
           <div class="sidebar-price">
-            Starting from
+            <?php echo e(__('starting_from')); ?>
             <strong>₹<?php echo e($worker['hourly_rate']); ?>/hr</strong>
           </div>
         </div>
 
         <div class="availability-banner" style="display: flex; align-items: center; gap: 8px; background: rgba(34, 197, 94, 0.08); color: var(--success); padding: 10px 14px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; margin-bottom: 20px;">
           <i class="fa-solid fa-circle-check"></i>
-          <span>Available: <?php echo e($worker['availability'] ?: 'Contact for Schedule'); ?></span>
+          <span><?php echo e(__('available_lbl')); ?> <?php echo e($worker['availability'] ?: 'Contact for Schedule'); ?></span>
         </div>
 
         <?php if (($_SESSION['user_type'] ?? '') !== 'worker'): ?>
         <button class="btn-primary-auth" style="width: 100%; margin-bottom: 12px; height: 50px;" onclick="location.href='booking.php?worker=<?php echo $worker['id']; ?>'">
-          <span>Book Now</span>
+          <span><?php echo e(__('book_now')); ?></span>
           <i class="fa-solid fa-calendar-days"></i>
         </button>
         
         <button class="btn-google-auth" id="chat-worker-btn" style="width: 100%; margin-bottom: 12px; height: 50px; border-color: var(--primary); color: var(--primary);">
           <i class="fa-regular fa-comment-dots"></i>
-          <span>Chat with <?php echo e(explode(' ', $worker['worker_name'])[0]); ?></span>
+          <span><?php echo e(__('chat_with')); ?> <?php echo e(explode(' ', $worker['worker_name'])[0]); ?></span>
         </button>
 
         <button class="btn-google-auth" id="call-worker-btn" style="width: 100%; margin-bottom: 12px; height: 50px;">
           <i class="fa-solid fa-phone"></i>
-          <span>Call Worker</span>
+          <span><?php echo e(__('call_worker')); ?></span>
         </button>
         <?php endif; ?>
 

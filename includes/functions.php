@@ -171,3 +171,40 @@ function flash($type = null, $message = null) {
     
     return null;
 }
+
+/**
+ * Returns a unique formatted Virtual ID for a worker based on their profile ID
+ * 
+ * @param int $worker_profile_id
+ * @return string
+ */
+function get_worker_virtual_id($worker_profile_id) {
+    if (empty($worker_profile_id)) {
+        return 'GW-W-0000';
+    }
+    return 'GW-W-' . str_pad($worker_profile_id, 4, '0', STR_PAD_LEFT);
+}
+
+/**
+ * Queries and retrieves the worker profile ID for a given user ID
+ * 
+ * @param int $user_id
+ * @return int|null
+ */
+function get_worker_profile_id_by_user_id($user_id) {
+    global $pdo;
+    if (isset($pdo) && $user_id > 0) {
+        try {
+            $stmt = $pdo->prepare("SELECT id FROM worker_profiles WHERE user_id = ?");
+            $stmt->execute([$user_id]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($row) {
+                return intval($row['id']);
+            }
+        } catch (PDOException $e) {
+            error_log("Database error in get_worker_profile_id_by_user_id: " . $e->getMessage());
+        }
+    }
+    return null;
+}
+
