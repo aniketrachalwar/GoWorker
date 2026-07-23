@@ -4,13 +4,13 @@
 -- 1. Create LAN Developer user with secure remote network permissions
 -- The password matches the DB_PASS in config.php.
 -- '%' allows connection from any local network client IP.
-CREATE USER IF NOT EXISTS 'goworker_dev'@'%' IDENTIFIED BY 'GoWorkerLAN2026!';
-GRANT ALL PRIVILEGES ON `goworker`.* TO 'goworker_dev'@'%';
-FLUSH PRIVILEGES;
+-- CREATE USER IF NOT EXISTS 'goworker_dev'@'%' IDENTIFIED BY 'GoWorkerLAN2026!';
+-- GRANT ALL PRIVILEGES ON `goworker`.* TO 'goworker_dev'@'%';
+-- FLUSH PRIVILEGES;
 
 -- 2. Setup Database schema
-CREATE DATABASE IF NOT EXISTS `goworker` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE `goworker`;
+-- CREATE DATABASE IF NOT EXISTS `goworker` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+-- USE `goworker`;
 
 -- Drop existing tables in reverse dependency order to prevent constraints errors
 DROP TABLE IF EXISTS `reviews`;

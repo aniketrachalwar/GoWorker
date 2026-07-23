@@ -59,14 +59,14 @@ if (!$user) {
 }
 
 // Now, extract and define safe variables with coalesce fallbacks
-$name = $user['name'] ?? $user['full_name'] ?? 'User';
+$name = $user['full_name'] ?? 'User';
 $email = $user['email'] ?? '';
 $phone = $user['phone'] ?? '';
 
 // Handle location parsing (users table has 'location' column which is usually "City, State")
 $location_parts = !empty($user['location']) ? explode(',', $user['location']) : [];
-$city = $user['city'] ?? (isset($location_parts[0]) ? trim($location_parts[0]) : '');
-$state = $user['state'] ?? (isset($location_parts[1]) ? trim($location_parts[1]) : '');
+$city = isset($location_parts[0]) ? trim($location_parts[0]) : '';
+$state = isset($location_parts[1]) ? trim($location_parts[1]) : '';
 
 // Safe profile picture fetch (checking user array, worker_profile array, and fallback to default avatar)
 $profile_picture = !empty($user['profile_picture']) ? $user['profile_picture'] : (!empty($worker_profile['profile_picture']) ? $worker_profile['profile_picture'] : 'images/avatar_placeholder.png');

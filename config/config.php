@@ -1,9 +1,6 @@
 <?php
 
-define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
-define('DB_NAME', getenv('DB_NAME') ?: 'goworker');
-define('DB_USER', getenv('DB_USER') ?: 'root');
-define('DB_PASS', getenv('DB_PASS') ?: '');
-define('DB_CHARSET', 'utf8mb4');
+// Default database configuration is now handled dynamically in the root config.php.
+// This file is kept for backward compatibility to prevent include errors.
 
 ?>

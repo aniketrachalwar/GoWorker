@@ -10,17 +10,19 @@ require_once __DIR__ . '/config.php';
 
 // Expose individual connection parameters for reference/backward compatibility
 $host = DB_HOST;
+$port = DB_PORT;
 $db   = DB_NAME;
 $user = DB_USER;
 $pass = DB_PASS;
 $charset = DB_CHARSET;
 
 try {
-    $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+    $dsn = "mysql:host=$host;port=$port;dbname=$db;charset=$charset";
     $options = [
         PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         PDO::ATTR_EMULATE_PREPARES   => false,
+        PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
     ];
     
     // Establish the reusable PDO connection
