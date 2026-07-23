@@ -44,6 +44,26 @@ require_once __DIR__ . '/includes/header.php';
                         </a>
                     </li>
                     <li>
+                        <a href="worker-jobs.php" class="sidebar-link">
+                            <i class="fa-solid fa-briefcase"></i> Jobs
+                        </a>
+                    </li>
+                    <li>
+                        <a href="worker-requests.php" class="sidebar-link">
+                            <i class="fa-solid fa-list-check"></i> Requests
+                        </a>
+                    </li>
+                    <li>
+                        <a href="worker-earnings.php" class="sidebar-link">
+                            <i class="fa-solid fa-wallet"></i> Earnings
+                        </a>
+                    </li>
+                    <li>
+                        <a href="worker-id-card.php" class="sidebar-link">
+                            <i class="fa-solid fa-id-card"></i> Virtual ID Card
+                        </a>
+                    </li>
+                    <li>
                         <a href="profile.php" class="sidebar-link">
                             <i class="fa-solid fa-user-gear"></i> Manage Profile
                         </a>
@@ -56,11 +76,6 @@ require_once __DIR__ . '/includes/header.php';
                     <li>
                         <a href="notifications.php" class="sidebar-link">
                             <i class="fa-solid fa-bell"></i> Notifications
-                        </a>
-                    </li>
-                    <li>
-                        <a href="become-worker.php" class="sidebar-link">
-                            <i class="fa-solid fa-briefcase"></i> Service Settings
                         </a>
                     </li>
                     <li>

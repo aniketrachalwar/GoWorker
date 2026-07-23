@@ -571,10 +571,10 @@ $current_page = basename($_SERVER['SCRIPT_NAME']);
         <ul class="nav-links-desktop">
             <?php if (isset($_SESSION['user_id']) && ($_SESSION['user_type'] ?? '') === 'worker'): ?>
                 <li><a href="worker-dashboard.php" class="<?php echo $current_page === 'worker-dashboard.php' ? 'active' : ''; ?>">Dashboard</a></li>
-                <li><a href="worker-dashboard.php#jobs" class="<?php echo ($current_page === 'worker-dashboard.php' && strpos($_SERVER['REQUEST_URI'], '#jobs') !== false) ? 'active' : ''; ?>">Jobs</a></li>
-                <li><a href="worker-dashboard.php#requests" class="<?php echo ($current_page === 'worker-dashboard.php' && strpos($_SERVER['REQUEST_URI'], '#requests') !== false) ? 'active' : ''; ?>">Requests</a></li>
-                <li><a href="worker-dashboard.php#earnings" class="<?php echo ($current_page === 'worker-dashboard.php' && strpos($_SERVER['REQUEST_URI'], '#earnings') !== false) ? 'active' : ''; ?>">Earnings</a></li>
-                <li><a href="worker-profile.php" class="<?php echo $current_page === 'worker-profile.php' ? 'active' : ''; ?>">Virtual ID Card</a></li>
+                <li><a href="worker-jobs.php" class="<?php echo $current_page === 'worker-jobs.php' ? 'active' : ''; ?>">Jobs</a></li>
+                <li><a href="worker-requests.php" class="<?php echo $current_page === 'worker-requests.php' ? 'active' : ''; ?>">Requests</a></li>
+                <li><a href="worker-earnings.php" class="<?php echo $current_page === 'worker-earnings.php' ? 'active' : ''; ?>">Earnings</a></li>
+                <li><a href="worker-id-card.php" class="<?php echo $current_page === 'worker-id-card.php' ? 'active' : ''; ?>">Virtual ID Card</a></li>
                 <li><a href="profile.php" class="<?php echo $current_page === 'profile.php' ? 'active' : ''; ?>">Profile</a></li>
                 <li><a href="logout.php">Logout</a></li>
             <?php else: ?>
@@ -637,10 +637,10 @@ $current_page = basename($_SERVER['SCRIPT_NAME']);
         <ul class="mobile-nav-links">
             <?php if (isset($_SESSION['user_id']) && ($_SESSION['user_type'] ?? '') === 'worker'): ?>
                 <li><a href="worker-dashboard.php" class="<?php echo $current_page === 'worker-dashboard.php' ? 'active' : ''; ?>"><i class="fa-solid fa-gauge"></i> Dashboard</a></li>
-                <li><a href="worker-dashboard.php#jobs" class="<?php echo ($current_page === 'worker-dashboard.php' && strpos($_SERVER['REQUEST_URI'], '#jobs') !== false) ? 'active' : ''; ?>"><i class="fa-solid fa-briefcase"></i> Jobs</a></li>
-                <li><a href="worker-dashboard.php#requests" class="<?php echo ($current_page === 'worker-dashboard.php' && strpos($_SERVER['REQUEST_URI'], '#requests') !== false) ? 'active' : ''; ?>"><i class="fa-solid fa-list-check"></i> Requests</a></li>
-                <li><a href="worker-dashboard.php#earnings" class="<?php echo ($current_page === 'worker-dashboard.php' && strpos($_SERVER['REQUEST_URI'], '#earnings') !== false) ? 'active' : ''; ?>"><i class="fa-solid fa-wallet"></i> Earnings</a></li>
-                <li><a href="worker-profile.php" class="<?php echo $current_page === 'worker-profile.php' ? 'active' : ''; ?>"><i class="fa-solid fa-id-card"></i> Virtual ID Card</a></li>
+                <li><a href="worker-jobs.php" class="<?php echo $current_page === 'worker-jobs.php' ? 'active' : ''; ?>"><i class="fa-solid fa-briefcase"></i> Jobs</a></li>
+                <li><a href="worker-requests.php" class="<?php echo $current_page === 'worker-requests.php' ? 'active' : ''; ?>"><i class="fa-solid fa-list-check"></i> Requests</a></li>
+                <li><a href="worker-earnings.php" class="<?php echo $current_page === 'worker-earnings.php' ? 'active' : ''; ?>"><i class="fa-solid fa-wallet"></i> Earnings</a></li>
+                <li><a href="worker-id-card.php" class="<?php echo $current_page === 'worker-id-card.php' ? 'active' : ''; ?>"><i class="fa-solid fa-id-card"></i> Virtual ID Card</a></li>
                 <li><a href="profile.php" class="<?php echo $current_page === 'profile.php' ? 'active' : ''; ?>"><i class="fa-solid fa-user-gear"></i> Profile</a></li>
                 <li><a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
             <?php else: ?>

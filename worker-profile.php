@@ -176,15 +176,9 @@ require_once __DIR__ . '/includes/header.php';
             </h1>
             <p class="profession"><?php echo e($worker['title'] ?: $worker['category_name']); ?></p>
             
-<<<<<<< HEAD
-            <div class="meta-stats">
+            <div class="meta-stats" style="margin-bottom: 8px;">
               <span><i class="fa-solid fa-star" style="color: #F59E0B;"></i> <?php echo $rating_avg; ?> (<?php echo $rating_count; ?> <?php echo e(__('reviews_count')); ?>)</span>
               <span><i class="fa-solid fa-briefcase"></i> <?php echo e($worker['experience_years']); ?>+ <?php echo e(__('experience_years_lbl')); ?></span>
-=======
-            <div class="meta-stats" style="margin-bottom: 8px;">
-              <span><i class="fa-solid fa-star" style="color: #F59E0B;"></i> <?php echo $rating_avg; ?> (<?php echo $rating_count; ?> Reviews)</span>
-              <span><i class="fa-solid fa-briefcase"></i> <?php echo e($worker['experience_years']); ?>+ Years Experience</span>
->>>>>>> b14480304c667fd91b1dfc7014fa9074bfb58bd1
               <span><i class="fa-solid fa-location-dot"></i> <?php echo e($worker['location']); ?></span>
             </div>
             <div class="meta-stats">

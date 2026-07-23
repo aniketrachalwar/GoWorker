@@ -27,15 +27,8 @@ require_once __DIR__ . '/includes/header.php';
             <span class="online-indicator online"></span>
           </div>
           <div class="conv-meta">
-            <div class="conv-name-row">
-<<<<<<< HEAD
-              <span style="color: var(--dark-navy); font-weight: 700;">Ramesh Kumar <span class="virtual-id-badge" style="font-size: 9px; background: var(--primary-light); color: var(--primary); padding: 1px 4px; border-radius: 3px; font-weight: 600;">GW-W-0001</span></span>
-              <span style="font-weight: 400; font-size: 10px; color: var(--secondary-text);">09:12 AM</span>
-=======
               <span class="conv-name">Ramesh Kumar</span>
               <span class="conv-time">09:12 AM</span>
->>>>>>> 4b324628e6b8795abe6f795fac138d66804b5779
-            </div>
             <div class="conv-prof">Electrician</div>
             <div class="conv-last-msg">Electrician - I am on my way to your address.</div>
           </div>
@@ -51,15 +44,8 @@ require_once __DIR__ . '/includes/header.php';
             <span class="online-indicator online"></span>
           </div>
           <div class="conv-meta">
-            <div class="conv-name-row">
-<<<<<<< HEAD
-              <span style="color: var(--dark-navy); font-weight: 700;">Sohan Singh <span class="virtual-id-badge" style="font-size: 9px; background: var(--primary-light); color: var(--primary); padding: 1px 4px; border-radius: 3px; font-weight: 600;">GW-W-0002</span></span>
-              <span style="font-weight: 400; font-size: 10px; color: var(--secondary-text);">Yesterday</span>
-=======
               <span class="conv-name">Sohan Singh</span>
               <span class="conv-time">Yesterday</span>
->>>>>>> 4b324628e6b8795abe6f795fac138d66804b5779
-            </div>
             <div class="conv-prof">Plumber</div>
             <div class="conv-last-msg">Plumber - Pipe leakage resolved!</div>
           </div>
@@ -71,20 +57,12 @@ require_once __DIR__ . '/includes/header.php';
     </section>
 
     <!-- CENTER PANEL: Chat Space -->
-    <section class="chat-center-panel">
-<<<<<<< HEAD
-      <header class="chat-center-header">
-        <div>
-          <h4 id="active-chat-name" style="font-size: 15px; font-weight: 700; margin-bottom: 2px; color: var(--dark-navy);">Ramesh Kumar <span class="virtual-id-badge" style="font-size: 10px; background: var(--primary-light); color: var(--primary); padding: 1px 5px; border-radius: 4px; font-weight: 600;">GW-W-0001</span></h4>
-          <p id="active-chat-prof" style="font-size: 11px; color: var(--secondary-text); margin-bottom: 0;">Electrician • Online</p>
-=======
       <!-- Drag & Drop Overlay -->
       <div class="drag-drop-overlay" id="drag-overlay">
         <div class="drag-drop-box">
           <i class="fa-solid fa-cloud-arrow-up"></i>
           <h3>Drop files here</h3>
           <p>Support images and documents up to 10MB</p>
->>>>>>> 4b324628e6b8795abe6f795fac138d66804b5779
         </div>
       </div>
 
@@ -143,14 +121,6 @@ require_once __DIR__ . '/includes/header.php';
             <span class="emoji-item">✨</span>
           </div>
         </div>
-<<<<<<< HEAD
-        <!-- Pre-send File Preview (Non-image documents) -->
-        <div class="upload-preview-bar" id="document-preview-bar">
-          <i class="fa-solid fa-file-pdf" id="doc-preview-icon"></i>
-          <span class="upload-preview-filename" id="doc-preview-name">file_name.pdf</span>
-          <button type="button" class="btn-cancel-upload" id="cancel-doc-upload">
-            <i class="fa-solid fa-xmark"></i>
-=======
         <!-- Pre-send File Preview Bar (Images/Documents) -->
         <div class="upload-preview-bar" id="file-preview-bar" style="display: none; align-items: center; gap: 12px; background: var(--white); padding: 12px 16px; border-radius: 16px; border: 1px solid var(--border-color); box-shadow: var(--shadow-premium); margin-bottom: 10px; width: 100%; box-sizing: border-box;">
           <div id="file-preview-content" style="display: flex; align-items: center; gap: 12px; flex: 1;">
@@ -158,7 +128,6 @@ require_once __DIR__ . '/includes/header.php';
           </div>
           <button type="button" class="btn-cancel-upload" id="cancel-file-upload" style="background: none; border: none; color: var(--secondary-text); font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 4px;">
             <i class="fa-solid fa-xmark"></i> Remove
->>>>>>> b14480304c667fd91b1dfc7014fa9074bfb58bd1
           </button>
         </div>
 
@@ -199,15 +168,9 @@ require_once __DIR__ . '/includes/header.php';
     </section>
 
     <!-- RIGHT PANEL: Metadata Details -->
-<<<<<<< HEAD
-    <section class="chat-right-panel">
-      <img src="https://images.unsplash.com/photo-1540569014015-19a7be504e3a?w=150&fit=crop" id="right-side-avatar" alt="Ramesh" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 3px solid var(--border-color); margin-bottom: 12px;">
-      <h4 id="right-side-name" class="right-meta-title" style="color: var(--dark-navy); font-weight: 700;">Ramesh Kumar <span class="virtual-id-badge" style="font-size: 11px; background: var(--primary-light); color: var(--primary); padding: 2px 6px; border-radius: 4px; font-weight: 600; display: inline-block;">GW-W-0001</span></h4>
-=======
     <section class="chat-right-panel" id="chat-right-meta-panel">
       <img src="https://images.unsplash.com/photo-1540569014015-19a7be504e3a?w=150&fit=crop" id="right-side-avatar" class="right-avatar" alt="Ramesh">
       <h4 id="right-side-name" class="right-meta-title" style="color: var(--dark-navy); font-weight: 700;">Ramesh Kumar</h4>
->>>>>>> 4b324628e6b8795abe6f795fac138d66804b5779
       <p id="right-side-prof" class="right-meta-desc">Electrician • Pune</p>
       
       <div style="text-align: left; width: 100%;">
