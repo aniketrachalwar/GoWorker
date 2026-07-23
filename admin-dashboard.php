@@ -98,7 +98,7 @@
                 <td>
                   <div class="admin-table-user">
                     <img class="row-avatar" src="https://images.unsplash.com/photo-1540569014015-19a7be504e3a?w=100" alt="Avatar">
-                    <span class="row-name">Ramesh Kumar</span>
+                    <span class="row-name">Ramesh Kumar <span class="virtual-id-badge" style="font-size: 10px; background: var(--primary-light); color: var(--primary); padding: 1px 5px; border-radius: 4px; font-weight: 600; margin-left: 6px; vertical-align: middle;">GW-W-0001</span></span>
                   </div>
                 </td>
                 <td class="row-profession">Electrician</td>
@@ -117,7 +117,7 @@
                 <td>
                   <div class="admin-table-user">
                     <img class="row-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" alt="Avatar">
-                    <span class="row-name">Sohan Singh</span>
+                    <span class="row-name">Sohan Singh <span class="virtual-id-badge" style="font-size: 10px; background: var(--primary-light); color: var(--primary); padding: 1px 5px; border-radius: 4px; font-weight: 600; margin-left: 6px; vertical-align: middle;">GW-W-0002</span></span>
                   </div>
                 </td>
                 <td class="row-profession">Plumber</td>
