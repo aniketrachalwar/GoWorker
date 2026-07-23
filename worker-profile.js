@@ -101,3 +101,175 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
+
+// Global function to trigger Worker ID Card Download/Print Layout
+window.downloadIDCard = function(workerName, workerId, profession, avatar, location, experience) {
+    const printWindow = window.open("", "_blank", "width=800,height=600");
+    const idCode = "GW-" + String(workerId).padStart(5, '0');
+    
+    printWindow.document.write(`
+        <html>
+        <head>
+            <title>GoWorker ID Card - \${workerName}</title>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+            <style>
+                body {
+                    font-family: 'Inter', sans-serif;
+                    background: #f1f5f9;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    min-height: 100vh;
+                    margin: 0;
+                }
+                .card {
+                    width: 320px;
+                    height: 500px;
+                    background: #ffffff;
+                    border-radius: 20px;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                    overflow: hidden;
+                    display: flex;
+                    flex-direction: column;
+                    border: 1px solid #e2e8f0;
+                    position: relative;
+                }
+                .header {
+                    background: linear-gradient(135deg, #0d4dff 0%, #4a7bff 100%);
+                    color: white;
+                    padding: 24px;
+                    text-align: center;
+                    border-bottom-left-radius: 24px;
+                    border-bottom-right-radius: 24px;
+                }
+                .logo {
+                    font-size: 20px;
+                    font-weight: 800;
+                    letter-spacing: 0.5px;
+                    margin-bottom: 4px;
+                }
+                .badge {
+                    background: rgba(255,255,255,0.2);
+                    padding: 4px 12px;
+                    border-radius: 12px;
+                    font-size: 10px;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+                .photo-container {
+                    margin-top: -50px;
+                    align-self: center;
+                    z-index: 10;
+                }
+                .photo {
+                    width: 100px;
+                    height: 100px;
+                    border-radius: 50%;
+                    border: 4px solid white;
+                    object-fit: cover;
+                    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+                }
+                .content {
+                    flex: 1;
+                    padding: 24px;
+                    text-align: center;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                }
+                .name {
+                    font-size: 18px;
+                    font-weight: 700;
+                    color: #0f172a;
+                    margin: 0 0 4px 0;
+                }
+                .title {
+                    font-size: 13px;
+                    color: #0d4dff;
+                    font-weight: 600;
+                    margin: 0;
+                }
+                .info-grid {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 12px;
+                    margin: 20px 0;
+                    text-align: left;
+                    border-top: 1.5px solid #f1f5f9;
+                    border-bottom: 1.5px solid #f1f5f9;
+                    padding: 16px 0;
+                }
+                .info-label {
+                    font-size: 10px;
+                    color: #64748b;
+                    text-transform: uppercase;
+                    font-weight: 600;
+                    margin-bottom: 2px;
+                }
+                .info-value {
+                    font-size: 13px;
+                    color: #1e293b;
+                    font-weight: 600;
+                }
+                .footer {
+                    font-size: 11px;
+                    color: #94a3b8;
+                }
+                @media print {
+                    body {
+                        background: none;
+                        min-height: auto;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="card">
+                <div class="header">
+                    <div class="logo"><i class="fa-solid fa-screwdriver-wrench"></i> GoWorker</div>
+                    <span class="badge">Verified Professional</span>
+                </div>
+                <div class="photo-container">
+                    <img class="photo" src="\${avatar}" alt="\${workerName}">
+                </div>
+                <div class="content">
+                    <div>
+                        <h2 class="name">\${workerName}</h2>
+                        <p class="title">\${profession}</p>
+                    </div>
+                    <div class="info-grid">
+                        <div>
+                            <div class="info-label">Worker ID</div>
+                            <div class="info-value">\${idCode}</div>
+                        </div>
+                        <div>
+                            <div class="info-label">Location</div>
+                            <div class="info-value">\${location}</div>
+                        </div>
+                        <div>
+                            <div class="info-label">Experience</div>
+                            <div class="info-value">\${experience} Years</div>
+                        </div>
+                        <div>
+                            <div class="info-label">Status</div>
+                            <div class="info-value" style="color: #10b981;"><i class="fa-solid fa-circle-check"></i> Active</div>
+                        </div>
+                    </div>
+                    <div class="footer">
+                        <span>GoWorker Professional ID Card</span>
+                    </div>
+                </div>
+            </div>
+            
+            <script>
+                window.onload = function() {
+                    setTimeout(function() {
+                        window.print();
+                    }, 500);
+                }
+            <\/script>
+        </body>
+        </html>
+    `);
+    printWindow.document.close();
+};
