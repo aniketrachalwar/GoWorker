@@ -123,34 +123,7 @@ require_once __DIR__ . '/includes/header.php';
         <div class="form-group" style="margin-bottom: 24px;">
           <label style="display: block; font-weight: 600; margin-bottom: 8px; font-size: 14px;">Select Date</label>
           <div class="calendar-grid">
-            <div class="calendar-day active" data-date="Mon, July 20">
-              <span>Mon</span>
-              <strong>20</strong>
-            </div>
-            <div class="calendar-day" data-date="Tue, July 21">
-              <span>Tue</span>
-              <strong>21</strong>
-            </div>
-            <div class="calendar-day" data-date="Wed, July 22">
-              <span>Wed</span>
-              <strong>22</strong>
-            </div>
-            <div class="calendar-day" data-date="Thu, July 23">
-              <span>Thu</span>
-              <strong>23</strong>
-            </div>
-            <div class="calendar-day" data-date="Fri, July 24">
-              <span>Fri</span>
-              <strong>24</strong>
-            </div>
-            <div class="calendar-day" data-date="Sat, July 25">
-              <span>Sat</span>
-              <strong>25</strong>
-            </div>
-            <div class="calendar-day disabled" data-date="Sun, July 26">
-              <span>Sun</span>
-              <strong>26</strong>
-            </div>
+            <!-- Populated dynamically via JS -->
           </div>
         </div>
 
@@ -158,10 +131,7 @@ require_once __DIR__ . '/includes/header.php';
         <div class="form-group" style="margin-bottom: 24px;">
           <label style="display: block; font-weight: 600; margin-bottom: 8px; font-size: 14px;">Select Time Slot</label>
           <div class="time-slots-container">
-            <div class="time-slot active" data-time="09:00 AM - Morning">09:00 AM</div>
-            <div class="time-slot" data-time="11:30 AM - Morning">11:30 AM</div>
-            <div class="time-slot" data-time="02:30 PM - Afternoon">02:30 PM</div>
-            <div class="time-slot" data-time="05:00 PM - Evening">05:00 PM</div>
+            <!-- Populated dynamically via JS -->
           </div>
         </div>
 
@@ -209,12 +179,12 @@ require_once __DIR__ . '/includes/header.php';
 
         <div class="summary-row">
           <span>Date:</span>
-          <span id="summary-date" style="font-weight: 600; color: var(--primary-text);">Mon, July 20</span>
+          <span id="summary-date" style="font-weight: 600; color: var(--primary-text);">—</span>
         </div>
 
         <div class="summary-row">
           <span>Time:</span>
-          <span id="summary-time" style="font-weight: 600; color: var(--primary-text);">09:00 AM</span>
+          <span id="summary-time" style="font-weight: 600; color: var(--primary-text);">—</span>
         </div>
 
         <div class="summary-divider"></div>
