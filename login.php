@@ -461,7 +461,7 @@ require_once __DIR__ . '/includes/header.php';
 
 .form-control {
     width: 100%;
-    padding: 0.85rem 1rem 0.85rem 2.85rem;
+    padding: 0.85rem 1rem 0.85rem 2.85rem !important;
     background-color: var(--white);
     border: 1.5px solid var(--border-color);
     border-radius: var(--radius-md);
@@ -851,6 +851,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 passwordInput.type = 'password';
                 icon.className = 'fa-solid fa-eye';
             }
+        });
+    }
+
     // --- Google Login Trigger ---
     const googleLoginBtn = document.getElementById('google-login-btn');
     if (googleLoginBtn) {

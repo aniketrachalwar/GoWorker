@@ -91,38 +91,39 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // 3. FILE UPLOAD INTERACTION
-    const dropzone = document.querySelector(".upload-dropzone");
-    if (dropzone) {
+    const dropzone = document.getElementById("upload-dropzone");
+    const fileInput = document.getElementById("id_document_input");
+    if (dropzone && fileInput) {
         dropzone.addEventListener("click", () => {
-            const fileInput = document.createElement("input");
-            fileInput.type = "file";
-            fileInput.accept = ".pdf,image/*";
             fileInput.click();
-
-            fileInput.addEventListener("change", (e) => {
-                const file = e.target.files[0];
-                if (file) {
-                    dropzone.querySelector("p").innerHTML = `📁 <strong>${escapeHTML(file.name)}</strong> selected successfully!`;
-                }
-            });
+        });
+        
+        fileInput.addEventListener("change", (e) => {
+            if(e.target.files.length > 0) {
+                const fileName = e.target.files[0].name;
+                dropzone.innerHTML = `<i class="fa-solid fa-file-circle-check" style="font-size: 32px; color: var(--success); margin-bottom: 12px;"></i><p style="color:var(--success);font-weight:600;">Uploaded: ${fileName}</p>`;
+                dropzone.style.borderColor = "var(--success)";
+            }
         });
     }
 
-    // 4. SUBMIT APPLICATION
+    // 4. FORM SUBMISSION INTERCEPT
     const onboardingForm = document.getElementById("onboarding-form");
-    if (onboardingForm && submitBtn) {
+    if (onboardingForm) {
         onboardingForm.addEventListener("submit", (e) => {
-            e.preventDefault();
+            // We allow normal submission to PHP!
+            // Just some visual feedback before it navigates away
+            if (!validateStep(totalSteps)) {
+                e.preventDefault();
+                return;
+            }
             
-            submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Submitting...`;
-            submitBtn.disabled = true;
-
-            setTimeout(() => {
-                submitBtn.innerHTML = `Submit Application`;
-                submitBtn.disabled = false;
-                alert("Your GoWorker professional registration application has been submitted! Our admin team will review your details and documents within 48 hours.");
-                window.location.href = "worker-dashboard.html";
-            }, 2000);
+            const btn = document.getElementById("step-submit-btn");
+            if (btn) {
+                btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Submitting...`;
+                btn.style.opacity = "0.7";
+                btn.style.cursor = "not-allowed";
+            }
         });
     }
 

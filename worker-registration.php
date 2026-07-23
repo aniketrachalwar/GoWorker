@@ -4,7 +4,12 @@
  */
 require_once __DIR__ . '/config/database.php';
 require_once __DIR__ . '/includes/functions.php';
-require_once __DIR__ . '/includes/header.php';
+
+// Redirect to profile if already a worker
+if (isset($_SESSION['user_id']) && ($_SESSION['user_type'] ?? '') === 'worker') {
+    header('Location: profile.php');
+    exit();
+}
 
 $categories = [];
 if (isset($pdo)) {
@@ -15,6 +20,100 @@ if (isset($pdo)) {
         error_log("Database query failed: " . $e->getMessage());
     }
 }
+
+$errors = [];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $csrf_token = $_POST['csrf_token'] ?? '';
+    if (!verify_csrf_token($csrf_token)) {
+        $errors[] = "Security validation failed. Please try again.";
+    } else {
+        $user_id = $_SESSION['user_id'] ?? null;
+        
+        try {
+            $pdo->beginTransaction();
+            
+            if (!$user_id) {
+                $full_name = trim($_POST['full_name'] ?? '');
+                $mobile = trim($_POST['mobile'] ?? '');
+                $email = trim($_POST['email'] ?? '');
+                
+                if (empty($full_name) || empty($mobile) || empty($email)) {
+                    throw new Exception("Please provide all personal details.");
+                }
+                
+                $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ? OR phone = ?");
+                $stmt->execute([$email, $mobile]);
+                if ($stmt->fetch()) {
+                    throw new Exception("An account with this email or mobile number already exists. Please login first.");
+                }
+                
+                $random_pass = bin2hex(random_bytes(6));
+                $hashed_pass = password_hash($random_pass, PASSWORD_DEFAULT);
+                
+                $stmt = $pdo->prepare("INSERT INTO users (name, email, phone, password, user_type) VALUES (?, ?, ?, ?, 'worker')");
+                $stmt->execute([$full_name, $email, $mobile, $hashed_pass]);
+                $user_id = $pdo->lastInsertId();
+                
+                $_SESSION['user_id'] = $user_id;
+                $_SESSION['user_type'] = 'worker';
+                $_SESSION['name'] = $full_name;
+            } else {
+                $stmt = $pdo->prepare("UPDATE users SET user_type = 'worker' WHERE id = ?");
+                $stmt->execute([$user_id]);
+                $_SESSION['user_type'] = 'worker';
+            }
+            
+            $id_type = $_POST['id_type'] ?? '';
+            $id_document_path = null;
+            
+            if (isset($_FILES['id_document']) && $_FILES['id_document']['error'] === UPLOAD_ERR_OK) {
+                $upload_dir = __DIR__ . '/uploads/identity/';
+                if (!is_dir($upload_dir)) {
+                    mkdir($upload_dir, 0755, true);
+                }
+                $file_name = time() . '_' . basename($_FILES['id_document']['name']);
+                $target_path = $upload_dir . $file_name;
+                if (move_uploaded_file($_FILES['id_document']['tmp_name'], $target_path)) {
+                    $id_document_path = 'uploads/identity/' . $file_name;
+                } else {
+                    throw new Exception("Failed to upload identity document.");
+                }
+            } else {
+                throw new Exception("Identity document is required.");
+            }
+            
+            $address_line1 = $_POST['address_line1'] ?? '';
+            $location = $_POST['location'] ?? '';
+            $pincode = $_POST['pincode'] ?? '';
+            $category_id = $_POST['category_id'] ?? 1;
+            $experience_years = $_POST['experience_years'] ?? 0;
+            $hourly_rate = $_POST['hourly_rate'] ?? 0;
+            $bio = $_POST['bio'] ?? '';
+            
+            $stmt = $pdo->prepare("
+                INSERT INTO worker_profiles (user_id, category_id, bio, hourly_rate, location, experience_years, id_document, id_type) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            ");
+            $stmt->execute([
+                $user_id, $category_id, $bio, $hourly_rate, $location, $experience_years, $id_document_path, $id_type
+            ]);
+            
+            $pdo->commit();
+            set_flash('success', "Your professional profile has been successfully created!");
+            header("Location: worker-dashboard.php");
+            exit();
+            
+        } catch (Exception $e) {
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
+            $errors[] = $e->getMessage();
+        }
+    }
+}
+
+require_once __DIR__ . '/includes/header.php';
 ?>
 <link rel="stylesheet" href="worker-registration.css">
 
@@ -57,22 +156,34 @@ if (isset($pdo)) {
 
     <!-- CENTER FORM COLUMN (70%) -->
     <section class="onboarding-form-area" style="background: var(--white); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 32px; box-shadow: var(--shadow-sm);">
-      <form id="onboarding-form" action="#">
+      
+      <?php if (!empty($errors)): ?>
+          <div class="alert alert-danger" style="margin-bottom: 24px;">
+              <ul style="margin: 0; padding-left: 20px;">
+                  <?php foreach ($errors as $err): ?>
+                      <li><?php echo e($err); ?></li>
+                  <?php endforeach; ?>
+              </ul>
+          </div>
+      <?php endif; ?>
+
+      <form id="onboarding-form" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
         <!-- Step 1: Personal Info -->
         <div class="step-content-block" data-step="1">
           <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 24px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; color: var(--dark-navy);">Personal Information</h3>
           <div class="form-grid">
             <div class="form-group form-grid-full">
               <label>Full Name</label>
-              <input type="text" class="form-input" style="padding-left: 16px;" placeholder="Full Name as per Government ID" required autocomplete="name">
+              <input type="text" name="full_name" class="form-input" style="padding-left: 16px;" placeholder="Full Name as per Government ID" value="<?php echo e($_SESSION['name'] ?? ''); ?>" required autocomplete="name">
             </div>
             <div class="form-group">
               <label>Mobile Number</label>
-              <input type="tel" class="form-input" style="padding-left: 16px;" placeholder="9876543210" required autocomplete="tel">
+              <input type="tel" name="mobile" class="form-input" style="padding-left: 16px;" placeholder="9876543210" required autocomplete="tel">
             </div>
             <div class="form-group">
               <label>Email Address</label>
-              <input type="email" class="form-input" style="padding-left: 16px;" placeholder="you@example.com" required autocomplete="email">
+              <input type="email" name="email" class="form-input" style="padding-left: 16px;" placeholder="you@example.com" required autocomplete="email">
             </div>
           </div>
         </div>
@@ -83,15 +194,15 @@ if (isset($pdo)) {
           <div class="form-grid">
             <div class="form-group form-grid-full">
               <label>Flat / House No. / Building Name</label>
-              <input type="text" class="form-input" style="padding-left: 16px;" placeholder="Flat / House No. / Building Name" required>
+              <input type="text" name="address_line1" class="form-input" style="padding-left: 16px;" placeholder="Flat / House No. / Building Name" required>
             </div>
             <div class="form-group">
               <label>City / Location</label>
-              <input type="text" class="form-input" style="padding-left: 16px;" placeholder="e.g. Pune" required>
+              <input type="text" name="location" class="form-input" style="padding-left: 16px;" placeholder="e.g. Pune" required>
             </div>
             <div class="form-group">
               <label>Pincode</label>
-              <input type="text" class="form-input" style="padding-left: 16px;" placeholder="411016" required>
+              <input type="text" name="pincode" class="form-input" style="padding-left: 16px;" placeholder="411016" required>
             </div>
           </div>
         </div>
@@ -102,7 +213,7 @@ if (isset($pdo)) {
           <div class="form-grid">
             <div class="form-group">
               <label>Service Category</label>
-              <select class="form-input" style="padding-left: 16px;" required>
+              <select name="category_id" class="form-input" style="padding-left: 16px;" required>
                 <?php if (!empty($categories)): ?>
                     <?php foreach ($categories as $cat): ?>
                         <option value="<?php echo e($cat['id']); ?>"><?php echo e($cat['name']); ?></option>
@@ -120,15 +231,15 @@ if (isset($pdo)) {
             </div>
             <div class="form-group">
               <label>Years of Experience</label>
-              <input type="number" class="form-input" style="padding-left: 16px;" placeholder="e.g. 5" min="0" required>
+              <input type="number" name="experience_years" class="form-input" style="padding-left: 16px;" placeholder="e.g. 5" min="0" required>
             </div>
             <div class="form-group">
               <label>Hourly Service Charge (₹)</label>
-              <input type="number" class="form-input" style="padding-left: 16px;" placeholder="e.g. 299" min="0" required>
+              <input type="number" name="hourly_rate" class="form-input" style="padding-left: 16px;" placeholder="e.g. 299" min="0" required>
             </div>
-            <div class="form-group">
+            <div class="form-group form-grid-full">
               <label>Brief Bio / Description</label>
-              <textarea class="form-input" style="padding-left: 16px; padding-top: 12px; height: 46px; min-height: 46px; resize: vertical;" placeholder="Tell customers about your skills..." required></textarea>
+              <textarea name="bio" class="form-input" style="padding-left: 16px; padding-top: 12px; height: 46px; min-height: 46px; resize: vertical;" placeholder="Tell customers about your skills..." required></textarea>
             </div>
           </div>
         </div>
@@ -138,16 +249,17 @@ if (isset($pdo)) {
           <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 24px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; color: var(--dark-navy);">Identity Verification Upload</h3>
           <div class="form-group" style="margin-bottom: 20px;">
             <label>Select Identity Document Type</label>
-            <select class="form-input" style="padding-left: 16px;" required>
+            <select name="id_type" class="form-input" style="padding-left: 16px;" required>
               <option value="aadhaar">Aadhaar Card</option>
               <option value="pan">PAN Card</option>
               <option value="dl">Driving License</option>
             </select>
           </div>
           
-          <div class="upload-dropzone" style="border: 2px dashed var(--border-color); padding: 40px; border-radius: var(--radius-md); text-align: center; cursor: pointer; color: var(--secondary-text);">
+          <input type="file" name="id_document" id="id_document_input" accept=".pdf,image/*" style="display: none;" required>
+          <div class="upload-dropzone" id="upload-dropzone" style="border: 2px dashed var(--border-color); padding: 40px; border-radius: var(--radius-md); text-align: center; cursor: pointer; color: var(--secondary-text); transition: all 0.3s ease;">
             <i class="fa-solid fa-cloud-arrow-up" style="font-size: 32px; color: var(--primary); margin-bottom: 12px;"></i>
-            <p>Drag & Drop or Click to upload Aadhaar Front & Back PDF / Image</p>
+            <p>Drag & Drop or Click to upload Front & Back PDF / Image</p>
           </div>
         </div>
 

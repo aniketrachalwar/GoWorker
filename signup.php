@@ -489,7 +489,7 @@ body {
 
 .form-control-custom {
     width: 100%;
-    padding: 11px 14px 11px 40px;
+    padding: 11px 14px 11px 40px !important;
     border: 1.5px solid #E5E7EB;
     border-radius: 8px;
     font-size: 0.85rem;
@@ -1047,6 +1047,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     icon.classList.add('fa-eye');
                 }
             }
+        });
+    }
+
     // --- Google Signup Trigger ---
     const googleSignupBtn = document.querySelector('.btn-google-custom');
     if (googleSignupBtn) {

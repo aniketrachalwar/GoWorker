@@ -567,29 +567,11 @@ require_once __DIR__ . '/includes/header.php';
             </article>
           <?php endforeach; ?>
         <?php else: ?>
-          <!-- Simulated Fallback sample workers if DB is empty -->
-          <article class="worker-card">
-            <div class="worker-card-header">
-              <div class="worker-avatar-container">
-                <img class="worker-avatar" src="https://images.unsplash.com/photo-1540569014015-19a7be504e3a?w=150&fit=crop" alt="Worker">
-                <div class="verified-badge"><i class="fa-solid fa-check"></i></div>
-              </div>
-              <div class="worker-meta">
-                <h4>Ramesh Kumar</h4>
-                <p>Electrician</p>
-              </div>
-            </div>
-            <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
-              <i class="fa-solid fa-location-dot"></i> Service Area: Pune, Maharashtra
-            </div>
-            <div class="worker-card-footer">
-              <div class="price-tag">
-                Starting Price
-                <strong>₹299/hr</strong>
-              </div>
-              <button class="btn btn-primary" onclick="location.href='booking.php'">Book Now</button>
-            </div>
-          </article>
+          <div class="no-workers-found" style="grid-column: 1 / -1; text-align: center; padding: 40px; background: var(--white); border-radius: var(--radius-lg); border: 1px dashed var(--border-color);">
+            <i class="fa-solid fa-users-slash" style="font-size: 48px; color: var(--border-color); margin-bottom: 16px;"></i>
+            <h3 style="color: var(--text-dark); margin-bottom: 8px;">No Workers Found</h3>
+            <p style="color: var(--text-muted);">We couldn't find any professional workers matching your criteria.</p>
+          </div>
         <?php endif; ?>
       </div>
     </section>

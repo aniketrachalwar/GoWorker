@@ -5,8 +5,8 @@
  * Reusable PDO connection optimized for both local development and online hosting environments.
  */
 
-// Load the central configuration
-require_once __DIR__ . '/config.php';
+// Load the central configuration (from the root directory)
+require_once dirname(__DIR__) . '/config.php';
 
 // Expose individual connection parameters for reference/backward compatibility
 $host = DB_HOST;
