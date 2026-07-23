@@ -320,6 +320,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 chatInput.focus();
                 chatInput.selectionStart = startPos + text.length;
                 chatInput.selectionEnd = startPos + text.length;
+                
+                // Auto-close emoji picker after selection
+                if (emojiPicker) {
+                    emojiPicker.style.display = "none";
+                }
             }
         });
     });
@@ -695,4 +700,103 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Initial load: render default worker history
     renderConversation("2");
+
+    // 12. GO-WORKER AI CHATBOT ASSISTANT
+    const aiToggle = document.getElementById("ai-assistant-toggle");
+    const aiWindow = document.getElementById("ai-assistant-window");
+    const aiClose = document.getElementById("ai-close-btn");
+    const aiSend = document.getElementById("ai-send-btn");
+    const aiInput = document.getElementById("ai-msg-input");
+    const aiMessagesContainer = document.getElementById("ai-messages-container");
+    const aiSuggestedActions = document.querySelector(".ai-suggested-actions");
+
+    if (aiToggle && aiWindow) {
+        aiToggle.addEventListener("click", () => {
+            if (aiWindow.style.display === "flex") {
+                aiWindow.style.display = "none";
+            } else {
+                aiWindow.style.display = "flex";
+                scrollAiToBottom();
+            }
+        });
+    }
+
+    if (aiClose) {
+        aiClose.addEventListener("click", () => {
+            aiWindow.style.display = "none";
+        });
+    }
+
+    function scrollAiToBottom() {
+        if (aiMessagesContainer) {
+            aiMessagesContainer.scrollTop = aiMessagesContainer.scrollHeight;
+        }
+    }
+
+    function appendAiMessage(type, text) {
+        const msgDiv = document.createElement("div");
+        msgDiv.className = `ai-msg ai-${type}`;
+        msgDiv.textContent = text;
+        
+        if (aiSuggestedActions && aiSuggestedActions.parentNode === aiMessagesContainer) {
+            aiMessagesContainer.insertBefore(msgDiv, aiSuggestedActions);
+        } else {
+            aiMessagesContainer.appendChild(msgDiv);
+        }
+        
+        scrollAiToBottom();
+    }
+
+    function handleAiBotReply(userMsg) {
+        setTimeout(() => {
+            const query = userMsg.toLowerCase().trim();
+            let reply = "Thank you for reaching out. I am your GoWorker AI Assistant. For specific account help, please check the options below or ask about bookings, payments, or workers.";
+
+            if (query.includes("track") || query.includes("booking") || query.includes("status")) {
+                reply = "I found 1 active booking with Ramesh Kumar (Electrician) scheduled for Today at 09:00 AM. You can track this booking inside your Booking History page.";
+            } else if (query.includes("find") || query.includes("book") || query.includes("worker") || query.includes("electrician") || query.includes("plumber")) {
+                reply = "To book a verified service professional, navigate to the Find Workers page. You can review profiles, service histories, and ratings before selecting.";
+            } else if (query.includes("payment") || query.includes("charge") || query.includes("refund") || query.includes("fee")) {
+                reply = "We accept credit cards, debit cards, UPI, and digital wallets. All transactions are securely processed. Refunds for cancellations are processed in 3-5 banking days.";
+            } else if (query.includes("support") || query.includes("contact") || query.includes("call") || query.includes("email")) {
+                reply = "You can contact our 24/7 customer care line at +91 98765 43210 or email us at support@goworker.com. We are always here to help!";
+            } else if (query.includes("issue") || query.includes("report") || query.includes("complain") || query.includes("bug")) {
+                reply = "Please tell us what went wrong. If a worker did not arrive or there was a billing error, report it directly here or contact support so we can resolve it immediately.";
+            }
+
+            appendAiMessage("bot", reply);
+        }, 800);
+    }
+
+    function sendAiUserMessage() {
+        if (!aiInput) return;
+        const text = aiInput.value.trim();
+        if (text === "") return;
+
+        appendAiMessage("user", text);
+        aiInput.value = "";
+        handleAiBotReply(text);
+    }
+
+    if (aiSend && aiInput) {
+        aiSend.addEventListener("click", sendAiUserMessage);
+        aiInput.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                sendAiUserMessage();
+            }
+        });
+    }
+
+    if (aiSuggestedActions) {
+        aiSuggestedActions.addEventListener("click", (e) => {
+            if (e.target && e.target.classList.contains("ai-btn")) {
+                const action = e.target.getAttribute("data-action");
+                const text = e.target.textContent;
+                
+                appendAiMessage("user", text);
+                handleAiBotReply(action);
+            }
+        });
+    }
 });

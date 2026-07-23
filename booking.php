@@ -86,8 +86,8 @@ require_once __DIR__ . '/includes/header.php';
   <div class="booking-layout">
     <!-- LEFT SIDE FORM (70%) -->
     <section class="booking-form-area" style="background: var(--white); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 32px; box-shadow: var(--shadow-sm);">
-      <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 4px; color: var(--dark-navy);">Book Your Service</h2>
-      <p style="color: var(--secondary-text); font-size: 14px; margin-bottom: 32px;">Complete the details below to confirm your booking.</p>
+      <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 4px; color: var(--dark-navy);"><?php echo e(__('book_service')); ?></h2>
+      <p style="color: var(--secondary-text); font-size: 14px; margin-bottom: 32px;"><?php echo e(__('booking_details')); ?></p>
 
       <!-- Selected Worker Info -->
       <div class="selected-worker-box">
@@ -98,17 +98,17 @@ require_once __DIR__ . '/includes/header.php';
               <span class="virtual-id-badge" style="font-size: 10px; background: var(--primary-light); color: var(--primary); padding: 1px 5px; border-radius: 4px; font-weight: 600; margin-left: 6px; vertical-align: middle;">
                   <?php echo e(get_worker_virtual_id($worker['id'])); ?>
               </span>
-              <span style="color: var(--primary); font-size: 11px; margin-left: 6px;"><i class="fa-solid fa-circle-check"></i> Verified</span>
+              <span style="color: var(--primary); font-size: 11px; margin-left: 6px;"><i class="fa-solid fa-circle-check"></i> <?php echo e(__('verified')); ?></span>
           </h4>
-          <p style="font-size: 12px; color: var(--secondary-text); margin-bottom: 4px;"><?php echo e(translate_category_name($worker['category_name'])); ?> • ★ <?php echo $rating_avg; ?> (<?php echo $rating_count; ?> reviews)</p>
-          <a href="worker-profile.php?id=<?php echo $worker['id']; ?>" style="font-size: 12px; color: var(--primary); font-weight: 600;">View Profile</a>
+          <p style="font-size: 12px; color: var(--secondary-text); margin-bottom: 4px;"><?php echo e(translate_category_name($worker['category_name'])); ?> • ★ <?php echo $rating_avg; ?> (<?php echo $rating_count; ?> <?php echo e(__('reviews_count')); ?>)</p>
+          <a href="worker-profile.php?id=<?php echo $worker['id']; ?>" style="font-size: 12px; color: var(--primary); font-weight: 600;"><?php echo e(__('profile')); ?></a>
         </div>
       </div>
 
       <form id="booking-main-form" action="#">
         <!-- Service Dropdown -->
         <div class="form-group" style="margin-bottom: 24px;">
-          <label for="booking-service" style="display: block; font-weight: 600; margin-bottom: 8px; font-size: 14px;">Select Service</label>
+          <label for="booking-service" style="display: block; font-weight: 600; margin-bottom: 8px; font-size: 14px;"><?php echo e(__('select_service')); ?></label>
           <select id="booking-service" class="form-input" style="padding-left: 16px;" required>
             <?php 
             $skills_list = array_filter(array_map('trim', explode(',', $worker['skills'] ?? '')));
@@ -120,14 +120,14 @@ require_once __DIR__ . '/includes/header.php';
                 endforeach;
             else:
             ?>
-                <option value="general" data-rate="<?php echo intval($worker['hourly_rate']); ?>"><?php echo e($worker['category_name']); ?> Services - ₹<?php echo e($worker['hourly_rate']); ?>/hr</option>
+                <option value="general" data-rate="<?php echo intval($worker['hourly_rate']); ?>"><?php echo e(translate_category_name($worker['category_name'])); ?> Services - ₹<?php echo e($worker['hourly_rate']); ?>/hr</option>
             <?php endif; ?>
           </select>
         </div>
 
         <!-- Calendar Picker -->
         <div class="form-group" style="margin-bottom: 24px;">
-          <label style="display: block; font-weight: 600; margin-bottom: 8px; font-size: 14px;">Select Date</label>
+          <label style="display: block; font-weight: 600; margin-bottom: 8px; font-size: 14px;"><?php echo e(__('select_date')); ?></label>
           <div class="calendar-grid">
             <!-- Populated dynamically via JS -->
           </div>
@@ -135,7 +135,7 @@ require_once __DIR__ . '/includes/header.php';
 
         <!-- Time slot Selection -->
         <div class="form-group" style="margin-bottom: 24px;">
-          <label style="display: block; font-weight: 600; margin-bottom: 8px; font-size: 14px;">Select Time Slot</label>
+          <label style="display: block; font-weight: 600; margin-bottom: 8px; font-size: 14px;"><?php echo e(__('select_time')); ?></label>
           <div class="time-slots-container">
             <!-- Populated dynamically via JS -->
           </div>
@@ -144,7 +144,7 @@ require_once __DIR__ . '/includes/header.php';
         <!-- Address Form -->
         <div class="form-group" style="margin-bottom: 24px;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-            <label style="font-weight: 600; font-size: 14px; margin-bottom: 0;">Service Address</label>
+            <label style="font-weight: 600; font-size: 14px; margin-bottom: 0;"><?php echo e(__('service_address')); ?></label>
             <button type="button" class="btn-coupon" style="padding: 6px 12px; font-size: 12px;"><i class="fa-solid fa-location-crosshairs"></i> Use Current Location</button>
           </div>
           <input type="text" class="form-input" style="padding-left: 16px; margin-bottom: 12px;" placeholder="Flat / House No. / Building Name" required>
@@ -156,12 +156,12 @@ require_once __DIR__ . '/includes/header.php';
 
         <!-- Description and Image attachments -->
         <div class="form-group" style="margin-bottom: 24px;">
-          <label for="job-desc" style="display: block; font-weight: 600; margin-bottom: 8px; font-size: 14px;">Job Description (Optional)</label>
+          <label for="job-desc" style="display: block; font-weight: 600; margin-bottom: 8px; font-size: 14px;"><?php echo e(__('job_desc')); ?></label>
           <textarea id="job-desc" class="form-input" style="padding-left: 16px; padding-top: 12px; min-height: 100px; resize: vertical;" placeholder="Describe the issue you're facing..."></textarea>
           
           <div style="margin-top: 16px;">
             <label class="btn-coupon" style="display: inline-flex; align-items: center; gap: 8px; cursor: pointer;">
-              <i class="fa-solid fa-camera"></i> Attach Images (Max 5)
+              <i class="fa-solid fa-camera"></i> <?php echo e(__('attach_images')); ?>
               <input type="file" id="job-images" accept="image/*" multiple style="display: none;">
             </label>
             <div class="upload-preview-container" id="preview-container"></div>
@@ -176,7 +176,7 @@ require_once __DIR__ . '/includes/header.php';
     <!-- RIGHT SIDE STICKY BOOKING SUMMARY (30%) -->
     <aside class="sticky-summary-sidebar">
       <div class="summary-card" style="background: var(--white); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 24px;">
-        <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 16px; color: var(--dark-navy);">Booking Summary</h3>
+        <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 16px; color: var(--dark-navy);"><?php echo e(__('booking_summary')); ?></h3>
         
         <div class="summary-row">
           <span>Professional:</span>
@@ -201,12 +201,12 @@ require_once __DIR__ . '/includes/header.php';
         </div>
 
         <div class="summary-row">
-          <span>Platform Fee:</span>
+          <span><?php echo e(__('platform_fee')); ?>:</span>
           <span>₹20</span>
         </div>
 
         <div class="summary-row">
-          <span>Taxes (GST):</span>
+          <span><?php echo e(__('gst_tax')); ?>:</span>
           <span id="summary-tax">₹15</span>
         </div>
 
@@ -218,7 +218,7 @@ require_once __DIR__ . '/includes/header.php';
         <div class="summary-divider"></div>
 
         <div class="summary-row total">
-          <span>Total Amount:</span>
+          <span><?php echo e(__('total_amount')); ?>:</span>
           <span id="summary-total">₹334</span>
         </div>
 
@@ -229,7 +229,7 @@ require_once __DIR__ . '/includes/header.php';
         </div>
 
         <button type="button" class="btn-primary-auth" style="width: 100%; margin-top: 24px; height: 50px;" onclick="document.getElementById('hidden-submit-trigger').click();" id="submit-booking-btn">
-          <span>Proceed to Payment</span>
+          <span><?php echo e(__('proceed_payment')); ?></span>
           <i class="fa-solid fa-credit-card"></i>
         </button>
       </div>
