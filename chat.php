@@ -100,33 +100,32 @@ require_once __DIR__ . '/includes/header.php';
         <!-- Conversation will load here dynamically via JS -->
       </div>
 
-      <!-- Emoji Picker -->
-      <div class="emoji-picker-container" id="emoji-picker">
-        <div class="emoji-picker-header">Select Emoji</div>
-        <div class="emoji-picker-grid">
-          <span class="emoji-item">😀</span>
-          <span class="emoji-item">😁</span>
-          <span class="emoji-item">😂</span>
-          <span class="emoji-item">🤣</span>
-          <span class="emoji-item">😊</span>
-          <span class="emoji-item">😍</span>
-          <span class="emoji-item">😎</span>
-          <span class="emoji-item">😢</span>
-          <span class="emoji-item">😡</span>
-          <span class="emoji-item">👍</span>
-          <span class="emoji-item">❤️</span>
-          <span class="emoji-item">🎉</span>
-          <span class="emoji-item">🔥</span>
-          <span class="emoji-item">👏</span>
-          <span class="emoji-item">🙌</span>
-          <span class="emoji-item">🤔</span>
-          <span class="emoji-item">🚀</span>
-          <span class="emoji-item">✨</span>
-        </div>
-      </div>
-
       <!-- Chat Input bar -->
       <footer class="chat-input-bar">
+        <!-- Emoji Picker -->
+        <div class="emoji-picker-container" id="emoji-picker">
+          <div class="emoji-picker-header">Select Emoji</div>
+          <div class="emoji-picker-grid">
+            <span class="emoji-item">😀</span>
+            <span class="emoji-item">😁</span>
+            <span class="emoji-item">😂</span>
+            <span class="emoji-item">🤣</span>
+            <span class="emoji-item">😊</span>
+            <span class="emoji-item">😍</span>
+            <span class="emoji-item">😎</span>
+            <span class="emoji-item">😢</span>
+            <span class="emoji-item">😡</span>
+            <span class="emoji-item">👍</span>
+            <span class="emoji-item">❤️</span>
+            <span class="emoji-item">🎉</span>
+            <span class="emoji-item">🔥</span>
+            <span class="emoji-item">👏</span>
+            <span class="emoji-item">🙌</span>
+            <span class="emoji-item">🤔</span>
+            <span class="emoji-item">🚀</span>
+            <span class="emoji-item">✨</span>
+          </div>
+        </div>
         <!-- Pre-send File Preview (Non-image documents) -->
         <div class="upload-preview-bar" id="document-preview-bar">
           <i class="fa-solid fa-file-pdf" id="doc-preview-icon"></i>
@@ -221,6 +220,37 @@ require_once __DIR__ . '/includes/header.php';
       <button type="button" class="btn-modal-action" id="btn-cancel-image-send">Cancel</button>
       <button type="button" class="btn-modal-action btn-confirm-send" id="btn-confirm-image-send">Send</button>
     </div>
+  </div>
+</div>
+
+<!-- GoWorker AI Chatbot Assistant -->
+<button class="ai-assistant-toggle" id="ai-assistant-toggle" title="GoWorker AI Assistant">
+  <i class="fa-solid fa-robot"></i>
+</button>
+
+<div class="ai-assistant-window" id="ai-assistant-window">
+  <div class="ai-window-header">
+    <div class="ai-header-title">
+      <i class="fa-solid fa-robot" style="margin-right: 8px;"></i>
+      <span>GoWorker Assistant</span>
+    </div>
+    <button class="ai-close-btn" id="ai-close-btn"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <div class="ai-window-messages" id="ai-messages-container">
+    <div class="ai-msg ai-bot">
+      Hello! I am your GoWorker Support Assistant. How can I help you today?
+    </div>
+    <div class="ai-suggested-actions">
+      <button class="ai-btn" data-action="track">Track Booking</button>
+      <button class="ai-btn" data-action="find">Find Worker</button>
+      <button class="ai-btn" data-action="payment">Payment Help</button>
+      <button class="ai-btn" data-action="support">Contact Support</button>
+      <button class="ai-btn" data-action="report">Report Issue</button>
+    </div>
+  </div>
+  <div class="ai-window-input-bar">
+    <input type="text" id="ai-msg-input" placeholder="Type a message...">
+    <button type="button" id="ai-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
   </div>
 </div>
 
