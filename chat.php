@@ -126,33 +126,26 @@ require_once __DIR__ . '/includes/header.php';
             <span class="emoji-item">✨</span>
           </div>
         </div>
-        <!-- Pre-send File Preview (Non-image documents) -->
-        <div class="upload-preview-bar" id="document-preview-bar">
-          <i class="fa-solid fa-file-pdf" id="doc-preview-icon"></i>
-          <span class="upload-preview-filename" id="doc-preview-name">file_name.pdf</span>
-          <button type="button" class="btn-cancel-upload" id="cancel-doc-upload">
-            <i class="fa-solid fa-xmark"></i>
+        <!-- Pre-send File Preview Bar (Images/Documents) -->
+        <div class="upload-preview-bar" id="file-preview-bar" style="display: none; align-items: center; gap: 12px; background: var(--white); padding: 12px 16px; border-radius: 16px; border: 1px solid var(--border-color); box-shadow: var(--shadow-premium); margin-bottom: 10px; width: 100%; box-sizing: border-box;">
+          <div id="file-preview-content" style="display: flex; align-items: center; gap: 12px; flex: 1;">
+            <!-- Rendered inline via JS (80x80 thumbnail for images, icon + name for files) -->
+          </div>
+          <button type="button" class="btn-cancel-upload" id="cancel-file-upload" style="background: none; border: none; color: var(--secondary-text); font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+            <i class="fa-solid fa-xmark"></i> Remove
           </button>
         </div>
 
-        <!-- Voice Recording Controls Overlay -->
-        <div class="voice-record-bar" id="voice-record-bar">
-          <div class="record-indicator">
-            <div class="record-dot"></div>
-            <span>Recording</span>
+        <!-- Voice Recording Controls Inline -->
+        <div class="voice-record-bar" id="voice-record-bar" style="display: none; align-items: center; justify-content: space-between; background: var(--white); padding: 8px 16px; border-radius: 26px; border: 1.5px solid var(--border-color); width: 100%; box-sizing: border-box; height: 52px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <i class="fa-solid fa-microphone" style="color: #EF4444; animation: blinkDot 1s infinite alternate;"></i>
+            <span style="font-weight: 600; font-size: 14px; color: var(--primary-text);">Recording...</span>
+            <span id="record-timer" style="font-family: monospace; font-size: 14px; color: var(--secondary-text);">00:00</span>
           </div>
-          <div class="record-timer" id="record-timer">00:00</div>
-          <div class="record-waves">
-            <div class="record-wave-bar"></div>
-            <div class="record-wave-bar"></div>
-            <div class="record-wave-bar"></div>
-            <div class="record-wave-bar"></div>
-            <div class="record-wave-bar"></div>
-          </div>
-          <div class="record-actions">
-            <button type="button" class="btn-record-action" id="btn-cancel-record" style="color: #EF4444;"><i class="fa-solid fa-trash"></i> Cancel</button>
-            <button type="button" class="btn-record-action" id="btn-stop-record"><i class="fa-solid fa-stop"></i> Stop</button>
-            <button type="button" class="btn-record-action btn-send-record" id="btn-send-record" style="display: none;"><i class="fa-solid fa-paper-plane"></i> Send</button>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <button type="button" id="btn-cancel-record" style="background: none; border: none; color: #EF4444; font-weight: 600; font-size: 13px; cursor: pointer;">Cancel</button>
+            <button type="button" id="btn-send-record" class="btn-chat-send" style="width: 44px; height: 44px; background: linear-gradient(135deg, #0D4DFF 0%, #4A7BFF 100%); border: none; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; cursor: pointer;" title="Send Voice"><i class="fa-solid fa-paper-plane" style="font-size: 14px;"></i></button>
           </div>
         </div>
 
@@ -171,7 +164,7 @@ require_once __DIR__ . '/includes/header.php';
           <!-- Hidden inputs for file uploading -->
           <input type="file" id="hidden-file-input" style="display: none;" accept=".jpg,.jpeg,.png,.webp,.pdf,.doc,.docx">
           
-          <input type="text" id="chat-message-input" class="chat-input-field" placeholder="Type a message...">
+          <textarea id="chat-message-input" class="chat-input-field" rows="1" placeholder="Type a message..."></textarea>
           <button type="button" id="chat-send-btn" class="btn-chat-send">
             <i class="fa-solid fa-paper-plane"></i>
           </button>
@@ -206,22 +199,7 @@ require_once __DIR__ . '/includes/header.php';
   </div>
 </main>
 
-<!-- Image Preview Modal -->
-<div class="image-preview-modal" id="image-preview-modal">
-  <div class="modal-content-box">
-    <div class="modal-header-title">
-      <span>Preview Image</span>
-      <button type="button" class="btn-cancel-upload" id="close-image-modal" style="font-size: 16px;"><i class="fa-solid fa-xmark"></i></button>
-    </div>
-    <div class="modal-body-img">
-      <img src="" id="image-modal-preview-src" alt="Preview">
-    </div>
-    <div class="modal-footer-row">
-      <button type="button" class="btn-modal-action" id="btn-cancel-image-send">Cancel</button>
-      <button type="button" class="btn-modal-action btn-confirm-send" id="btn-confirm-image-send">Send</button>
-    </div>
-  </div>
-</div>
+
 
 <!-- GoWorker AI Chatbot Assistant -->
 <button class="ai-assistant-toggle" id="ai-assistant-toggle" title="GoWorker AI Assistant">

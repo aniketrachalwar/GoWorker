@@ -569,12 +569,22 @@ $current_page = basename($_SERVER['SCRIPT_NAME']);
 
         <!-- Center links desktop -->
         <ul class="nav-links-desktop">
-            <li><a href="index.php" class="<?php echo ($current_page === 'index.php' || $current_page === '') ? 'active' : ''; ?>"><?php echo e(__('home')); ?></a></li>
-            <li><a href="find-workers.php" class="<?php echo $current_page === 'find-workers.php' ? 'active' : ''; ?>"><?php echo e(__('find_workers')); ?></a></li>
-            <li><a href="become-worker.php" class="<?php echo $current_page === 'become-worker.php' ? 'active' : ''; ?>"><?php echo e(__('become_worker')); ?></a></li>
-            <li><a href="index.php#how-it-works"><?php echo e(__('how_it_works')); ?></a></li>
-            <li><a href="about.php" class="<?php echo $current_page === 'about.php' ? 'active' : ''; ?>"><?php echo e(__('about_us')); ?></a></li>
-            <li><a href="contact.php" class="<?php echo $current_page === 'contact.php' ? 'active' : ''; ?>"><?php echo e(__('contact_us')); ?></a></li>
+            <?php if (isset($_SESSION['user_id']) && ($_SESSION['user_type'] ?? '') === 'worker'): ?>
+                <li><a href="worker-dashboard.php" class="<?php echo $current_page === 'worker-dashboard.php' ? 'active' : ''; ?>">Dashboard</a></li>
+                <li><a href="worker-dashboard.php#jobs" class="<?php echo ($current_page === 'worker-dashboard.php' && strpos($_SERVER['REQUEST_URI'], '#jobs') !== false) ? 'active' : ''; ?>">Jobs</a></li>
+                <li><a href="worker-dashboard.php#requests" class="<?php echo ($current_page === 'worker-dashboard.php' && strpos($_SERVER['REQUEST_URI'], '#requests') !== false) ? 'active' : ''; ?>">Requests</a></li>
+                <li><a href="worker-dashboard.php#earnings" class="<?php echo ($current_page === 'worker-dashboard.php' && strpos($_SERVER['REQUEST_URI'], '#earnings') !== false) ? 'active' : ''; ?>">Earnings</a></li>
+                <li><a href="worker-profile.php" class="<?php echo $current_page === 'worker-profile.php' ? 'active' : ''; ?>">Virtual ID Card</a></li>
+                <li><a href="profile.php" class="<?php echo $current_page === 'profile.php' ? 'active' : ''; ?>">Profile</a></li>
+                <li><a href="logout.php">Logout</a></li>
+            <?php else: ?>
+                <li><a href="index.php" class="<?php echo ($current_page === 'index.php' || $current_page === '') ? 'active' : ''; ?>"><?php echo e(__('home')); ?></a></li>
+                <li><a href="find-workers.php" class="<?php echo $current_page === 'find-workers.php' ? 'active' : ''; ?>"><?php echo e(__('find_workers')); ?></a></li>
+                <li><a href="become-worker.php" class="<?php echo $current_page === 'become-worker.php' ? 'active' : ''; ?>"><?php echo e(__('become_worker')); ?></a></li>
+                <li><a href="index.php#how-it-works"><?php echo e(__('how_it_works')); ?></a></li>
+                <li><a href="about.php" class="<?php echo $current_page === 'about.php' ? 'active' : ''; ?>"><?php echo e(__('about_us')); ?></a></li>
+                <li><a href="contact.php" class="<?php echo $current_page === 'contact.php' ? 'active' : ''; ?>"><?php echo e(__('contact_us')); ?></a></li>
+            <?php endif; ?>
         </ul>
 
         <!-- Right navigation items desktop -->
@@ -627,12 +637,22 @@ $current_page = basename($_SERVER['SCRIPT_NAME']);
         </div>
         
         <ul class="mobile-nav-links">
-            <li><a href="index.php" class="<?php echo ($current_page === 'index.php' || $current_page === '') ? 'active' : ''; ?>"><i class="fa-solid fa-house"></i> <?php echo e(__('home')); ?></a></li>
-            <li><a href="find-workers.php" class="<?php echo $current_page === 'find-workers.php' ? 'active' : ''; ?>"><i class="fa-solid fa-magnifying-glass"></i> <?php echo e(__('find_workers')); ?></a></li>
-            <li><a href="become-worker.php" class="<?php echo $current_page === 'become-worker.php' ? 'active' : ''; ?>"><i class="fa-solid fa-briefcase"></i> <?php echo e(__('become_worker')); ?></a></li>
-            <li><a href="index.php#how-it-works"><i class="fa-solid fa-circle-info"></i> <?php echo e(__('how_it_works')); ?></a></li>
-            <li><a href="about.php" class="<?php echo $current_page === 'about.php' ? 'active' : ''; ?>"><i class="fa-solid fa-circle-question"></i> <?php echo e(__('about_us')); ?></a></li>
-            <li><a href="contact.php" class="<?php echo $current_page === 'contact.php' ? 'active' : ''; ?>"><i class="fa-solid fa-envelope"></i> <?php echo e(__('contact_us')); ?></a></li>
+            <?php if (isset($_SESSION['user_id']) && ($_SESSION['user_type'] ?? '') === 'worker'): ?>
+                <li><a href="worker-dashboard.php" class="<?php echo $current_page === 'worker-dashboard.php' ? 'active' : ''; ?>"><i class="fa-solid fa-gauge"></i> Dashboard</a></li>
+                <li><a href="worker-dashboard.php#jobs" class="<?php echo ($current_page === 'worker-dashboard.php' && strpos($_SERVER['REQUEST_URI'], '#jobs') !== false) ? 'active' : ''; ?>"><i class="fa-solid fa-briefcase"></i> Jobs</a></li>
+                <li><a href="worker-dashboard.php#requests" class="<?php echo ($current_page === 'worker-dashboard.php' && strpos($_SERVER['REQUEST_URI'], '#requests') !== false) ? 'active' : ''; ?>"><i class="fa-solid fa-list-check"></i> Requests</a></li>
+                <li><a href="worker-dashboard.php#earnings" class="<?php echo ($current_page === 'worker-dashboard.php' && strpos($_SERVER['REQUEST_URI'], '#earnings') !== false) ? 'active' : ''; ?>"><i class="fa-solid fa-wallet"></i> Earnings</a></li>
+                <li><a href="worker-profile.php" class="<?php echo $current_page === 'worker-profile.php' ? 'active' : ''; ?>"><i class="fa-solid fa-id-card"></i> Virtual ID Card</a></li>
+                <li><a href="profile.php" class="<?php echo $current_page === 'profile.php' ? 'active' : ''; ?>"><i class="fa-solid fa-user-gear"></i> Profile</a></li>
+                <li><a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+            <?php else: ?>
+                <li><a href="index.php" class="<?php echo ($current_page === 'index.php' || $current_page === '') ? 'active' : ''; ?>"><i class="fa-solid fa-house"></i> <?php echo e(__('home')); ?></a></li>
+                <li><a href="find-workers.php" class="<?php echo $current_page === 'find-workers.php' ? 'active' : ''; ?>"><i class="fa-solid fa-magnifying-glass"></i> <?php echo e(__('find_workers')); ?></a></li>
+                <li><a href="become-worker.php" class="<?php echo $current_page === 'become-worker.php' ? 'active' : ''; ?>"><i class="fa-solid fa-briefcase"></i> <?php echo e(__('become_worker')); ?></a></li>
+                <li><a href="index.php#how-it-works"><i class="fa-solid fa-circle-info"></i> <?php echo e(__('how_it_works')); ?></a></li>
+                <li><a href="about.php" class="<?php echo $current_page === 'about.php' ? 'active' : ''; ?>"><i class="fa-solid fa-circle-question"></i> <?php echo e(__('about_us')); ?></a></li>
+                <li><a href="contact.php" class="<?php echo $current_page === 'contact.php' ? 'active' : ''; ?>"><i class="fa-solid fa-envelope"></i> <?php echo e(__('contact_us')); ?></a></li>
+            <?php endif; ?>
             
             <li class="mobile-nav-divider"></li>
             
@@ -650,13 +670,11 @@ $current_page = basename($_SERVER['SCRIPT_NAME']);
             <li class="mobile-nav-divider"></li>
 
             <?php if (isset($_SESSION['user_id'])): ?>
-                <?php if ($_SESSION['user_type'] === 'customer'): ?>
+                <?php if (($_SESSION['user_type'] ?? '') === 'customer'): ?>
                     <li><a href="customer-dashboard.php" class="<?php echo $current_page === 'customer-dashboard.php' ? 'active' : ''; ?>"><i class="fa-solid fa-gauge"></i> <?php echo e(__('dashboard')); ?></a></li>
-                <?php else: ?>
-                    <li><a href="worker-dashboard.php" class="<?php echo $current_page === 'worker-dashboard.php' ? 'active' : ''; ?>"><i class="fa-solid fa-gauge"></i> <?php echo e(__('dashboard')); ?></a></li>
+                    <li><a href="profile.php" class="<?php echo $current_page === 'profile.php' ? 'active' : ''; ?>"><i class="fa-solid fa-user-gear"></i> <?php echo e(__('profile')); ?></a></li>
+                    <li><a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i> <?php echo e(__('logout')); ?></a></li>
                 <?php endif; ?>
-                <li><a href="profile.php" class="<?php echo $current_page === 'profile.php' ? 'active' : ''; ?>"><i class="fa-solid fa-user-gear"></i> <?php echo e(__('profile')); ?></a></li>
-                <li><a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i> <?php echo e(__('logout')); ?></a></li>
             <?php else: ?>
                 <li><a href="login.php" class="<?php echo $current_page === 'login.php' ? 'active' : ''; ?>"><i class="fa-solid fa-right-to-bracket"></i> <?php echo e(__('login')); ?></a></li>
                 <li><a href="signup.php" class="<?php echo $current_page === 'signup.php' ? 'active' : ''; ?>"><i class="fa-solid fa-user-plus"></i> <?php echo e(__('signup')); ?></a></li>

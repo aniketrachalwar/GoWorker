@@ -117,10 +117,14 @@ require_once __DIR__ . '/includes/header.php';
             <h1 style="color: var(--dark-navy); font-weight: 700; margin-bottom: 4px;"><?php echo e($worker['worker_name']); ?> <span class="verified-badge" style="position: static; display: inline-flex; border: none; font-size: 13px; width: auto; height: auto; padding: 4px 8px; border-radius: 6px;"><i class="fa-solid fa-check"></i> Verified</span></h1>
             <p class="profession"><?php echo e($worker['title'] ?: $worker['category_name']); ?></p>
             
-            <div class="meta-stats">
+            <div class="meta-stats" style="margin-bottom: 8px;">
               <span><i class="fa-solid fa-star" style="color: #F59E0B;"></i> <?php echo $rating_avg; ?> (<?php echo $rating_count; ?> Reviews)</span>
               <span><i class="fa-solid fa-briefcase"></i> <?php echo e($worker['experience_years']); ?>+ Years Experience</span>
               <span><i class="fa-solid fa-location-dot"></i> <?php echo e($worker['location']); ?></span>
+            </div>
+            <div class="meta-stats">
+              <span style="background: rgba(13, 77, 255, 0.06); color: #0D4DFF; padding: 4px 10px; border-radius: 20px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; border: 1px solid rgba(13,77,255,0.12);"><i class="fa-solid fa-id-badge"></i> Worker ID: #GW-<?php echo e(str_pad($worker['id'], 5, '0', STR_PAD_LEFT)); ?></span>
+              <span style="background: rgba(16, 185, 129, 0.08); color: #10B981; padding: 4px 10px; border-radius: 20px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; border: 1px solid rgba(16,185,129,0.12);"><i class="fa-solid fa-circle-check"></i> 128 Jobs Completed</span>
             </div>
           </div>
 
@@ -262,9 +266,15 @@ require_once __DIR__ . '/includes/header.php';
           <span>Chat with <?php echo e(explode(' ', $worker['worker_name'])[0]); ?></span>
         </button>
 
-        <button class="btn-google-auth" id="call-worker-btn" style="width: 100%; height: 50px;">
+        <button class="btn-google-auth" id="call-worker-btn" style="width: 100%; margin-bottom: 12px; height: 50px;">
           <i class="fa-solid fa-phone"></i>
           <span>Call Worker</span>
+        </button>
+
+        <!-- Download Virtual ID Card Button -->
+        <button class="btn-primary-auth" id="download-id-card-btn" style="width: 100%; height: 50px; background: linear-gradient(135deg, #10B981 0%, #059669 100%); border: none; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);" onclick="downloadIDCard('<?php echo e(addslashes($worker['worker_name'])); ?>', <?php echo $worker['id']; ?>, '<?php echo e(addslashes($worker['title'] ?: $worker['category_name'])); ?>', '<?php echo e(addslashes($worker['profile_picture'] ?: 'images/avatar_placeholder.png')); ?>', '<?php echo e(addslashes($worker['location'])); ?>', '<?php echo e($worker['experience_years']); ?>')">
+          <i class="fa-solid fa-id-card" style="margin-right: 8px;"></i>
+          <span>Download ID Card</span>
         </button>
       </div>
     </aside>
