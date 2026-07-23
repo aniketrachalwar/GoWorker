@@ -93,7 +93,7 @@
               <tr>
                 <td>#GOW-902183</td>
                 <td>Aniket Rachalwar</td>
-                <td class="row-name">Ramesh Kumar</td>
+                <td class="row-name">Ramesh Kumar <span class="virtual-id-badge" style="font-size: 10px; background: var(--primary-light); color: var(--primary); padding: 1px 5px; border-radius: 4px; font-weight: 600; margin-left: 6px; vertical-align: middle;">GW-W-0001</span></td>
                 <td class="row-profession">Emergency Troubleshooting</td>
                 <td>Today, 09:00 AM</td>
                 <td><span class="status-badge status-ongoing">Ongoing</span></td>
@@ -105,7 +105,7 @@
               <tr>
                 <td>#GOW-847291</td>
                 <td>Sunita Patil</td>
-                <td class="row-name">Sohan Singh</td>
+                <td class="row-name">Sohan Singh <span class="virtual-id-badge" style="font-size: 10px; background: var(--primary-light); color: var(--primary); padding: 1px 5px; border-radius: 4px; font-weight: 600; margin-left: 6px; vertical-align: middle;">GW-W-0002</span></td>
                 <td class="row-profession">Plumbing Leak Repair</td>
                 <td>14 July, 02:30 PM</td>
                 <td><span class="status-badge status-completed">Completed</span></td>

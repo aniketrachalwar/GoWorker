@@ -93,7 +93,13 @@ require_once __DIR__ . '/includes/header.php';
       <div class="selected-worker-box">
         <img src="<?php echo e($worker['profile_picture'] ?: 'images/avatar_placeholder.png'); ?>" alt="<?php echo e($worker['worker_name']); ?>" style="width: 56px; height: 56px; border-radius: 50%; object-fit: cover;">
         <div>
-          <h4 style="font-size: 15px; font-weight: 700; margin-bottom: 2px;"><?php echo e($worker['worker_name']); ?> <span style="color: var(--primary); font-size: 11px;"><i class="fa-solid fa-circle-check"></i> Verified</span></h4>
+          <h4 style="font-size: 15px; font-weight: 700; margin-bottom: 2px;">
+              <?php echo e($worker['worker_name']); ?>
+              <span class="virtual-id-badge" style="font-size: 10px; background: var(--primary-light); color: var(--primary); padding: 1px 5px; border-radius: 4px; font-weight: 600; margin-left: 6px; vertical-align: middle;">
+                  <?php echo e(get_worker_virtual_id($worker['id'])); ?>
+              </span>
+              <span style="color: var(--primary); font-size: 11px; margin-left: 6px;"><i class="fa-solid fa-circle-check"></i> Verified</span>
+          </h4>
           <p style="font-size: 12px; color: var(--secondary-text); margin-bottom: 4px;"><?php echo e(translate_category_name($worker['category_name'])); ?> • ★ <?php echo $rating_avg; ?> (<?php echo $rating_count; ?> reviews)</p>
           <a href="worker-profile.php?id=<?php echo $worker['id']; ?>" style="font-size: 12px; color: var(--primary); font-weight: 600;">View Profile</a>
         </div>
@@ -174,7 +180,7 @@ require_once __DIR__ . '/includes/header.php';
         
         <div class="summary-row">
           <span>Professional:</span>
-          <span style="font-weight: 600; color: var(--primary-text);"><?php echo e($worker['worker_name']); ?></span>
+          <span style="font-weight: 600; color: var(--primary-text);"><?php echo e($worker['worker_name']); ?> (<?php echo e(get_worker_virtual_id($worker['id'])); ?>)</span>
         </div>
 
         <div class="summary-row">

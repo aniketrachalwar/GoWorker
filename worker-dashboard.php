@@ -23,6 +23,16 @@ require_once __DIR__ . '/includes/header.php';
                     ?>
                 </div>
                 <h3><?php echo e($_SESSION['full_name']); ?></h3>
+                <?php 
+                $profile_id = get_worker_profile_id_by_user_id($_SESSION['user_id']);
+                if ($profile_id):
+                ?>
+                    <p style="margin-top: 4px; margin-bottom: 8px;">
+                        <span class="virtual-id-badge" style="font-size: 12px; background: var(--primary-light); color: var(--primary); padding: 3px 8px; border-radius: 4px; font-weight: 600;">
+                            <?php echo e(get_worker_virtual_id($profile_id)); ?>
+                        </span>
+                    </p>
+                <?php endif; ?>
                 <p style="color: var(--text-muted); font-size: 0.9rem;"><i class="fa-solid fa-screwdriver-wrench"></i> Worker Profile</p>
             </div>
             

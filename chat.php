@@ -23,7 +23,7 @@ require_once __DIR__ . '/includes/header.php';
           </div>
           <div class="conv-meta">
             <div class="conv-name-row">
-              <span style="color: var(--dark-navy); font-weight: 700;">Ramesh Kumar</span>
+              <span style="color: var(--dark-navy); font-weight: 700;">Ramesh Kumar <span class="virtual-id-badge" style="font-size: 9px; background: var(--primary-light); color: var(--primary); padding: 1px 4px; border-radius: 3px; font-weight: 600;">GW-W-0001</span></span>
               <span style="font-weight: 400; font-size: 10px; color: var(--secondary-text);">09:12 AM</span>
             </div>
             <div class="conv-last-msg">Electrician - I am on my way to your address.</div>
@@ -37,7 +37,7 @@ require_once __DIR__ . '/includes/header.php';
           </div>
           <div class="conv-meta">
             <div class="conv-name-row">
-              <span style="color: var(--dark-navy); font-weight: 700;">Sohan Singh</span>
+              <span style="color: var(--dark-navy); font-weight: 700;">Sohan Singh <span class="virtual-id-badge" style="font-size: 9px; background: var(--primary-light); color: var(--primary); padding: 1px 4px; border-radius: 3px; font-weight: 600;">GW-W-0002</span></span>
               <span style="font-weight: 400; font-size: 10px; color: var(--secondary-text);">Yesterday</span>
             </div>
             <div class="conv-last-msg">Plumber - Pipe leakage resolved!</div>
@@ -50,7 +50,7 @@ require_once __DIR__ . '/includes/header.php';
     <section class="chat-center-panel">
       <header class="chat-center-header">
         <div>
-          <h4 id="active-chat-name" style="font-size: 15px; font-weight: 700; margin-bottom: 2px; color: var(--dark-navy);">Ramesh Kumar</h4>
+          <h4 id="active-chat-name" style="font-size: 15px; font-weight: 700; margin-bottom: 2px; color: var(--dark-navy);">Ramesh Kumar <span class="virtual-id-badge" style="font-size: 10px; background: var(--primary-light); color: var(--primary); padding: 1px 5px; border-radius: 4px; font-weight: 600;">GW-W-0001</span></h4>
           <p id="active-chat-prof" style="font-size: 11px; color: var(--secondary-text); margin-bottom: 0;">Electrician • Online</p>
         </div>
         <div>
@@ -86,7 +86,7 @@ require_once __DIR__ . '/includes/header.php';
     <!-- RIGHT PANEL: Metadata Details -->
     <section class="chat-right-panel">
       <img src="https://images.unsplash.com/photo-1540569014015-19a7be504e3a?w=150&fit=crop" id="right-side-avatar" alt="Ramesh" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 3px solid var(--border-color); margin-bottom: 12px;">
-      <h4 id="right-side-name" class="right-meta-title" style="color: var(--dark-navy); font-weight: 700;">Ramesh Kumar</h4>
+      <h4 id="right-side-name" class="right-meta-title" style="color: var(--dark-navy); font-weight: 700;">Ramesh Kumar <span class="virtual-id-badge" style="font-size: 11px; background: var(--primary-light); color: var(--primary); padding: 2px 6px; border-radius: 4px; font-weight: 600; display: inline-block;">GW-W-0001</span></h4>
       <p id="right-side-prof" class="right-meta-desc">Electrician • Pune</p>
       
       <div style="text-align: left; width: 100%;">

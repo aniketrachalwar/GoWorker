@@ -114,7 +114,13 @@ require_once __DIR__ . '/includes/header.php';
           </div>
           
           <div class="profile-title-section">
-            <h1 style="color: var(--dark-navy); font-weight: 700; margin-bottom: 4px;"><?php echo e($worker['worker_name']); ?> <span class="verified-badge" style="position: static; display: inline-flex; border: none; font-size: 13px; width: auto; height: auto; padding: 4px 8px; border-radius: 6px;"><i class="fa-solid fa-check"></i> Verified</span></h1>
+            <h1 style="color: var(--dark-navy); font-weight: 700; margin-bottom: 4px;">
+                <?php echo e($worker['worker_name']); ?>
+                <span class="virtual-id-badge" style="font-size: 13px; background: var(--primary-light); color: var(--primary); padding: 4px 8px; border-radius: 6px; font-weight: 600; margin-left: 8px; vertical-align: middle; display: inline-block;">
+                    <?php echo e(get_worker_virtual_id($worker['id'])); ?>
+                </span>
+                <span class="verified-badge" style="position: static; display: inline-flex; border: none; font-size: 13px; width: auto; height: auto; padding: 4px 8px; border-radius: 6px; vertical-align: middle; margin-left: 8px;"><i class="fa-solid fa-check"></i> <?php echo e(__('verified') !== 'verified' ? __('verified') : 'Verified'); ?></span>
+            </h1>
             <p class="profession"><?php echo e($worker['title'] ?: $worker['category_name']); ?></p>
             
             <div class="meta-stats">
