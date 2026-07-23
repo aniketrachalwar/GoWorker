@@ -5,9 +5,13 @@
 require_once __DIR__ . '/config/database.php';
 require_once __DIR__ . '/includes/functions.php';
 
-// Redirect to profile if already logged in
+// Redirect to dashboard if already logged in
 if (isset($_SESSION['user_id'])) {
-    header('Location: profile.php');
+    if (($_SESSION['user_type'] ?? '') === 'worker') {
+        header('Location: worker-dashboard.php');
+    } else {
+        header('Location: customer-dashboard.php');
+    }
     exit();
 }
 
@@ -51,7 +55,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $_SESSION['email'] = $user['email'];
                         $_SESSION['user_type'] = $user['user_type'];
 
-                        header('Location: profile.php');
+                        if ($user['user_type'] === 'worker') {
+                            header('Location: worker-dashboard.php');
+                        } else {
+                            header('Location: customer-dashboard.php');
+                        }
                         exit();
                     } else {
                         // Invalid email or password
@@ -777,7 +785,7 @@ require_once __DIR__ . '/includes/header.php';
                         <input type="checkbox" name="remember" id="remember">
                         <?php echo e(__('remember_me')); ?>
                     </label>
-                    <a href="javascript:void(0);" class="forgot-pass-link"><?php echo e(__('forgot_password')); ?></a>
+                    <a href="forgot-password.php" class="forgot-pass-link"><?php echo e(__('forgot_password')); ?></a>
                 </div>
 
                 <!-- Submit Button -->
@@ -788,6 +796,18 @@ require_once __DIR__ . '/includes/header.php';
                     By logging in, you agree to the <strong>GoWorker™</strong> <a href="#" onclick="alert('Terms & Conditions:\n1. All service requests are simulations.\n2. Users must respect safety guidelines.\n3. Data is managed securely.')" style="text-decoration: underline; color: var(--primary);">Terms & Conditions</a> and <a href="#" onclick="alert('Privacy Policy:\n1. We protect user profile data.\n2. No third-party data sharing.')" style="text-decoration: underline; color: var(--primary);">Privacy Policy</a>.
                 </p>
             </form>
+
+            <div class="divider-custom" style="display: flex; align-items: center; justify-content: center; gap: 10px; margin: 20px 0; color: var(--text-muted); font-size: 13px; font-weight: 500;">
+                <div style="flex: 1; height: 1px; background-color: var(--border-color);"></div>
+                <span>OR</span>
+                <div style="flex: 1; height: 1px; background-color: var(--border-color);"></div>
+            </div>
+
+            <!-- Google Continue -->
+            <button type="button" class="btn-google-custom" id="google-login-btn" style="width: 100%; height: 50px; background-color: var(--white); border: 1.5px solid var(--border-color); border-radius: 12px; color: var(--text-dark); font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; transition: all 0.3s ease; box-shadow: var(--shadow-sm); margin-bottom: 20px;">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google Logo" style="width: 20px; height: 20px;"> 
+                <span>Continue with Google</span>
+            </button>
 
             <div class="auth-footer">
                 <?php echo e(__('no_account')); ?> <a href="signup.php"><?php echo e(__('register_here')); ?></a>
@@ -831,6 +851,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 passwordInput.type = 'password';
                 icon.className = 'fa-solid fa-eye';
             }
+    // --- Google Login Trigger ---
+    const googleLoginBtn = document.getElementById('google-login-btn');
+    if (googleLoginBtn) {
+        googleLoginBtn.addEventListener('click', () => {
+            const width = 500;
+            const height = 600;
+            const left = (screen.width / 2) - (width / 2);
+            const top = (screen.height / 2) - (height / 2);
+            window.open('google-oauth.php', 'GoogleLogin', `width=${width},height=${height},top=${top},left=${left}`);
         });
     }
 });

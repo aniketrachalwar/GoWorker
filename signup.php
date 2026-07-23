@@ -1047,6 +1047,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     icon.classList.add('fa-eye');
                 }
             }
+    // --- Google Signup Trigger ---
+    const googleSignupBtn = document.querySelector('.btn-google-custom');
+    if (googleSignupBtn) {
+        googleSignupBtn.addEventListener('click', () => {
+            const width = 500;
+            const height = 600;
+            const left = (screen.width / 2) - (width / 2);
+            const top = (screen.height / 2) - (height / 2);
+            window.open('google-oauth.php', 'GoogleLogin', `width=${width},height=${height},top=${top},left=${left}`);
         });
     }
 });
