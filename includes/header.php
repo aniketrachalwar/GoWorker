@@ -359,9 +359,10 @@ $current_page = basename($_SERVER['SCRIPT_NAME']);
       display: flex !important;
       flex-direction: column !important;
       box-sizing: border-box !important;
-      transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s !important;
       padding: 20px !important;
       pointer-events: auto !important; /* Ensure links are clickable */
+      visibility: hidden !important;
     }
 
     body.dark-mode .mobile-sidebar-menu,
@@ -373,6 +374,7 @@ $current_page = basename($_SERVER['SCRIPT_NAME']);
     .mobile-sidebar-menu.open,
     #mobile-drawer.open {
       right: 0 !important;
+      visibility: visible !important;
     }
 
     .mobile-sidebar-header {
@@ -416,6 +418,11 @@ $current_page = basename($_SERVER['SCRIPT_NAME']);
       gap: 8px !important;
       overflow-y: auto !important;
       flex: 1 !important;
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+    }
+    .mobile-nav-links::-webkit-scrollbar {
+      display: none !important;
     }
 
     .mobile-nav-links li {

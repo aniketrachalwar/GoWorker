@@ -74,6 +74,7 @@
 html {
   scroll-behavior: smooth;
   height: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -85,6 +86,7 @@ body {
   flex-direction: column;
   min-height: 100vh;
   transition: background-color 0.3s, color 0.3s;
+  overflow-x: hidden;
 }
 
 a {

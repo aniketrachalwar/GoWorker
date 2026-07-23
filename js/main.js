@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
             mobileDrawer.classList.add('open');
             drawerOverlay.classList.add('open');
             document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            document.documentElement.style.overflow = 'hidden'; // Prevent background scrolling on HTML element
         });
 
         // Close drawer functions
@@ -47,6 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
             mobileDrawer.classList.remove('open');
             drawerOverlay.classList.remove('open');
             document.body.style.overflow = ''; // Restore scrolling
+            document.documentElement.style.overflow = ''; // Restore scrolling
         };
 
         if (drawerClose) {

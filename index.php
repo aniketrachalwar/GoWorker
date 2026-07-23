@@ -323,8 +323,6 @@ require_once __DIR__ . '/includes/header.php';
         <p><?php echo e(__('stat_avg_rating')); ?></p>
     </div>
 </section>
-
-<script src="script.js"></script>
-
-</body>
-</html>
+<?php
+require_once __DIR__ . '/includes/footer.php';
+?>

@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
+html {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
 *{
   margin:0;
   padding:0;
@@ -10,6 +14,7 @@ body{
   background:#F8FAFF;
   color:#111827;
   transition: background-color 0.35s ease, color 0.35s ease;
+  overflow-x: hidden;
 }
 body.dark-mode{
   background:#080C14;
@@ -266,11 +271,30 @@ body.dark-mode .search-box input{
   margin-bottom:30px;
   font-weight:800;
 }
-.category-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-    gap:22px;
-    margin-top:35px;
+.category-grid {
+    display: flex;
+    overflow-x: auto;
+    gap: 22px;
+    margin-top: 35px;
+    padding: 15px 5px; /* prevent box-shadow clip on card hover */
+    scrollbar-width: thin;
+    scrollbar-color: #0D4DFF rgba(13,77,255,0.08);
+    -webkit-overflow-scrolling: touch;
+}
+.category-grid::-webkit-scrollbar {
+    height: 6px;
+}
+.category-grid::-webkit-scrollbar-thumb {
+    background-color: rgba(13,77,255,0.3);
+    border-radius: 10px;
+}
+.category-grid::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+.category-grid > .card,
+.category-grid > a {
+    flex: 0 0 170px;
+    box-sizing: border-box;
 }
 
 .card, .service-card, .worker-card, .step, .category-card{
@@ -347,7 +371,6 @@ body.dark-mode .card h3{ color:#F3F4F6; }
 }
 @media(max-width:1100px){
   .hero{grid-template-columns:1fr}
-  .category-grid{grid-template-columns:repeat(4,1fr)}
 }
 @media(max-width:768px){
   .navbar{
@@ -362,9 +385,6 @@ body.dark-mode .card h3{ color:#F3F4F6; }
   .hero h1{font-size:42px}
   .search-box{
     grid-template-columns:1fr;
-  }
-  .category-grid{
-    grid-template-columns:repeat(2,1fr);
   }
   .steps,.stats{
     grid-template-columns:1fr;
