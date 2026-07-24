@@ -1061,6 +1061,14 @@ document.addEventListener('DOMContentLoaded', () => {
             window.open('google-oauth.php', 'GoogleLogin', `width=${width},height=${height},top=${top},left=${left}`);
         });
     }
+
+    // --- Phone Number Restriction ---
+    const telInputs = document.querySelectorAll('input[type="tel"]');
+    telInputs.forEach(input => {
+        input.addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);
+        });
+    });
 });
 </script>
 

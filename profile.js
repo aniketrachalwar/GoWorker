@@ -1046,4 +1046,12 @@ document.addEventListener("DOMContentLoaded", () => {
             }[tag] || tag)
         );
     }
+
+    // Restrict all phone number inputs to 10 digits only
+    const telInputs = document.querySelectorAll('input[type="tel"]');
+    telInputs.forEach(input => {
+        input.addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);
+        });
+    });
 });

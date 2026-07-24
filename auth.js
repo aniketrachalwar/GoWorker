@@ -191,7 +191,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            if (!/^[0-9]{10}$/.test(phone.replace(/[^0-9]/g, ""))) {
+            if (!/^[0-9]{10}$/.test(phone)) {
                 alert("Please enter a valid 10-digit mobile number!");
                 isValid = false;
                 return;
@@ -581,7 +581,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (selectedLangText) {
                     selectedLangText.textContent = langName.trim();
                 }
-            }
         }
     }
+
+    // Restrict all phone number inputs to 10 digits only
+    const telInputs = document.querySelectorAll('input[type="tel"]');
+    telInputs.forEach(input => {
+        input.addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);
+        });
+    });
 });
