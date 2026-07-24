@@ -31,7 +31,12 @@ if (isset($_SESSION['user_id']) && ($_SESSION['user_type'] ?? '') === 'worker') 
         }
     }
 } else {
-    $worker_id = intval($_GET['id'] ?? 1);
+    $raw_id = $_GET['id'] ?? '1';
+    if (is_string($raw_id) && preg_match('/GW-(?:W-)?(\d+)/i', $raw_id, $matches)) {
+        $worker_id = intval($matches[1]);
+    } else {
+        $worker_id = intval($raw_id);
+    }
     if (isset($pdo)) {
         try {
             $stmt = $pdo->prepare("
