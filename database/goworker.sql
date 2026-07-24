@@ -1,7 +1,3 @@
--- Create the Database if it doesn't exist
-CREATE DATABASE IF NOT EXISTS `goworker` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE `goworker`;
-
 -- 1. Users Table
 CREATE TABLE IF NOT EXISTS `users` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
