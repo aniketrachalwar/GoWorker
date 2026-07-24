@@ -55,7 +55,7 @@ require_once __DIR__ . '/includes/header.php';
           </div>
         </div>
         <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-          <button class="btn-book" onclick="location.href='chat.php'">Chat</button>
+          <button class="btn-book" onclick="location.href='customer-chat.php'">Chat</button>
           <button class="btn-book" style="background: var(--white); border: 1.5px solid var(--border-color); color: var(--primary-text);" onclick="alert('Calling simulation...')"><i class="fa-solid fa-phone"></i> Call</button>
           <button class="btn-book btn-cancel-booking" style="background: var(--white); border: 1.5px solid var(--danger); color: var(--danger);">Cancel Booking</button>
         </div>

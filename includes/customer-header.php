@@ -82,17 +82,6 @@ if (!function_exists('get_lang_switch_url')) {
 
 // Determine the current page basename to apply the 'active' class to nav links
 $current_page = basename($_SERVER['SCRIPT_NAME']);
-
-// Route to type-specific header files if logged in
-if (isset($_SESSION['user_id'])) {
-    if (($_SESSION['user_type'] ?? '') === 'customer') {
-        require_once __DIR__ . '/customer-header.php';
-        return;
-    } else if (($_SESSION['user_type'] ?? '') === 'worker') {
-        require_once __DIR__ . '/worker-header.php';
-        return;
-    }
-}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo e($current_lang); ?>">
@@ -582,22 +571,12 @@ if (isset($_SESSION['user_id'])) {
 
         <!-- Center links desktop -->
         <ul class="nav-links-desktop">
-            <?php if (isset($_SESSION['user_id']) && ($_SESSION['user_type'] ?? '') === 'worker'): ?>
-                <li><a href="worker-dashboard.php" class="<?php echo $current_page === 'worker-dashboard.php' ? 'active' : ''; ?>">Dashboard</a></li>
-                <li><a href="worker-jobs.php" class="<?php echo $current_page === 'worker-jobs.php' ? 'active' : ''; ?>">Jobs</a></li>
-                <li><a href="worker-requests.php" class="<?php echo $current_page === 'worker-requests.php' ? 'active' : ''; ?>">Requests</a></li>
-                <li><a href="worker-earnings.php" class="<?php echo $current_page === 'worker-earnings.php' ? 'active' : ''; ?>">Earnings</a></li>
-                <li><a href="worker-id-card.php" class="<?php echo $current_page === 'worker-id-card.php' ? 'active' : ''; ?>">Virtual ID Card</a></li>
-                <li><a href="profile.php" class="<?php echo $current_page === 'profile.php' ? 'active' : ''; ?>">Profile</a></li>
-                <li><a href="logout.php">Logout</a></li>
-            <?php else: ?>
-                <li><a href="index.php" class="<?php echo ($current_page === 'index.php' || $current_page === '') ? 'active' : ''; ?>"><?php echo e(__('home')); ?></a></li>
-                <li><a href="find-workers.php" class="<?php echo $current_page === 'find-workers.php' ? 'active' : ''; ?>"><?php echo e(__('find_workers')); ?></a></li>
-                <li><a href="become-worker.php" class="<?php echo $current_page === 'become-worker.php' ? 'active' : ''; ?>"><?php echo e(__('become_worker')); ?></a></li>
-                <li><a href="index.php#how-it-works"><?php echo e(__('how_it_works')); ?></a></li>
-                <li><a href="about.php" class="<?php echo $current_page === 'about.php' ? 'active' : ''; ?>"><?php echo e(__('about_us')); ?></a></li>
-                <li><a href="contact.php" class="<?php echo $current_page === 'contact.php' ? 'active' : ''; ?>"><?php echo e(__('contact_us')); ?></a></li>
-            <?php endif; ?>
+            <li><a href="customer-dashboard.php" class="<?php echo $current_page === 'customer-dashboard.php' ? 'active' : ''; ?>">Dashboard</a></li>
+            <li><a href="customer-bookings.php" class="<?php echo $current_page === 'customer-bookings.php' ? 'active' : ''; ?>">My Bookings</a></li>
+            <li><a href="customer-chat.php" class="<?php echo $current_page === 'customer-chat.php' ? 'active' : ''; ?>">Messages</a></li>
+            <li><a href="customer-notifications.php" class="<?php echo $current_page === 'customer-notifications.php' ? 'active' : ''; ?>">Notifications</a></li>
+            <li><a href="profile.php" class="<?php echo $current_page === 'profile.php' ? 'active' : ''; ?>">Profile</a></li>
+            <li><a href="logout.php">Logout</a></li>
         </ul>
 
         <!-- Right navigation items desktop -->
@@ -616,16 +595,6 @@ if (isset($_SESSION['user_id'])) {
                     <?php endforeach; ?>
                 </div>
             </div>
-            
-            <?php if (isset($_SESSION['user_id'])): ?>
-                <?php if (($_SESSION['user_type'] ?? '') === 'customer'): ?>
-                    <button class="login-btn" onclick="location.href='customer-dashboard.php'"><?php echo e(__('dashboard')); ?></button>
-                    <button class="signup-btn" onclick="location.href='logout.php'"><?php echo e(__('logout')); ?></button>
-                <?php endif; ?>
-            <?php else: ?>
-                <button class="login-btn" onclick="location.href='login.php'"><?php echo e(__('login')); ?></button>
-                <button class="signup-btn" onclick="location.href='signup.php'"><?php echo e(__('signup')); ?></button>
-            <?php endif; ?>
         </div>
 
         <!-- Hamburger Icon for Mobile (Right) -->
@@ -648,22 +617,12 @@ if (isset($_SESSION['user_id'])) {
         </div>
         
         <ul class="mobile-nav-links">
-            <?php if (isset($_SESSION['user_id']) && ($_SESSION['user_type'] ?? '') === 'worker'): ?>
-                <li><a href="worker-dashboard.php" class="<?php echo $current_page === 'worker-dashboard.php' ? 'active' : ''; ?>"><i class="fa-solid fa-gauge"></i> Dashboard</a></li>
-                <li><a href="worker-jobs.php" class="<?php echo $current_page === 'worker-jobs.php' ? 'active' : ''; ?>"><i class="fa-solid fa-briefcase"></i> Jobs</a></li>
-                <li><a href="worker-requests.php" class="<?php echo $current_page === 'worker-requests.php' ? 'active' : ''; ?>"><i class="fa-solid fa-list-check"></i> Requests</a></li>
-                <li><a href="worker-earnings.php" class="<?php echo $current_page === 'worker-earnings.php' ? 'active' : ''; ?>"><i class="fa-solid fa-wallet"></i> Earnings</a></li>
-                <li><a href="worker-id-card.php" class="<?php echo $current_page === 'worker-id-card.php' ? 'active' : ''; ?>"><i class="fa-solid fa-id-card"></i> Virtual ID Card</a></li>
-                <li><a href="profile.php" class="<?php echo $current_page === 'profile.php' ? 'active' : ''; ?>"><i class="fa-solid fa-user-gear"></i> Profile</a></li>
-                <li><a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
-            <?php else: ?>
-                <li><a href="index.php" class="<?php echo ($current_page === 'index.php' || $current_page === '') ? 'active' : ''; ?>"><i class="fa-solid fa-house"></i> <?php echo e(__('home')); ?></a></li>
-                <li><a href="find-workers.php" class="<?php echo $current_page === 'find-workers.php' ? 'active' : ''; ?>"><i class="fa-solid fa-magnifying-glass"></i> <?php echo e(__('find_workers')); ?></a></li>
-                <li><a href="become-worker.php" class="<?php echo $current_page === 'become-worker.php' ? 'active' : ''; ?>"><i class="fa-solid fa-briefcase"></i> <?php echo e(__('become_worker')); ?></a></li>
-                <li><a href="index.php#how-it-works"><i class="fa-solid fa-circle-info"></i> <?php echo e(__('how_it_works')); ?></a></li>
-                <li><a href="about.php" class="<?php echo $current_page === 'about.php' ? 'active' : ''; ?>"><i class="fa-solid fa-circle-question"></i> <?php echo e(__('about_us')); ?></a></li>
-                <li><a href="contact.php" class="<?php echo $current_page === 'contact.php' ? 'active' : ''; ?>"><i class="fa-solid fa-envelope"></i> <?php echo e(__('contact_us')); ?></a></li>
-            <?php endif; ?>
+            <li><a href="customer-dashboard.php" class="<?php echo $current_page === 'customer-dashboard.php' ? 'active' : ''; ?>"><i class="fa-solid fa-gauge"></i> Dashboard</a></li>
+            <li><a href="customer-bookings.php" class="<?php echo $current_page === 'customer-bookings.php' ? 'active' : ''; ?>"><i class="fa-solid fa-calendar-days"></i> My Bookings</a></li>
+            <li><a href="customer-chat.php" class="<?php echo $current_page === 'customer-chat.php' ? 'active' : ''; ?>"><i class="fa-solid fa-comments"></i> Messages</a></li>
+            <li><a href="customer-notifications.php" class="<?php echo $current_page === 'customer-notifications.php' ? 'active' : ''; ?>"><i class="fa-solid fa-bell"></i> Notifications</a></li>
+            <li><a href="profile.php" class="<?php echo $current_page === 'profile.php' ? 'active' : ''; ?>"><i class="fa-solid fa-user-gear"></i> Profile</a></li>
+            <li><a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
             
             <li class="mobile-nav-divider"></li>
             
@@ -677,19 +636,6 @@ if (isset($_SESSION['user_id'])) {
                     <?php endforeach; ?>
                 </select>
             </li>
-
-            <li class="mobile-nav-divider"></li>
-
-            <?php if (isset($_SESSION['user_id'])): ?>
-                <?php if (($_SESSION['user_type'] ?? '') === 'customer'): ?>
-                    <li><a href="customer-dashboard.php" class="<?php echo $current_page === 'customer-dashboard.php' ? 'active' : ''; ?>"><i class="fa-solid fa-gauge"></i> <?php echo e(__('dashboard')); ?></a></li>
-                    <li><a href="profile.php" class="<?php echo $current_page === 'profile.php' ? 'active' : ''; ?>"><i class="fa-solid fa-user-gear"></i> <?php echo e(__('profile')); ?></a></li>
-                    <li><a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i> <?php echo e(__('logout')); ?></a></li>
-                <?php endif; ?>
-            <?php else: ?>
-                <li><a href="login.php" class="<?php echo $current_page === 'login.php' ? 'active' : ''; ?>"><i class="fa-solid fa-right-to-bracket"></i> <?php echo e(__('login')); ?></a></li>
-                <li><a href="signup.php" class="<?php echo $current_page === 'signup.php' ? 'active' : ''; ?>"><i class="fa-solid fa-user-plus"></i> <?php echo e(__('signup')); ?></a></li>
-            <?php endif; ?>
         </ul>
     </div>
     
