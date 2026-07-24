@@ -57,9 +57,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errors[] = 'Invalid user type selected.';
         }
 
-        // Basic phone validation (optional check but nice to check for digits/spaces)
-        if (!empty($phone) && !preg_match('/^[0-9+\s\-()]{7,20}$/', $phone)) {
-            $errors[] = 'Please enter a valid phone number.';
+        // Basic phone validation: exactly 10 digits
+        if (!empty($phone) && !preg_match('/^[0-9]{10}$/', $phone)) {
+            $errors[] = 'Please enter a valid 10-digit phone number.';
         }
 
         // Check if email already exists in DB
@@ -909,7 +909,7 @@ body {
                         <label for="phone" class="form-label-custom"><?php echo e(__('mobile_number')); ?></label>
                         <div class="input-icon-wrapper">
                             <i class="fa-solid fa-mobile-screen-button prefix-icon"></i>
-                            <input type="tel" id="phone" name="phone" class="form-control-custom" placeholder="<?php echo e(__('mobile_placeholder')); ?>" value="<?php echo e($phone); ?>" autocomplete="tel">
+                            <input type="tel" id="phone" name="phone" class="form-control-custom" placeholder="<?php echo e(__('mobile_placeholder')); ?>" value="<?php echo e($phone); ?>" autocomplete="tel" maxlength="10" minlength="10" pattern="[0-9]{10}" title="Please enter a 10-digit phone number">
                         </div>
                     </div>
 
