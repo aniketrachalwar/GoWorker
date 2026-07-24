@@ -57,6 +57,7 @@ require_once __DIR__ . '/includes/header.php';
     </section>
 
     <!-- CENTER PANEL: Chat Space -->
+    <section class="chat-center-panel">
       <!-- Drag & Drop Overlay -->
       <div class="drag-drop-overlay" id="drag-overlay">
         <div class="drag-drop-box">
@@ -122,11 +123,10 @@ require_once __DIR__ . '/includes/header.php';
           </div>
         </div>
         <!-- Pre-send File Preview Bar (Images/Documents) -->
-        <div class="upload-preview-bar" id="file-preview-bar" style="display: none; align-items: center; gap: 12px; background: var(--white); padding: 12px 16px; border-radius: 16px; border: 1px solid var(--border-color); box-shadow: var(--shadow-premium); margin-bottom: 10px; width: 100%; box-sizing: border-box;">
-          <div id="file-preview-content" style="display: flex; align-items: center; gap: 12px; flex: 1;">
-            <!-- Rendered inline via JS (80x80 thumbnail for images, icon + name for files) -->
-          </div>
-          <button type="button" class="btn-cancel-upload" id="cancel-file-upload" style="background: none; border: none; color: var(--secondary-text); font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+        <div class="upload-preview-bar" id="document-preview-bar" style="display: none; align-items: center; gap: 12px; background: var(--white); padding: 12px 16px; border-radius: 16px; border: 1px solid var(--border-color); box-shadow: var(--shadow-premium); margin-bottom: 10px; width: 100%; box-sizing: border-box;">
+          <i class="fa-solid fa-file" id="doc-preview-icon" style="font-size: 24px; color: #EF4444;"></i>
+          <span id="doc-preview-name" class="upload-preview-filename" style="flex: 1; font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Filename.pdf</span>
+          <button type="button" class="btn-cancel-upload" id="cancel-doc-upload" style="background: none; border: none; color: var(--secondary-text); font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 4px;">
             <i class="fa-solid fa-xmark"></i> Remove
           </button>
         </div>
@@ -140,6 +140,7 @@ require_once __DIR__ . '/includes/header.php';
           </div>
           <div style="display: flex; align-items: center; gap: 10px;">
             <button type="button" id="btn-cancel-record" style="background: none; border: none; color: #EF4444; font-weight: 600; font-size: 13px; cursor: pointer;">Cancel</button>
+            <button type="button" id="btn-stop-record" style="background: none; border: none; color: var(--primary); font-weight: 600; font-size: 13px; cursor: pointer; margin-right: 8px;">Stop</button>
             <button type="button" id="btn-send-record" class="btn-chat-send" style="width: 44px; height: 44px; background: linear-gradient(135deg, #0D4DFF 0%, #4A7BFF 100%); border: none; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; cursor: pointer;" title="Send Voice"><i class="fa-solid fa-paper-plane" style="font-size: 14px;"></i></button>
           </div>
         </div>
@@ -178,7 +179,7 @@ require_once __DIR__ . '/includes/header.php';
           <div class="shared-media-title">Active Booking Details</div>
           <p style="font-size: 13px; margin-bottom: 6px; color: var(--dark-navy);"><strong>Troubleshooting Services</strong></p>
           <p style="font-size: 12px; color: var(--secondary-text); margin-bottom: 12px;">Date: Today • 09:00 AM</p>
-          <button class="btn-book" style="width: 100%; font-size: 12px; padding: 10px 14px;" onclick="location.href='booking-history.php'">Track Booking</button>
+          <button class="btn-book" style="width: 100%; font-size: 12px; padding: 10px 14px;" onclick="location.href='customer-bookings.php'">Track Booking</button>
         </div>
 
         <div class="shared-media-block">
@@ -194,36 +195,20 @@ require_once __DIR__ . '/includes/header.php';
   </div>
 </main>
 
-
-
-<!-- GoWorker AI Chatbot Assistant -->
-<button class="ai-assistant-toggle" id="ai-assistant-toggle" title="GoWorker AI Assistant">
-  <i class="fa-solid fa-robot"></i>
-</button>
-
-<div class="ai-assistant-window" id="ai-assistant-window">
-  <div class="ai-window-header">
-    <div class="ai-header-title">
-      <i class="fa-solid fa-robot" style="margin-right: 8px;"></i>
-      <span>GoWorker Assistant</span>
+<!-- Image Preview Modal -->
+<div class="image-preview-modal" id="image-preview-modal">
+  <div class="modal-content-box">
+    <div class="modal-header-title">
+      <span>Preview Send Image</span>
+      <span class="drawer-close-btn" id="close-image-modal" style="cursor: pointer;"><i class="fa-solid fa-xmark"></i></span>
     </div>
-    <button class="ai-close-btn" id="ai-close-btn"><i class="fa-solid fa-xmark"></i></button>
-  </div>
-  <div class="ai-window-messages" id="ai-messages-container">
-    <div class="ai-msg ai-bot">
-      Hello! I am your GoWorker Support Assistant. How can I help you today?
+    <div class="modal-body-img">
+      <img id="image-modal-preview-src" src="" alt="Image Preview">
     </div>
-    <div class="ai-suggested-actions">
-      <button class="ai-btn" data-action="track">Track Booking</button>
-      <button class="ai-btn" data-action="find">Find Worker</button>
-      <button class="ai-btn" data-action="payment">Payment Help</button>
-      <button class="ai-btn" data-action="support">Contact Support</button>
-      <button class="ai-btn" data-action="report">Report Issue</button>
+    <div class="modal-footer-row">
+      <button type="button" class="btn-modal-action" id="btn-cancel-image-send">Cancel</button>
+      <button type="button" class="btn-modal-action btn-confirm-send" id="btn-confirm-image-send">Send Image</button>
     </div>
-  </div>
-  <div class="ai-window-input-bar">
-    <input type="text" id="ai-msg-input" placeholder="Type a message...">
-    <button type="button" id="ai-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
   </div>
 </div>
 
