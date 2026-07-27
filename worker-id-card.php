@@ -11,8 +11,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // Session Security: Enforce worker login
 if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'worker') {
-    header('Location: login.php');
-    exit();
+    redirect('login.php');
 }
 
 $userId = $_SESSION['user_id'];
@@ -66,7 +65,7 @@ $memberSince = date('F Y', strtotime($worker['user_created_at'] ?? 'now'));
 require_once __DIR__ . '/includes/header.php';
 ?>
 
-<div class="container">
+<div class="container container-fluid">
     <div class="dashboard-layout">
         <!-- Sidebar Navigation -->
         <aside class="dashboard-sidebar">

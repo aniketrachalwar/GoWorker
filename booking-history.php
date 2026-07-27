@@ -24,17 +24,38 @@ if (isset($pdo) && isset($_SESSION['user_id'])) {
         error_log("Error fetching bookings in booking-history.php: " . $e->getMessage());
     }
 }
+
+// Compute dynamic dashboard stats
+$upcoming_count = 0;
+$completed_count = 0;
+$total_spent = 0.00;
+
+if (!empty($bookings)) {
+    foreach ($bookings as $b) {
+        if ($b['status'] === 'confirmed' || $b['status'] === 'pending') {
+            $upcoming_count++;
+        } else if ($b['status'] === 'completed') {
+            $completed_count++;
+            $total_spent += floatval($b['total_price']);
+        }
+    }
+} else {
+    // Fallback static values matching default mockup cards
+    $upcoming_count = 1;
+    $completed_count = 12;
+    $total_spent = 3420.00;
+}
 ?>
 <link rel="stylesheet" href="booking-history.css">
 
 <!-- ================= LAYOUT CONTAINER ================= -->
-<main class="container" style="margin-top: 40px; min-height: 80vh;">
+<main class="container container-fluid" style="margin-top: 40px; min-height: 80vh;">
   <!-- Top Summary Statistics Header -->
   <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 32px;">
     <div class="booking-item-card" style="margin-bottom: 0; padding: 20px; display: flex; align-items: center; gap: 16px;">
       <div style="width: 44px; height: 44px; background: var(--primary-light); color: var(--primary); border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 20px;"><i class="fa-solid fa-clock"></i></div>
       <div>
-        <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 2px;">1</h3>
+        <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 2px;"><?php echo $upcoming_count; ?></h3>
         <p style="font-size: 12px; color: var(--secondary-text); margin-bottom: 0;">Upcoming Booking</p>
       </div>
     </div>
@@ -42,7 +63,7 @@ if (isset($pdo) && isset($_SESSION['user_id'])) {
     <div class="booking-item-card" style="margin-bottom: 0; padding: 20px; display: flex; align-items: center; gap: 16px;">
       <div style="width: 44px; height: 44px; background: rgba(34, 197, 94, 0.08); color: var(--success); border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 20px;"><i class="fa-solid fa-check-double"></i></div>
       <div>
-        <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 2px;">12</h3>
+        <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 2px;"><?php echo $completed_count; ?></h3>
         <p style="font-size: 12px; color: var(--secondary-text); margin-bottom: 0;">Completed Jobs</p>
       </div>
     </div>
@@ -50,7 +71,7 @@ if (isset($pdo) && isset($_SESSION['user_id'])) {
     <div class="booking-item-card" style="margin-bottom: 0; padding: 20px; display: flex; align-items: center; gap: 16px;">
       <div style="width: 44px; height: 44px; background: var(--light-bg); color: var(--secondary-text); border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 20px;"><i class="fa-solid fa-wallet"></i></div>
       <div>
-        <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 2px;">₹3,420</h3>
+        <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 2px;">₹<?php echo number_format($total_spent); ?></h3>
         <p style="font-size: 12px; color: var(--secondary-text); margin-bottom: 0;">Total Spent</p>
       </div>
     </div>
@@ -124,10 +145,12 @@ if (isset($pdo) && isset($_SESSION['user_id'])) {
               <?php if ($booking['status'] === 'completed'): ?>
                 <button class="btn-book btn-invoice" style="background: var(--white); border: 1.5px solid var(--border-color); color: var(--primary-text);"><i class="fa-solid fa-file-arrow-down"></i> Download Invoice</button>
                 <button class="btn-book" style="background: var(--white); border: 1.5px solid var(--primary); color: var(--primary);" onclick="location.href='worker-profile.php?id=<?php echo $worker_url_id; ?>'">Book Again</button>
+              <?php elseif ($booking['status'] === 'cancelled'): ?>
+                <button class="btn-book" style="background: var(--white); border: 1.5px solid var(--primary); color: var(--primary);" onclick="location.href='worker-profile.php?id=<?php echo $worker_url_id; ?>'">Book Again</button>
               <?php else: ?>
                 <button class="btn-book" onclick="location.href='customer-chat.php'">Chat</button>
                 <button class="btn-book" style="background: var(--white); border: 1.5px solid var(--border-color); color: var(--primary-text);" onclick="alert('Calling simulation...')"><i class="fa-solid fa-phone"></i> Call</button>
-                <button class="btn-book btn-cancel-booking" style="background: var(--white); border: 1.5px solid var(--danger); color: var(--danger);">Cancel Booking</button>
+                <button class="btn-book btn-cancel-booking" data-booking-id="<?php echo $booking['id']; ?>" style="background: var(--white); border: 1.5px solid var(--danger); color: var(--danger);">Cancel Booking</button>
               <?php endif; ?>
             </div>
           </article>

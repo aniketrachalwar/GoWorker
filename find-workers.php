@@ -459,7 +459,7 @@ require_once __DIR__ . '/includes/header.php';
     }
 </style>
 
-<main class="container">
+<main class="container container-fluid">
   <div class="marketplace-layout">
     <!-- Filters Sidebar -->
     <aside class="filter-sidebar">
@@ -542,12 +542,12 @@ require_once __DIR__ . '/includes/header.php';
           <?php foreach ($workers as $worker): ?>
             <article class="worker-card">
               <div class="worker-card-header">
-                <a href="worker-profile.php?id=<?php echo $worker['id']; ?>" class="worker-avatar-container">
-                  <img class="worker-avatar" src="<?php echo e($worker['profile_picture'] ?: 'images/avatar_placeholder.png'); ?>" alt="Worker">
+                <a href="<?php echo url('worker-profile.php?id=' . $worker['id']); ?>" class="worker-avatar-container">
+                  <img class="worker-avatar" src="<?php echo e(image_url($worker['profile_picture'] ?: 'images/avatar_placeholder.png')); ?>" alt="Worker">
                   <div class="verified-badge"><i class="fa-solid fa-check"></i></div>
                 </a>
                 <div class="worker-meta">
-                  <h4><a href="worker-profile.php?id=<?php echo $worker['id']; ?>" style="color: inherit; text-decoration: none;"><?php echo e($worker['worker_name']); ?></a></h4>
+                  <h4><a href="<?php echo url('worker-profile.php?id=' . $worker['id']); ?>" style="color: inherit; text-decoration: none;"><?php echo e($worker['worker_name']); ?></a></h4>
                   <p><?php echo e(translate_category_name($worker['category_name'])); ?></p>
                 </div>
                 <button class="fav-btn" data-worker-id="<?php echo $worker['id']; ?>" title="Save Worker" style="background: rgba(243, 244, 246, 0.8); border: none; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; margin-left: auto; transition: transform 0.2s ease;">

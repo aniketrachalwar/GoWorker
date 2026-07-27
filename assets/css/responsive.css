@@ -1,0 +1,467 @@
+/* ==========================================================================
+   GoWorker Responsive Design Sheet (responsive.css)
+   ========================================================================== */
+
+/* Universal Reset & Utilities */
+* {
+  box-sizing: border-box !important;
+}
+
+html, body {
+  overflow-x: hidden !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box !important;
+  -webkit-text-size-adjust: 100%;
+}
+
+img {
+  max-width: 100% !important;
+  height: auto !important;
+  object-fit: cover !important;
+}
+
+/* Table Responsive wrapper */
+.table-responsive {
+  width: 100% !important;
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 8px;
+}
+
+.table-responsive table {
+  width: 100% !important;
+  min-width: 600px !important;
+}
+
+/* Touch targets and buttons */
+button, 
+.btn, 
+.btn-primary-auth, 
+.login-btn, 
+.signup-btn, 
+.btn-book, 
+.btn-chat-send,
+.btn-input-widget,
+input[type="text"], 
+input[type="email"], 
+input[type="password"], 
+input[type="tel"], 
+select, 
+textarea {
+  min-height: 48px !important;
+}
+
+/* Prevent password toggle buttons from stretching to 48px height and overlaying text */
+.password-toggle-btn {
+  min-height: auto !important;
+  height: 38px !important;
+  width: 38px !important;
+  padding: 0 !important;
+  position: absolute !important;
+  top: 50% !important;
+  right: 6px !important;
+  transform: translateY(-50%) !important;
+  z-index: 10 !important;
+  background: none !important;
+  border: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  pointer-events: auto !important;
+}
+
+/* Add padding-right to password input text areas to prevent character overlay under the toggle icon */
+.password-input,
+input[type="password"] {
+  padding-right: 48px !important;
+}
+
+
+/* Layout Breakpoints */
+
+/* ================= LARGE SCREENS & LAPTOPS ================= */
+@media (min-width: 993px) {
+  .btn, .login-btn, .signup-btn, .btn-book {
+    width: auto !important;
+  }
+}
+
+/* ================= TABLETS & MOBILE SCREENS (< 992px) ================= */
+@media (max-width: 992px) {
+  /* Navbar */
+  .nav-links, .nav-actions {
+    display: none !important;
+  }
+  .hamburger-menu-btn {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: var(--primary-color, #0D4DFF);
+    cursor: pointer;
+    padding: 8px;
+    z-index: 1001;
+  }
+  .navbar {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 10px 20px !important;
+    height: 70px !important;
+    width: 100% !important;
+  }
+  .mobile-sidebar-menu {
+    position: fixed !important;
+    top: 0 !important;
+    right: -280px !important;
+    width: 280px !important;
+    height: 100vh !important;
+    background: #ffffff !important;
+    box-shadow: -5px 0 25px rgba(0,0,0,0.15) !important;
+    transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    z-index: 10000 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 24px !important;
+  }
+  .mobile-sidebar-menu.open {
+    right: 0 !important;
+  }
+
+  /* Dashboard layouts */
+  .dashboard-layout {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+  .dashboard-sidebar {
+    position: static !important;
+    margin-bottom: 20px !important;
+    width: 100% !important;
+    padding: 16px !important;
+  }
+  .sidebar-menu {
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+    justify-content: center !important;
+  }
+  .sidebar-link {
+    padding: 10px 14px !important;
+  }
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* Booking History */
+  .history-layout {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+  
+  /* Profile layout */
+  .profile-hero-card {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    padding: 24px !important;
+    gap: 16px !important;
+  }
+  .profile-grid-layout {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+  .profile-form-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .profile-form-group.full-width {
+    grid-column: span 1 !important;
+  }
+  .profile-stats-row {
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 12px !important;
+  }
+  .profile-actions-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 10px !important;
+  }
+  .profile-actions-wrapper button,
+  .profile-actions-wrapper a {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  /* Worker Profile */
+  .profile-layout {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+  .sticky-booking-sidebar {
+    position: static !important;
+    width: 100% !important;
+  }
+}
+
+/* ================= SMALL TABLETS & MOBILE SCREENS (< 768px) ================= */
+@media (max-width: 768px) {
+  /* Hero, steps, footer */
+  .container, .main-container {
+    padding: 0 16px !important;
+  }
+  .grid-2, .grid-3, .grid-4 {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+  .hero-stats {
+    grid-template-columns: 1fr !important;
+    gap: 15px !important;
+  }
+  .features {
+    grid-template-columns: 1fr !important;
+  }
+  .steps, .stats {
+    grid-template-columns: 1fr !important;
+  }
+
+  footer, .footer {
+    padding: 40px 20px !important;
+  }
+  .footer-grid, .footer-container {
+    grid-template-columns: 1fr !important;
+    text-align: center !important;
+    gap: 30px !important;
+  }
+  .footer-brand, .footer-col {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+  .footer-socials {
+    justify-content: center !important;
+  }
+
+  /* Cards */
+  .card, .worker-card, .service-card, .feature-card, .summary-card, .stat-card, .booking-card, .info-card, .booking-item-card {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  
+  /* Buttons */
+  button, .btn, .btn-primary-auth, .login-btn, .signup-btn, .btn-book, .btn-primary {
+    width: 100% !important;
+    margin: 5px 0 !important;
+  }
+
+  /* Booking page details */
+  .booking-item-card {
+    padding: 16px !important;
+  }
+  .booking-item-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+  }
+  .booking-item-card div[style*="margin-top"] {
+    flex-direction: column !important;
+    gap: 8px !important;
+    display: flex !important;
+    width: 100% !important;
+  }
+  .rating-stars {
+    justify-content: center !important;
+    margin: 10px 0 !important;
+  }
+
+  /* Chat window WhatsApp behavior */
+  .chat-layout {
+    position: relative;
+    height: calc(100vh - 120px) !important;
+  }
+  .chat-left-panel {
+    width: 100% !important;
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    height: 100% !important;
+    z-index: 5 !important;
+    transition: transform 0.3s ease !important;
+  }
+  .chat-center-panel {
+    width: 100% !important;
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    height: 100% !important;
+    z-index: 10 !important;
+    transform: translateX(100%) !important;
+    transition: transform 0.3s ease !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  .chat-layout.chat-active .chat-center-panel {
+    transform: translateX(0) !important;
+  }
+  .chat-layout.chat-active .chat-left-panel {
+    transform: translateX(-100%) !important;
+  }
+  .chat-back-btn {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+  }
+  .emoji-picker-container {
+    bottom: 80px !important;
+    left: 10px !important;
+    width: calc(100% - 20px) !important;
+    max-width: 320px !important;
+  }
+  .upload-preview-bar {
+    bottom: 80px !important;
+    left: 10px !important;
+    right: 10px !important;
+  }
+  .voice-record-bar {
+    height: auto !important;
+    min-height: 52px !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    padding: 10px 16px !important;
+    border-radius: 16px !important;
+    gap: 8px !important;
+  }
+  .voice-record-bar > div {
+    justify-content: space-between !important;
+  }
+  .input-row-controls {
+    gap: 6px !important;
+  }
+  .chat-input-field {
+    padding: 8px 12px !important;
+    font-size: 13.5px !important;
+  }
+  .btn-input-widget {
+    font-size: 18px !important;
+    padding: 4px !important;
+  }
+}
+
+/* ================= EXTREMELY SMALL MOBILE SCREENS (< 576px) ================= */
+@media (max-width: 576px) {
+  .stats-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .sidebar-menu {
+    justify-content: space-around !important;
+  }
+  .sidebar-link {
+    font-size: 13px !important;
+    padding: 8px 12px !important;
+  }
+  .greeting-card {
+    padding: 24px !important;
+  }
+  .greeting-card h2 {
+    font-size: 20px !important;
+  }
+  .dashboard-block {
+    padding: 16px !important;
+  }
+
+  .header-info-bar {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    padding-top: 80px !important;
+  }
+  .avatar-wrapper {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    top: -70px !important;
+  }
+  .profile-title-section {
+    padding-left: 0 !important;
+    margin-bottom: 20px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+  .meta-stats {
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+    gap: 12px !important;
+  }
+  .profile-action-buttons {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 10px !important;
+    margin-top: 15px !important;
+  }
+  .profile-action-buttons button, 
+  .profile-action-buttons a {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+  .badge-container, .badges-row {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 8px !important;
+  }
+
+  /* Virtual ID Card */
+  .dashboard-content .card {
+    padding: 1.5rem 0.5rem !important;
+  }
+  .id-card-display {
+    width: 100% !important;
+    max-width: 290px !important;
+    height: auto !important;
+  }
+  .id-card-display img {
+    width: 80px !important;
+    height: 80px !important;
+  }
+  .id-card-display h2 {
+    font-size: 16px !important;
+  }
+  .id-card-display p {
+    font-size: 12px !important;
+  }
+  .id-card-display div[style*="font-size: 12px"] {
+    font-size: 10px !important;
+  }
+  .dashboard-content .btn-primary {
+    width: 100% !important;
+  }
+}
+
+/* Signup Page Mobile Viewport & Scroll Safety Overrides */
+@media (max-width: 768px) {
+  body {
+    height: auto !important;
+    min-height: 100vh !important;
+    overflow-y: auto !important;
+  }
+  .signup-container {
+    height: auto !important;
+    min-height: 100vh !important;
+    overflow-y: visible !important;
+  }
+  .right-panel {
+    height: auto !important;
+    min-height: auto !important;
+    overflow-y: visible !important;
+  }
+}

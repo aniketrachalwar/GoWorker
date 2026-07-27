@@ -6,21 +6,49 @@ document.addEventListener("DOMContentLoaded", () => {
     const cancelBtns = document.querySelectorAll(".btn-cancel-booking");
     cancelBtns.forEach(btn => {
         btn.addEventListener("click", (e) => {
+            const bookingId = btn.getAttribute("data-booking-id");
             const confirmCancel = confirm("Are you sure you want to cancel this booking? Cancellation fees may apply.");
             if (confirmCancel) {
-                alert("Booking request cancelled successfully. Refund initiated to source method.");
-                // Update UI state
-                const card = btn.closest(".booking-item-card");
-                if (card) {
-                    const badge = card.querySelector(".status-badge");
-                    if (badge) {
-                        badge.className = "status-badge";
-                        badge.style.background = "rgba(239, 68, 68, 0.08)";
-                        badge.style.color = "var(--danger)";
-                        badge.textContent = "Cancelled";
+                if (!bookingId) {
+                    // Fallback to static mock behavior for static/demo pages
+                    alert("Booking request cancelled successfully. Refund initiated to source method.");
+                    const card = btn.closest(".booking-item-card");
+                    if (card) {
+                        const badge = card.querySelector(".status-badge");
+                        if (badge) {
+                            badge.className = "status-badge";
+                            badge.style.background = "rgba(239, 68, 68, 0.08)";
+                            badge.style.color = "var(--danger)";
+                            badge.textContent = "Cancelled";
+                        }
+                        btn.remove();
                     }
-                    btn.remove(); // Remove cancel button
+                    return;
                 }
+
+                // Perform real cancellation via API
+                const base = (window.GOWORKER_BASE_URL ? window.GOWORKER_BASE_URL.replace(/\/$/, '') : '');
+                fetch(base + '/api/cancel-booking.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ booking_id: bookingId })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Booking request cancelled successfully. Refund initiated to source method.");
+                        // Refresh booking list and stats dynamically by reloading
+                        location.reload();
+                    } else {
+                        alert("Error: " + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error cancelling booking:", error);
+                    alert("Failed to cancel booking. Please try again.");
+                });
             }
         });
     });

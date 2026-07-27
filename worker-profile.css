@@ -387,30 +387,55 @@
 
 @media (max-width: 992px) {
     .profile-layout {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
+        gap: 24px !important;
     }
     .sticky-booking-sidebar {
-        position: static;
+        position: static !important;
+        width: 100% !important;
     }
 }
 
 @media (max-width: 640px) {
     .header-info-bar {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        padding-top: 80px;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        padding-top: 80px !important;
     }
     .avatar-wrapper {
-        left: 50%;
-        transform: translateX(-50%);
-        top: -70px;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        top: -70px !important;
     }
     .profile-title-section {
-        padding-left: 0;
-        margin-bottom: 20px;
+        padding-left: 0 !important;
+        margin-bottom: 20px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
     }
     .meta-stats {
-        justify-content: center;
+        justify-content: center !important;
+        flex-wrap: wrap !important;
+        gap: 12px !important;
+    }
+    .profile-action-buttons {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 10px !important;
+        margin-top: 15px !important;
+    }
+    .profile-action-buttons button, 
+    .profile-action-buttons a {
+        width: 100% !important;
+        margin: 0 !important;
+    }
+    .badge-container, .badges-row {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 8px !important;
     }
 }

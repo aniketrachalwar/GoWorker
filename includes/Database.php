@@ -30,8 +30,12 @@ class Database {
             
             // Redirect to clean POST inputs and reload the active page
             $redirect_url = strtok($_SERVER["REQUEST_URI"], '?');
-            header("Location: " . $redirect_url);
-            exit();
+            if (function_exists('redirect')) {
+                redirect($redirect_url);
+            } else {
+                header("Location: " . $redirect_url);
+                exit();
+            }
         }
 
         $host = DB_HOST;

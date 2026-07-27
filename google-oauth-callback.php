@@ -83,7 +83,7 @@ $metadata[$user['id']] = [
 file_put_contents($meta_file, json_encode($metadata, JSON_PRETTY_PRINT));
 
 // Determine dynamic landing redirect
-$redirect_url = ($user['user_type'] === 'worker') ? 'worker-dashboard.php' : 'customer-dashboard.php';
+$redirect_url = url(($user['user_type'] === 'worker') ? 'worker-dashboard.php' : 'customer-dashboard.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">

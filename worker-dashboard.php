@@ -2,15 +2,55 @@
 /**
  * GoWorker Worker Dashboard
  */
+require_once __DIR__ . '/config/database.php';
 require_once __DIR__ . '/includes/auth.php';
 
 // Enforce worker login
 requireWorker();
 
+$pending_count = 0;
+$completed_count = 0;
+$avg_rating = 0.0;
+$active_bookings = [];
+
+if (isset($pdo) && isset($_SESSION['user_id'])) {
+    $worker_uid = $_SESSION['user_id'];
+    try {
+        // Fetch stats
+        $stmt_pending = $pdo->prepare("SELECT COUNT(*) FROM bookings WHERE worker_id = ? AND status = 'pending'");
+        $stmt_pending->execute([$worker_uid]);
+        $pending_count = intval($stmt_pending->fetchColumn());
+        
+        // Completed
+        $stmt_completed = $pdo->prepare("SELECT COUNT(*) FROM bookings WHERE worker_id = ? AND status = 'completed'");
+        $stmt_completed->execute([$worker_uid]);
+        $completed_count = intval($stmt_completed->fetchColumn());
+        
+        // Avg rating
+        $stmt_rating = $pdo->prepare("SELECT AVG(rating) FROM reviews WHERE worker_id = ?");
+        $stmt_rating->execute([$worker_uid]);
+        $avg_rating = round(floatval($stmt_rating->fetchColumn() ?: 0.0), 1);
+        
+        // Fetch active bookings (excluding cancelled/completed ones)
+        $stmt_active = $pdo->prepare("
+            SELECT b.*, u.full_name as customer_name 
+            FROM bookings b
+            JOIN users u ON b.customer_id = u.id
+            WHERE b.worker_id = ? AND b.status IN ('pending', 'confirmed')
+            ORDER BY b.booking_date ASC, b.time_slot ASC
+        ");
+        $stmt_active->execute([$worker_uid]);
+        $active_bookings = $stmt_active->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Error querying worker dashboard: " . $e->getMessage());
+    }
+}
+
 require_once __DIR__ . '/includes/header.php';
 ?>
+<link rel="stylesheet" href="booking-history.css">
 
-<div class="container">
+<div class="container container-fluid">
     <div class="dashboard-layout">
         <!-- Sidebar Navigation -->
         <aside class="dashboard-sidebar">
@@ -104,19 +144,19 @@ require_once __DIR__ . '/includes/header.php';
                 <div class="card" style="padding: 1.5rem; text-align: left;">
                     <div style="font-size: 2rem; color: var(--primary); margin-bottom: 0.5rem;"><i class="fa-solid fa-calendar-day"></i></div>
                     <h4 style="color: var(--text-muted); font-size: 0.9rem; font-weight: 600; text-transform: uppercase;">Pending Bookings</h4>
-                    <p style="font-size: 1.75rem; font-weight: 800; color: var(--dark-navy);">0</p>
+                    <p style="font-size: 1.75rem; font-weight: 800; color: var(--dark-navy);"><?php echo $pending_count; ?></p>
                 </div>
                 
                 <div class="card" style="padding: 1.5rem; text-align: left;">
                     <div style="font-size: 2rem; color: var(--success); margin-bottom: 0.5rem;"><i class="fa-solid fa-circle-check"></i></div>
                     <h4 style="color: var(--text-muted); font-size: 0.9rem; font-weight: 600; text-transform: uppercase;">Completed Jobs</h4>
-                    <p style="font-size: 1.75rem; font-weight: 800; color: var(--dark-navy);">0</p>
+                    <p style="font-size: 1.75rem; font-weight: 800; color: var(--dark-navy);"><?php echo $completed_count; ?></p>
                 </div>
                 
                 <div class="card" style="padding: 1.5rem; text-align: left;">
                     <div style="font-size: 2rem; color: var(--warning); margin-bottom: 0.5rem;"><i class="fa-solid fa-star"></i></div>
                     <h4 style="color: var(--text-muted); font-size: 0.9rem; font-weight: 600; text-transform: uppercase;">Average Rating</h4>
-                    <p style="font-size: 1.75rem; font-weight: 800; color: var(--dark-navy);">0.0 / 5</p>
+                    <p style="font-size: 1.75rem; font-weight: 800; color: var(--dark-navy);"><?php echo $avg_rating; ?> / 5</p>
                 </div>
             </div>
             
@@ -129,11 +169,41 @@ require_once __DIR__ . '/includes/header.php';
                         <a href="profile.php" class="btn btn-outline" style="padding: 0.5rem 1rem; font-size: 0.85rem;"><i class="fa-solid fa-user-pen"></i> Update Profile</a>
                     </div>
                     
+                    <?php if (empty($active_bookings)): ?>
                     <div class="text-center" style="padding: 3rem 1.5rem;">
                         <div style="font-size: 3rem; color: var(--text-muted); margin-bottom: 1.5rem;"><i class="fa-solid fa-circle-exclamation"></i></div>
                         <h4 style="margin-bottom: 0.5rem;">No Active Bookings</h4>
                         <p style="color: var(--text-muted); max-width: 400px; margin: 0 auto; font-size: 0.95rem;">You don't have any customer bookings scheduled right now. Make sure your profile details are fully updated to attract bookings.</p>
                     </div>
+                    <?php else: ?>
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 16px;">
+                        <?php foreach ($active_bookings as $booking): ?>
+                          <?php
+                          $status_class = '';
+                          $status_label = '';
+                          if ($booking['status'] === 'confirmed') {
+                              $status_class = 'status-ongoing';
+                              $status_label = 'Confirmed';
+                          } else {
+                              $status_class = 'status-pending';
+                              $status_label = 'Pending';
+                          }
+                          ?>
+                          <div class="booking-item-card" style="border: 1px solid var(--border-color); padding: 20px; border-radius: var(--radius-lg); margin-bottom: 0; background: var(--white); box-shadow: var(--shadow-sm); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; text-align: left;">
+                            <div>
+                              <h4 style="font-size: 15px; font-weight: 700; margin: 0 0 4px 0; color: var(--dark-navy);">Customer: <?php echo htmlspecialchars($booking['customer_name']); ?> <span style="font-size: 11px; color: var(--primary); font-weight: 600; margin-left: 6px;">ID: #GW-<?php echo $booking['id']; ?></span></h4>
+                              <p style="font-size: 13px; color: var(--secondary-text); margin: 0 0 4px 0; font-weight: 600;"><?php echo htmlspecialchars($booking['description']); ?></p>
+                              <p style="font-size: 12px; color: var(--secondary-text); margin: 0;"><i class="fa-solid fa-calendar"></i> <?php echo date('F j, Y', strtotime($booking['booking_date'])); ?> • <?php echo htmlspecialchars($booking['time_slot']); ?></p>
+                              <p style="font-size: 12px; color: var(--secondary-text); margin: 4px 0 0 0;"><i class="fa-solid fa-location-dot"></i> <?php echo htmlspecialchars($booking['address']); ?></p>
+                            </div>
+                            <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">
+                              <span class="status-badge <?php echo $status_class; ?>"><?php echo $status_label; ?></span>
+                              <a href="worker-jobs.php" class="btn btn-outline" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; border: 1.5px solid var(--primary); color: var(--primary); text-decoration: none;">Manage Jobs</a>
+                            </div>
+                          </div>
+                        <?php endforeach; ?>
+                    </div>
+                    <?php endif; ?>
                 </div>
 
                 <!-- Job Feed Card -->

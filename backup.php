@@ -100,8 +100,7 @@ if ($action === 'create') {
     if (!$pdo) {
         $_SESSION['backup_message'] = "Cannot connect to database to create backup.";
         $_SESSION['backup_message_type'] = "danger";
-        header("Location: backup.php");
-        exit();
+        redirect("backup.php");
     }
 
     $sql = generateDatabaseBackupSql($pdo);
@@ -124,8 +123,7 @@ if ($action === 'create') {
         $_SESSION['backup_message'] = "An error occurred while generating backup SQL content.";
         $_SESSION['backup_message_type'] = "danger";
     }
-    header("Location: backup.php");
-    exit();
+    redirect("backup.php");
 }
 
 if ($action === 'download_live') {
@@ -159,8 +157,7 @@ if ($action === 'download_file') {
     } else {
         $_SESSION['backup_message'] = "The requested file does not exist.";
         $_SESSION['backup_message_type'] = "danger";
-        header("Location: backup.php");
-        exit();
+        redirect("backup.php");
     }
 }
 
@@ -176,8 +173,7 @@ if ($action === 'delete') {
             $_SESSION['backup_message_type'] = "danger";
         }
     }
-    header("Location: backup.php");
-    exit();
+    redirect("backup.php");
 }
 
 // Fetch list of files

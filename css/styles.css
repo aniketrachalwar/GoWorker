@@ -2798,14 +2798,164 @@ body.dark-mode .dropdown-content a { color: #F3F4F6; }
   box-shadow: 0 15px 35px rgba(13,77,255,.35);
 }
 
-@media(max-width:768px){
-  .navbar{
-    flex-direction:column;
-    gap:20px;
+/* ==========================================================================
+   RESPONSIVE DESIGN SYSTEM OVERRIDES (Mobile, Tablet & Small Screens)
+   ========================================================================== */
+
+/* Force clean box-sizing and fluid media */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  overflow-x: hidden !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box !important;
+  -webkit-text-size-adjust: 100%;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* Ensure form elements and buttons meet minimum touch target height */
+button, 
+.btn, 
+.btn-primary-auth, 
+.login-btn, 
+.signup-btn, 
+.btn-book, 
+.chat-send-btn,
+input[type="text"], 
+input[type="email"], 
+input[type="password"], 
+input[type="tel"], 
+select, 
+textarea {
+  min-height: 48px !important;
+}
+
+/* Table responsiveness utility wrapper */
+.table-responsive-wrapper {
+  width: 100% !important;
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+}
+
+.table-responsive-wrapper table {
+  width: 100% !important;
+  min-width: 600px; /* Force scroll on small screens instead of squishing */
+  margin-bottom: 0 !important;
+}
+
+/* Header & Mobile Drawer Styles */
+@media (max-width: 992px) {
+  .nav-links, .nav-actions {
+    display: none !important;
   }
-  .nav-links{
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:15px;
+  .hamburger-menu-btn {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: var(--primary-color, #0D4DFF);
+    cursor: pointer;
+    padding: 8px;
+    z-index: 1001;
+  }
+  .navbar {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 10px 20px !important;
+    height: 70px !important;
+  }
+  .mobile-sidebar-menu {
+    position: fixed !important;
+    top: 0 !important;
+    right: -280px !important;
+    width: 280px !important;
+    height: 100vh !important;
+    background: #ffffff !important;
+    box-shadow: -5px 0 25px rgba(0,0,0,0.15) !important;
+    transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    z-index: 10000 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 24px !important;
+  }
+  .mobile-sidebar-menu.open {
+    right: 0 !important;
+  }
+}
+
+/* Footer Responsive Overrides */
+@media (max-width: 768px) {
+  footer, .footer {
+    padding: 40px 20px !important;
+  }
+  .footer-grid, .footer-container {
+    grid-template-columns: 1fr !important;
+    text-align: center !important;
+    gap: 30px !important;
+  }
+  .footer-brand, .footer-col {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+  .footer-socials {
+    justify-content: center !important;
+  }
+}
+
+/* Base breakpoints layout rules */
+@media (max-width: 768px) {
+  .container, .main-container {
+    padding: 0 16px !important;
+  }
+  .grid-2, .grid-3, .grid-4 {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+}
+
+/* Virtual ID Card Responsiveness Overrides */
+@media (max-width: 480px) {
+  .dashboard-content .card {
+    padding: 1.5rem 1rem !important;
+  }
+  .id-card-display {
+    width: 100% !important;
+    max-width: 300px !important;
+    height: auto !important;
+  }
+  .id-card-display img {
+    width: 80px !important;
+    height: 80px !important;
+  }
+  .id-card-display h2 {
+    font-size: 16px !important;
+  }
+  .id-card-display p {
+    font-size: 12px !important;
+  }
+  .id-card-display div[style*="font-size: 12px"] {
+    font-size: 11px !important;
+  }
+  .dashboard-content .btn-primary {
+    width: 100% !important;
   }
 }

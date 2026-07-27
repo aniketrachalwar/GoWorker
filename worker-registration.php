@@ -5,10 +5,9 @@
 require_once __DIR__ . '/config/database.php';
 require_once __DIR__ . '/includes/functions.php';
 
-// Redirect to profile if already a worker
-if (isset($_SESSION['user_id']) && ($_SESSION['user_type'] ?? '') === 'worker') {
-    header('Location: profile.php');
-    exit();
+// Redirect to profile if already logged in as a worker
+if (isset($_SESSION['user_type']) && $_SESSION['user_type'] === 'worker') {
+    redirect('profile.php');
 }
 
 $categories = [];
@@ -101,8 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             $pdo->commit();
             set_flash('success', "Your professional profile has been successfully created!");
-            header("Location: worker-dashboard.php");
-            exit();
+            redirect("worker-dashboard.php");
             
         } catch (Exception $e) {
             if ($pdo->inTransaction()) {

@@ -27,7 +27,8 @@
         const localFavs = JSON.parse(localStorage.getItem('gw_favorites') || '[]');
 
         // Fetch server favorites if user is logged in
-        fetch('api/favorites.php?action=list')
+        const base = (window.GOWORKER_BASE_URL ? window.GOWORKER_BASE_URL.replace(/\/$/, '') : '');
+        fetch(base + '/api/favorites.php?action=list')
             .then(res => res.json())
             .then(data => {
                 let favList = localFavs;
@@ -65,10 +66,11 @@
             localStorage.setItem('gw_favorites', JSON.stringify(favs));
 
             // Sync with backend API
+            const base = (window.GOWORKER_BASE_URL ? window.GOWORKER_BASE_URL.replace(/\/$/, '') : '');
             const formData = new FormData();
             formData.append('action', 'toggle');
             formData.append('worker_id', workerId);
-            fetch('api/favorites.php', { method: 'POST', body: formData })
+            fetch(base + '/api/favorites.php', { method: 'POST', body: formData })
                 .catch(() => {});
         });
     }
@@ -210,7 +212,8 @@
             formData.append('rating', currentRating);
             formData.append('review_text', text);
 
-            fetch('api/reviews.php', { method: 'POST', body: formData })
+            const base = (window.GOWORKER_BASE_URL ? window.GOWORKER_BASE_URL.replace(/\/$/, '') : '');
+            fetch(base + '/api/reviews.php', { method: 'POST', body: formData })
                 .then(res => res.json())
                 .then(() => {
                     btn.innerHTML = '✔ Review Submitted!';
