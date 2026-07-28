@@ -157,7 +157,7 @@ require_once __DIR__ . '/includes/header.php';
 <link rel="stylesheet" href="worker-profile.css">
 
 <!-- ================= PROFILE LAYOUT ================= -->
-<main class="container" style="min-height: 80vh;">
+<main class="container container-fluid" style="min-height: 80vh;">
   <div class="profile-layout">
     
     <!-- LEFT CONTENT AREA (70%) -->
@@ -167,7 +167,7 @@ require_once __DIR__ . '/includes/header.php';
         <div class="cover-banner" style="background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%); height: 160px; border-radius: var(--radius-lg) var(--radius-lg) 0 0;"></div>
         <div class="header-info-bar">
           <div class="avatar-wrapper">
-            <img class="avatar-img" src="<?php echo e($worker['profile_picture'] ?: 'images/avatar_placeholder.png'); ?>" alt="<?php echo e($worker['worker_name']); ?>">
+            <img class="avatar-img" src="<?php echo e(image_url($worker['profile_picture'])); ?>" alt="<?php echo e($worker['worker_name']); ?>">
             <span class="status-dot status-online"></span>
           </div>
           
@@ -338,7 +338,7 @@ require_once __DIR__ . '/includes/header.php';
         <?php endif; ?>
 
         <!-- Download Virtual ID Card Button -->
-        <button class="btn-primary-auth" id="download-id-card-btn" style="width: 100%; height: 50px; background: linear-gradient(135deg, #10B981 0%, #059669 100%); border: none; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);" onclick="downloadIDCard('<?php echo e(addslashes($worker['worker_name'])); ?>', <?php echo $worker['user_id']; ?>, '<?php echo e(addslashes($worker['title'] ?: $worker['category_name'])); ?>', '<?php echo e(addslashes($worker['profile_picture'] ?: 'images/avatar_placeholder.png')); ?>', '<?php echo e(addslashes($worker['location'])); ?>', '<?php echo e($worker['experience_years']); ?>', '<?php echo e(addslashes($worker['email'] ?? '')); ?>', '<?php echo e(addslashes($worker['phone'] ?? '')); ?>', '<?php echo e(date('F Y', strtotime($worker['user_created_at'] ?? 'now'))); ?>')">
+        <button class="btn-primary-auth" id="download-id-card-btn" style="width: 100%; height: 50px; background: linear-gradient(135deg, #10B981 0%, #059669 100%); border: none; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);" onclick="downloadIDCard('<?php echo e(addslashes($worker['worker_name'])); ?>', <?php echo $worker['user_id']; ?>, '<?php echo e(addslashes($worker['title'] ?: $worker['category_name'])); ?>', '<?php echo e(addslashes(image_url($worker['profile_picture']))); ?>', '<?php echo e(addslashes($worker['location'])); ?>', '<?php echo e($worker['experience_years']); ?>', '<?php echo e(addslashes($worker['email'] ?? '')); ?>', '<?php echo e(addslashes($worker['phone'] ?? '')); ?>', '<?php echo e(date('F Y', strtotime($worker['user_created_at'] ?? 'now'))); ?>')">
           <i class="fa-solid fa-id-card" style="margin-right: 8px;"></i>
           <span>Download ID Card</span>
         </button>

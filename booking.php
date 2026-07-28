@@ -62,7 +62,7 @@ require_once __DIR__ . '/includes/header.php';
 </script>
 
 <!-- ================= BOOKING CONTAINER ================= -->
-<main class="container" style="margin-top: 40px; min-height: 80vh;">
+<main class="container container-fluid" style="margin-top: 40px; min-height: 80vh;">
   <!-- Step Progress Stepper -->
   <div class="stepper-container">
     <div class="step-item completed">

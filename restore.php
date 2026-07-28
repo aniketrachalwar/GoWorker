@@ -74,8 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     if (!$pdo) {
         $_SESSION['restore_message'] = "Cannot connect to database to import.";
         $_SESSION['restore_message_type'] = "danger";
-        header("Location: restore.php");
-        exit();
+        redirect("restore.php");
     }
 
     if (isset($_FILES['sql_file']) && $_FILES['sql_file']['error'] === UPLOAD_ERR_OK) {
@@ -95,20 +94,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             $_SESSION['restore_message'] = "Invalid file type. Only standard .sql files are supported.";
             $_SESSION['restore_message_type'] = "danger";
         }
-    } else {
-        $_SESSION['restore_message'] = "File upload failed or no file selected.";
+    $_SESSION['restore_message'] = "File upload failed or no file selected.";
         $_SESSION['restore_message_type'] = "danger";
     }
-    header("Location: restore.php");
-    exit();
+    redirect("restore.php");
 }
 
 if ($action === 'restore_local') {
     if (!$pdo) {
         $_SESSION['restore_message'] = "Cannot connect to database to restore.";
         $_SESSION['restore_message_type'] = "danger";
-        header("Location: restore.php");
-        exit();
+        redirect("restore.php");
     }
 
     $file = $_GET['file'] ?? null;
@@ -123,12 +119,10 @@ if ($action === 'restore_local') {
             $_SESSION['restore_message'] = "Failed to restore database from backup file: " . $result[1];
             $_SESSION['restore_message_type'] = "danger";
         }
-    } else {
         $_SESSION['restore_message'] = "The selected backup file does not exist.";
         $_SESSION['restore_message_type'] = "danger";
     }
-    header("Location: restore.php");
-    exit();
+    redirect("restore.php");
 }
 
 // Fetch list of files

@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ];
             file_put_contents($tokens_file, json_encode($tokens, JSON_PRETTY_PRINT));
             
-            $reset_link = 'reset-password.php?token=' . $token;
+            $reset_link = url('reset-password.php?token=' . $token);
             $success_msg = 'A secure password reset link has been successfully generated!';
         }
     }

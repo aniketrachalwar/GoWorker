@@ -136,6 +136,37 @@
 
 @media (max-width: 992px) {
     .history-layout {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .booking-item-card {
+        padding: 16px !important;
+    }
+    .booking-item-header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 8px !important;
+    }
+    .btn-book {
+        width: 100% !important;
+        margin: 4px 0 !important;
+        min-height: 48px !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+    /* Select containers for action buttons */
+    .booking-item-card div[style*="margin-top"] {
+        flex-direction: column !important;
+        gap: 6px !important;
+        display: flex !important;
+        width: 100% !important;
+    }
+    .rating-stars {
+        justify-content: center !important;
+        margin: 10px 0 !important;
     }
 }

@@ -7,8 +7,7 @@ require_once __DIR__ . '/includes/functions.php';
 
 // Redirect to profile if already logged in
 if (isset($_SESSION['user_id'])) {
-    header('Location: profile.php');
-    exit();
+    redirect('profile.php');
 }
 
 $errors = [];
@@ -759,7 +758,7 @@ body {
 }
 </style>
 
-<div class="signup-container">
+<div class="signup-container container-fluid">
     <!-- Left Panel -->
     <div class="left-panel">
         <!-- Top Logo Area -->

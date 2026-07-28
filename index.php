@@ -16,13 +16,7 @@ if (isset($_GET['lang'])) {
         $_SESSION['lang'] = $selected_lang;
     }
     // Redirect to clean URL
-    session_write_close();
-    if (!headers_sent()) {
-        header("Location: index.php");
-    } else {
-        echo "<script>window.location.href='index.php';</script>";
-    }
-    exit();
+    redirect("index.php");
 }
 
 $current_lang = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'en';
@@ -135,7 +129,7 @@ require_once __DIR__ . '/includes/header.php';
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <!-- ================= HERO ================= -->
-<section class="hero">
+<section class="hero container-fluid">
     <div class="hero-left">
         <h1>
             <?php echo __('hero_title'); ?>
@@ -187,7 +181,7 @@ require_once __DIR__ . '/includes/header.php';
     </div>
 
     <div class="hero-right">
-        <img src="assets/images/login-workers.png" alt="Workers" onerror="this.src='images/workers_hero.png';">
+        <img src="<?php echo image_url('assets/images/login-workers.png'); ?>" alt="Workers" onerror="this.src='<?php echo image_url('images/workers_hero.png'); ?>';">
 
         <!-- Floating Cards -->
         <div class="floating-card rating">

@@ -8,11 +8,10 @@ require_once __DIR__ . '/includes/functions.php';
 // Redirect to dashboard if already logged in
 if (isset($_SESSION['user_id'])) {
     if (($_SESSION['user_type'] ?? '') === 'worker') {
-        header('Location: worker-dashboard.php');
+        redirect('worker-dashboard.php');
     } else {
-        header('Location: customer-dashboard.php');
+        redirect('customer-dashboard.php');
     }
-    exit();
 }
 
 $errors = [];
@@ -56,11 +55,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $_SESSION['user_type'] = $user['user_type'];
 
                         if ($user['user_type'] === 'worker') {
-                            header('Location: worker-dashboard.php');
+                            redirect('worker-dashboard.php');
                         } else {
-                            header('Location: customer-dashboard.php');
+                            redirect('customer-dashboard.php');
                         }
-                        exit();
                     } else {
                         // Invalid email or password
                         $errors[] = 'Invalid email or password.';
@@ -650,7 +648,7 @@ require_once __DIR__ . '/includes/header.php';
 }
 </style>
 
-<div class="auth-wrapper">
+<div class="auth-wrapper container-fluid">
     <div class="auth-split-card">
         <!-- Left Side: Brand Panel with Trust & Value Props -->
         <div class="auth-brand-panel">
@@ -659,7 +657,7 @@ require_once __DIR__ . '/includes/header.php';
             <div class="abstract-shape shape-2"></div>
             
             <div class="brand-header-mini" style="display: flex; align-items: center; gap: 8px;">
-                <img src="images/logo_icon.png" alt="GoWorker Logo" style="height: 28px; width: auto; object-fit: contain;" onerror="this.src='images/logo.jpg';"> GoWorker
+                <img src="<?php echo image_url('images/logo_icon.png'); ?>" alt="GoWorker Logo" style="height: 28px; width: auto; object-fit: contain;" onerror="this.src='<?php echo image_url('images/logo.jpg'); ?>';"> GoWorker
             </div>
             
             <div class="brand-main-content">

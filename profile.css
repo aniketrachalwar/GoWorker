@@ -502,16 +502,45 @@
 /* Responsive */
 @media (max-width: 992px) {
     .profile-hero-card {
-        flex-direction: column;
-        align-items: flex-start;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        padding: 24px !important;
+        gap: 16px !important;
     }
     .profile-grid-layout {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
     }
     .profile-form-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
     }
     .profile-form-group.full-width {
-        grid-column: span 1;
+        grid-column: span 1 !important;
+    }
+    .profile-stats-row {
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 12px !important;
+    }
+    .profile-actions-wrapper {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 10px !important;
+    }
+    .profile-actions-wrapper button,
+    .profile-actions-wrapper a {
+        width: 100% !important;
+        margin: 0 !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .profile-hero-info h2 {
+        font-size: 20px !important;
+    }
+    .profile-section-card {
+        padding: 20px 16px !important;
     }
 }

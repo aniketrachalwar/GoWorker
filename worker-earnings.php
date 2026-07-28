@@ -11,8 +11,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // Session Security: Enforce worker login
 if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'worker') {
-    header('Location: login.php');
-    exit();
+    redirect('login.php');
 }
 
 $userId = $_SESSION['user_id'];
@@ -91,7 +90,7 @@ if (empty($earnings_list)) {
 require_once __DIR__ . '/includes/header.php';
 ?>
 
-<div class="container">
+<div class="container container-fluid">
     <div class="dashboard-layout">
         <!-- Sidebar Navigation -->
         <aside class="dashboard-sidebar">
@@ -208,32 +207,34 @@ require_once __DIR__ . '/includes/header.php';
             <div class="card" style="padding: 24px; margin-top: 2rem; overflow-x: auto;">
                 <h3 style="border-bottom: 2px solid #E2E8F0; padding-bottom: 8px; margin-bottom: 20px;"><i class="fa-solid fa-list-numeric" style="color: var(--primary);"></i> Payout Transactions Ledger</h3>
                 
-                <table style="width: 100%; border-collapse: collapse; min-width: 600px; text-align: left;">
-                    <thead>
-                        <tr style="border-bottom: 2px solid #e2e8f0; font-size: 13px; color: var(--text-muted);">
-                            <th style="padding: 12px 8px;">Date</th>
-                            <th style="padding: 12px 8px;">Job ID</th>
-                            <th style="padding: 12px 8px;">Customer</th>
-                            <th style="padding: 12px 8px;">Amount</th>
-                            <th style="padding: 12px 8px;">Payment Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($earnings_list as $row): ?>
-                            <tr style="border-bottom: 1px solid #f1f5f9; font-size: 14px;">
-                                <td style="padding: 14px 8px; color: var(--secondary-text);"><?php echo date('M d, Y', strtotime($row['booking_date'])); ?></td>
-                                <td style="padding: 14px 8px; font-weight: 700; color: var(--primary);">#GW-<?php echo $row['id']; ?></td>
-                                <td style="padding: 14px 8px; font-weight: 600; color: var(--dark-navy);"><?php echo e($row['customer_name']); ?></td>
-                                <td style="padding: 14px 8px; font-weight: 700; color: var(--success);">₹<?php echo number_format($row['total_price'], 2); ?></td>
-                                <td style="padding: 14px 8px;">
-                                    <span style="background: rgba(34, 197, 94, 0.08); color: var(--success); padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; text-transform: uppercase;">
-                                        <i class="fa-solid fa-circle-check"></i> Paid
-                                    </span>
-                                </td>
+                <div class="table-responsive">
+                    <table style="width: 100%; border-collapse: collapse; min-width: 600px; text-align: left;">
+                        <thead>
+                            <tr style="border-bottom: 2px solid #e2e8f0; font-size: 13px; color: var(--text-muted);">
+                                <th style="padding: 12px 8px;">Date</th>
+                                <th style="padding: 12px 8px;">Job ID</th>
+                                <th style="padding: 12px 8px;">Customer</th>
+                                <th style="padding: 12px 8px;">Amount</th>
+                                <th style="padding: 12px 8px;">Payment Status</th>
                             </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($earnings_list as $row): ?>
+                                <tr style="border-bottom: 1px solid #f1f5f9; font-size: 14px;">
+                                    <td style="padding: 14px 8px; color: var(--secondary-text);"><?php echo date('M d, Y', strtotime($row['booking_date'])); ?></td>
+                                    <td style="padding: 14px 8px; font-weight: 700; color: var(--primary);">#GW-<?php echo $row['id']; ?></td>
+                                    <td style="padding: 14px 8px; font-weight: 600; color: var(--dark-navy);"><?php echo e($row['customer_name']); ?></td>
+                                    <td style="padding: 14px 8px; font-weight: 700; color: var(--success);">₹<?php echo number_format($row['total_price'], 2); ?></td>
+                                    <td style="padding: 14px 8px;">
+                                        <span style="background: rgba(34, 197, 94, 0.08); color: var(--success); padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; text-transform: uppercase;">
+                                            <i class="fa-solid fa-circle-check"></i> Paid
+                                        </span>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </main>
     </div>

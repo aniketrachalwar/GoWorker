@@ -10,10 +10,9 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Redirect unauthenticated visitors to login page
+// Enforce user login
 if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
-    exit();
+    redirect('login.php');
 }
 
 // Ensure upload directory exists
@@ -189,7 +188,7 @@ require_once __DIR__ . '/includes/header.php';
     <div class="profile-bg-glow profile-bg-glow-top-right"></div>
     <div class="profile-bg-glow profile-bg-glow-bottom-left"></div>
 
-    <div class="profile-container">
+    <div class="profile-container container-fluid">
 
         <!-- Flash Messages -->
         <?php if (!empty($msg_success)): ?>
@@ -209,7 +208,7 @@ require_once __DIR__ . '/includes/header.php';
             <div class="profile-hero-left">
                 <!-- 150px x 150px Circular Profile Photo -->
                 <div class="profile-avatar-container">
-                    <img id="avatar-preview" class="profile-avatar-img" src="<?php echo e($profile_picture); ?>" alt="Profile Photo" onerror="this.src='https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&fit=crop';">
+                    <img id="avatar-preview" class="profile-avatar-img" src="<?php echo e(image_url($profile_picture)); ?>" alt="Profile Photo" onerror="this.src='https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&fit=crop';">
                     
                     <label for="profile_photo_input" class="profile-avatar-upload-btn" title="Upload Photo">
                         <i class="fa-solid fa-camera"></i>

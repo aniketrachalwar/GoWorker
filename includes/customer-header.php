@@ -21,13 +21,7 @@ if (isset($_GET['lang'])) {
     if (!empty($params)) {
         $clean_url .= '?' . http_build_query($params);
     }
-    session_write_close();
-    if (!headers_sent()) {
-        header("Location: " . $clean_url);
-    } else {
-        echo "<script>window.location.href='" . addslashes($clean_url) . "';</script>";
-    }
-    exit();
+    redirect($clean_url);
 }
 
 if (!isset($_SESSION['lang'])) {
@@ -99,7 +93,12 @@ $current_page = basename($_SERVER['SCRIPT_NAME']);
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Global CSS -->
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="<?php echo asset('css/styles.css'); ?>">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="<?php echo asset('assets/css/responsive.css'); ?>">
+    <script>
+        window.GOWORKER_BASE_URL = '<?php echo base_url(); ?>';
+    </script>
     
     <style>
     /* Reusable Premium Sticky Header Styles */
@@ -564,19 +563,19 @@ $current_page = basename($_SERVER['SCRIPT_NAME']);
     <nav class="navbar">
         <!-- Logo Left -->
         <div class="logo">
-            <a href="index.php">
-                <img src="images/logo_icon.png" alt="GoWorker Logo" class="logo-img" onerror="this.src='images/logo.jpg';">
+            <a href="<?php echo url('index.php'); ?>">
+                <img src="<?php echo image_url('images/logo_icon.png'); ?>" alt="GoWorker Logo" class="logo-img" onerror="this.src='<?php echo image_url('images/logo.jpg'); ?>';">
             </a>
         </div>
 
         <!-- Center links desktop -->
         <ul class="nav-links-desktop">
-            <li><a href="customer-dashboard.php" class="<?php echo $current_page === 'customer-dashboard.php' ? 'active' : ''; ?>">Dashboard</a></li>
-            <li><a href="customer-bookings.php" class="<?php echo $current_page === 'customer-bookings.php' ? 'active' : ''; ?>">My Bookings</a></li>
-            <li><a href="customer-chat.php" class="<?php echo $current_page === 'customer-chat.php' ? 'active' : ''; ?>">Messages</a></li>
-            <li><a href="customer-notifications.php" class="<?php echo $current_page === 'customer-notifications.php' ? 'active' : ''; ?>">Notifications</a></li>
-            <li><a href="profile.php" class="<?php echo $current_page === 'profile.php' ? 'active' : ''; ?>">Profile</a></li>
-            <li><a href="logout.php">Logout</a></li>
+            <li><a href="<?php echo url('customer-dashboard.php'); ?>" class="<?php echo $current_page === 'customer-dashboard.php' ? 'active' : ''; ?>">Dashboard</a></li>
+            <li><a href="<?php echo url('customer-bookings.php'); ?>" class="<?php echo $current_page === 'customer-bookings.php' ? 'active' : ''; ?>">My Bookings</a></li>
+            <li><a href="<?php echo url('customer-chat.php'); ?>" class="<?php echo $current_page === 'customer-chat.php' ? 'active' : ''; ?>">Messages</a></li>
+            <li><a href="<?php echo url('customer-notifications.php'); ?>" class="<?php echo $current_page === 'customer-notifications.php' ? 'active' : ''; ?>">Notifications</a></li>
+            <li><a href="<?php echo url('profile.php'); ?>" class="<?php echo $current_page === 'profile.php' ? 'active' : ''; ?>">Profile</a></li>
+            <li><a href="<?php echo url('logout.php'); ?>">Logout</a></li>
         </ul>
 
         <!-- Right navigation items desktop -->
@@ -607,8 +606,8 @@ $current_page = basename($_SERVER['SCRIPT_NAME']);
     <div id="mobile-drawer" class="mobile-sidebar-menu">
         <div class="mobile-sidebar-header">
             <div class="logo">
-                <a href="index.php">
-                    <img src="images/logo_icon.png" alt="GoWorker Logo" style="height: 38px; width: auto; object-fit: contain; border-radius: 8px;" onerror="this.src='images/logo.jpg';">
+                <a href="<?php echo url('index.php'); ?>">
+                    <img src="<?php echo image_url('images/logo_icon.png'); ?>" alt="GoWorker Logo" style="height: 38px; width: auto; object-fit: contain; border-radius: 8px;" onerror="this.src='<?php echo image_url('images/logo.jpg'); ?>';">
                 </a>
             </div>
             <button id="drawer-close" class="mobile-sidebar-close-btn" aria-label="Close Navigation Menu">
@@ -617,12 +616,12 @@ $current_page = basename($_SERVER['SCRIPT_NAME']);
         </div>
         
         <ul class="mobile-nav-links">
-            <li><a href="customer-dashboard.php" class="<?php echo $current_page === 'customer-dashboard.php' ? 'active' : ''; ?>"><i class="fa-solid fa-gauge"></i> Dashboard</a></li>
-            <li><a href="customer-bookings.php" class="<?php echo $current_page === 'customer-bookings.php' ? 'active' : ''; ?>"><i class="fa-solid fa-calendar-days"></i> My Bookings</a></li>
-            <li><a href="customer-chat.php" class="<?php echo $current_page === 'customer-chat.php' ? 'active' : ''; ?>"><i class="fa-solid fa-comments"></i> Messages</a></li>
-            <li><a href="customer-notifications.php" class="<?php echo $current_page === 'customer-notifications.php' ? 'active' : ''; ?>"><i class="fa-solid fa-bell"></i> Notifications</a></li>
-            <li><a href="profile.php" class="<?php echo $current_page === 'profile.php' ? 'active' : ''; ?>"><i class="fa-solid fa-user-gear"></i> Profile</a></li>
-            <li><a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+            <li><a href="<?php echo url('customer-dashboard.php'); ?>" class="<?php echo $current_page === 'customer-dashboard.php' ? 'active' : ''; ?>"><i class="fa-solid fa-gauge"></i> Dashboard</a></li>
+            <li><a href="<?php echo url('customer-bookings.php'); ?>" class="<?php echo $current_page === 'customer-bookings.php' ? 'active' : ''; ?>"><i class="fa-solid fa-calendar-days"></i> My Bookings</a></li>
+            <li><a href="<?php echo url('customer-chat.php'); ?>" class="<?php echo $current_page === 'customer-chat.php' ? 'active' : ''; ?>"><i class="fa-solid fa-comments"></i> Messages</a></li>
+            <li><a href="<?php echo url('customer-notifications.php'); ?>" class="<?php echo $current_page === 'customer-notifications.php' ? 'active' : ''; ?>"><i class="fa-solid fa-bell"></i> Notifications</a></li>
+            <li><a href="<?php echo url('profile.php'); ?>" class="<?php echo $current_page === 'profile.php' ? 'active' : ''; ?>"><i class="fa-solid fa-user-gear"></i> Profile</a></li>
+            <li><a href="<?php echo url('logout.php'); ?>"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
             
             <li class="mobile-nav-divider"></li>
             

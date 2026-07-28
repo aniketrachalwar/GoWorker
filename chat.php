@@ -8,7 +8,7 @@ require_once __DIR__ . '/includes/header.php';
 <link rel="stylesheet" href="chat.css">
 
 <!-- ================= CHAT CONTAINER ================= -->
-<main class="container" style="min-height: 85vh; display: flex; flex-direction: column;">
+<main class="container container-fluid" style="min-height: 85vh; display: flex; flex-direction: column;">
   <div class="chat-layout" id="chat-layout-wrapper">
     
     <!-- LEFT PANEL: Conversation List -->

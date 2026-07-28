@@ -194,16 +194,47 @@
 
 @media (max-width: 992px) {
     .dashboard-layout {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
     }
     .dashboard-sidebar {
-        position: static;
-        margin-bottom: 24px;
+        position: static !important;
+        margin-bottom: 20px !important;
+        width: 100% !important;
+        padding: 16px !important;
+    }
+    .sidebar-menu {
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        gap: 10px !important;
+        justify-content: center !important;
+    }
+    .sidebar-link {
+        padding: 10px 14px !important;
+    }
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
     }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 576px) {
     .stats-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
+    }
+    .sidebar-menu {
+        justify-content: space-around !important;
+    }
+    .sidebar-link {
+        font-size: 13px !important;
+        padding: 8px 12px !important;
+    }
+    .greeting-card {
+        padding: 24px !important;
+    }
+    .greeting-card h2 {
+        font-size: 20px !important;
+    }
+    .dashboard-block {
+        padding: 16px !important;
     }
 }

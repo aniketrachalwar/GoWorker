@@ -3,6 +3,9 @@
  * Security and Utility Functions
  */
 
+// Load central dynamic URL configuration
+require_once dirname(__DIR__) . '/config/app.php';
+
 // Start session if not already started
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -56,14 +59,17 @@ function csrf_field() {
     return '<input type="hidden" name="csrf_token" value="' . e($token) . '">';
 }
 
-function redirect($url) {
-    session_write_close();
-    if (!headers_sent()) {
-        header("Location: $url");
-    } else {
-        echo "<script>window.location.href='" . addslashes($url) . "';</script>";
+if (!function_exists('redirect')) {
+    function redirect($url) {
+        $target = function_exists('url') ? url($url) : $url;
+        session_write_close();
+        if (!headers_sent()) {
+            header("Location: $target");
+        } else {
+            echo "<script>window.location.href='" . addslashes($target) . "';</script>";
+        }
+        exit();
     }
-    exit();
 }
 
 /**

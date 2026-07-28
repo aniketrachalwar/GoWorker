@@ -8,6 +8,7 @@
 
 // Load the central configuration
 require_once __DIR__ . '/config/config.php';
+require_once __DIR__ . '/config/app.php';
 
 // Toggle between 'production' and 'development' modes
 if (!defined('ENV_MODE')) {
@@ -26,9 +27,17 @@ $default_pass = '';
 if (isset($_SERVER['HTTP_HOST'])) {
     $http_host = parse_url('http://' . $_SERVER['HTTP_HOST'], PHP_URL_HOST);
     if ($http_host && $http_host !== 'localhost' && $http_host !== '127.0.0.1' && $http_host !== '::1') {
-        $default_host = $http_host;
-        $default_user = 'goworker_dev';
-        $default_pass = 'GoWorkerLAN2026!';
+        // Only override if accessed via a local private network IP address (LAN IP)
+        $is_lan_ip = preg_match('/^(?:192\.168\.|10\.|172\.(?:1[6-9]|2[0-9]|3[0-1])\.)/', $http_host);
+        
+        // Exclude Cloudflare Tunnel domains and general Cloudflare proxy requests
+        $is_cloudflare = isset($_SERVER['HTTP_CF_RAY']) || isset($_SERVER['HTTP_CF_CONNECTING_IP']) || (strpos($http_host, 'trycloudflare.com') !== false);
+        
+        if ($is_lan_ip && !$is_cloudflare) {
+            $default_host = $http_host;
+            $default_user = 'goworker_dev';
+            $default_pass = 'GoWorkerLAN2026!';
+        }
     }
 }
 

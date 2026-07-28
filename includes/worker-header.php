@@ -21,13 +21,7 @@ if (isset($_GET['lang'])) {
     if (!empty($params)) {
         $clean_url .= '?' . http_build_query($params);
     }
-    session_write_close();
-    if (!headers_sent()) {
-        header("Location: " . $clean_url);
-    } else {
-        echo "<script>window.location.href='" . addslashes($clean_url) . "';</script>";
-    }
-    exit();
+    redirect($clean_url);
 }
 
 if (!isset($_SESSION['lang'])) {
@@ -99,7 +93,12 @@ $current_page = basename($_SERVER['SCRIPT_NAME']);
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Global CSS -->
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="<?php echo asset('css/styles.css'); ?>">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="<?php echo asset('assets/css/responsive.css'); ?>">
+    <script>
+        window.GOWORKER_BASE_URL = '<?php echo base_url(); ?>';
+    </script>
     
     <style>
     /* Reusable Premium Sticky Header Styles */
@@ -564,20 +563,20 @@ $current_page = basename($_SERVER['SCRIPT_NAME']);
     <nav class="navbar">
         <!-- Logo Left -->
         <div class="logo">
-            <a href="index.php">
-                <img src="images/logo_icon.png" alt="GoWorker Logo" class="logo-img" onerror="this.src='images/logo.jpg';">
+            <a href="<?php echo url('index.php'); ?>">
+                <img src="<?php echo image_url('images/logo_icon.png'); ?>" alt="GoWorker Logo" class="logo-img" onerror="this.src='<?php echo image_url('images/logo.jpg'); ?>';">
             </a>
         </div>
 
         <!-- Center links desktop -->
         <ul class="nav-links-desktop">
-            <li><a href="worker-dashboard.php" class="<?php echo $current_page === 'worker-dashboard.php' ? 'active' : ''; ?>">Dashboard</a></li>
-            <li><a href="worker-jobs.php" class="<?php echo $current_page === 'worker-jobs.php' ? 'active' : ''; ?>">Jobs</a></li>
-            <li><a href="worker-requests.php" class="<?php echo $current_page === 'worker-requests.php' ? 'active' : ''; ?>">Requests</a></li>
-            <li><a href="worker-earnings.php" class="<?php echo $current_page === 'worker-earnings.php' ? 'active' : ''; ?>">Earnings</a></li>
-            <li><a href="worker-id-card.php" class="<?php echo $current_page === 'worker-id-card.php' ? 'active' : ''; ?>">Virtual ID Card</a></li>
-            <li><a href="profile.php" class="<?php echo $current_page === 'profile.php' ? 'active' : ''; ?>">Profile</a></li>
-            <li><a href="logout.php">Logout</a></li>
+            <li><a href="<?php echo url('worker-dashboard.php'); ?>" class="<?php echo $current_page === 'worker-dashboard.php' ? 'active' : ''; ?>">Dashboard</a></li>
+            <li><a href="<?php echo url('worker-jobs.php'); ?>" class="<?php echo $current_page === 'worker-jobs.php' ? 'active' : ''; ?>">Jobs</a></li>
+            <li><a href="<?php echo url('worker-requests.php'); ?>" class="<?php echo $current_page === 'worker-requests.php' ? 'active' : ''; ?>">Requests</a></li>
+            <li><a href="<?php echo url('worker-earnings.php'); ?>" class="<?php echo $current_page === 'worker-earnings.php' ? 'active' : ''; ?>">Earnings</a></li>
+            <li><a href="<?php echo url('worker-id-card.php'); ?>" class="<?php echo $current_page === 'worker-id-card.php' ? 'active' : ''; ?>">Virtual ID Card</a></li>
+            <li><a href="<?php echo url('profile.php'); ?>" class="<?php echo $current_page === 'profile.php' ? 'active' : ''; ?>">Profile</a></li>
+            <li><a href="<?php echo url('logout.php'); ?>">Logout</a></li>
         </ul>
 
         <!-- Right navigation items desktop -->
@@ -608,8 +607,8 @@ $current_page = basename($_SERVER['SCRIPT_NAME']);
     <div id="mobile-drawer" class="mobile-sidebar-menu">
         <div class="mobile-sidebar-header">
             <div class="logo">
-                <a href="index.php">
-                    <img src="images/logo_icon.png" alt="GoWorker Logo" style="height: 38px; width: auto; object-fit: contain; border-radius: 8px;" onerror="this.src='images/logo.jpg';">
+                <a href="<?php echo url('index.php'); ?>">
+                    <img src="<?php echo image_url('images/logo_icon.png'); ?>" alt="GoWorker Logo" style="height: 38px; width: auto; object-fit: contain; border-radius: 8px;" onerror="this.src='<?php echo image_url('images/logo.jpg'); ?>';">
                 </a>
             </div>
             <button id="drawer-close" class="mobile-sidebar-close-btn" aria-label="Close Navigation Menu">
@@ -618,13 +617,13 @@ $current_page = basename($_SERVER['SCRIPT_NAME']);
         </div>
         
         <ul class="mobile-nav-links">
-            <li><a href="worker-dashboard.php" class="<?php echo $current_page === 'worker-dashboard.php' ? 'active' : ''; ?>"><i class="fa-solid fa-gauge"></i> Dashboard</a></li>
-            <li><a href="worker-jobs.php" class="<?php echo $current_page === 'worker-jobs.php' ? 'active' : ''; ?>"><i class="fa-solid fa-briefcase"></i> Jobs</a></li>
-            <li><a href="worker-requests.php" class="<?php echo $current_page === 'worker-requests.php' ? 'active' : ''; ?>"><i class="fa-solid fa-list-check"></i> Requests</a></li>
-            <li><a href="worker-earnings.php" class="<?php echo $current_page === 'worker-earnings.php' ? 'active' : ''; ?>"><i class="fa-solid fa-wallet"></i> Earnings</a></li>
-            <li><a href="worker-id-card.php" class="<?php echo $current_page === 'worker-id-card.php' ? 'active' : ''; ?>"><i class="fa-solid fa-id-card"></i> Virtual ID Card</a></li>
-            <li><a href="profile.php" class="<?php echo $current_page === 'profile.php' ? 'active' : ''; ?>"><i class="fa-solid fa-user-gear"></i> Profile</a></li>
-            <li><a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+            <li><a href="<?php echo url('worker-dashboard.php'); ?>" class="<?php echo $current_page === 'worker-dashboard.php' ? 'active' : ''; ?>"><i class="fa-solid fa-gauge"></i> Dashboard</a></li>
+            <li><a href="<?php echo url('worker-jobs.php'); ?>" class="<?php echo $current_page === 'worker-jobs.php' ? 'active' : ''; ?>"><i class="fa-solid fa-briefcase"></i> Jobs</a></li>
+            <li><a href="<?php echo url('worker-requests.php'); ?>" class="<?php echo $current_page === 'worker-requests.php' ? 'active' : ''; ?>"><i class="fa-solid fa-list-check"></i> Requests</a></li>
+            <li><a href="<?php echo url('worker-earnings.php'); ?>" class="<?php echo $current_page === 'worker-earnings.php' ? 'active' : ''; ?>"><i class="fa-solid fa-wallet"></i> Earnings</a></li>
+            <li><a href="<?php echo url('worker-id-card.php'); ?>" class="<?php echo $current_page === 'worker-id-card.php' ? 'active' : ''; ?>"><i class="fa-solid fa-id-card"></i> Virtual ID Card</a></li>
+            <li><a href="<?php echo url('profile.php'); ?>" class="<?php echo $current_page === 'profile.php' ? 'active' : ''; ?>"><i class="fa-solid fa-user-gear"></i> Profile</a></li>
+            <li><a href="<?php echo url('logout.php'); ?>"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
             
             <li class="mobile-nav-divider"></li>
             
