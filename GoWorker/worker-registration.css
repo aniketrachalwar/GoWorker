@@ -1,0 +1,136 @@
+/* GoWorker Worker Onboarding Styling
+   Coherent with master design system
+*/
+
+.onboarding-layout {
+    display: grid;
+    grid-template-columns: 240px 1fr 280px;
+    gap: 32px;
+    margin: 40px auto;
+    align-items: start;
+}
+
+/* Vertical Stepper List */
+.onboarding-steps-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.onboarding-step-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--secondary-text);
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    transition: var(--transition);
+}
+
+.onboarding-step-link.active {
+    background: var(--primary-light);
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.onboarding-step-link.completed {
+    border-color: var(--success);
+    color: var(--success);
+}
+
+.step-badge {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--light-bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 11px;
+}
+
+.onboarding-step-link.active .step-badge {
+    background: var(--primary);
+    color: var(--white);
+}
+
+.onboarding-step-link.completed .step-badge {
+    background: var(--success);
+    color: var(--white);
+}
+
+/* Dropzone for Uploads */
+.upload-dropzone {
+    border: 2px dashed var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+    background: var(--light-bg);
+    transition: var(--transition);
+}
+
+.upload-dropzone:hover {
+    border-color: var(--primary);
+    background: rgba(21, 94, 239, 0.01);
+}
+
+.upload-dropzone i {
+    font-size: 32px;
+    color: var(--secondary-text);
+    margin-bottom: 12px;
+}
+
+.upload-dropzone p {
+    font-size: 13px;
+    color: var(--secondary-text);
+    margin-bottom: 0;
+}
+
+/* Benefits Card right */
+.benefits-card {
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow-sm);
+}
+
+.benefits-card h4 {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.benefits-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--secondary-text);
+}
+
+.benefits-list li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.benefits-list i {
+    color: var(--success);
+}
+
+@media (max-width: 992px) {
+    .onboarding-layout {
+        grid-template-columns: 1fr;
+    }
+    .onboarding-right-panel {
+        display: none;
+    }
+}

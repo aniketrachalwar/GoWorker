@@ -1,0 +1,18 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/", "destination": "/Index.html" },
+    { "source": "/login", "destination": "/login.html" },
+    { "source": "/signup", "destination": "/signup.html" },
+    { "source": "/profile", "destination": "/profile.html" },
+    { "source": "/customer-dashboard", "destination": "/customer-dashboard.html" },
+    { "source": "/worker-dashboard", "destination": "/worker-dashboard.html" },
+    { "source": "/find-workers", "destination": "/find-workers.html" },
+    { "source": "/messages", "destination": "/chat.html" },
+    { "source": "/bookings", "destination": "/booking-history.html" },
+    { "source": "/booking", "destination": "/booking.html" },
+    { "source": "/google-oauth", "destination": "/google-oauth.html" },
+    { "source": "/about", "destination": "/about.html" },
+    { "source": "/contact", "destination": "/contactus.html" }
+  ]
+}

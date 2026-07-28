@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GoWorker - Worker Workspace</title>
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  
+  <!-- Global Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+  
+  <!-- Page Specific Stylesheet -->
+  <link rel="stylesheet" href="dashboard.css">
+
+  <!-- Firebase SDK CDN -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+</head>
+<body>
+
+  <!-- ================= NAVBAR ================= -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">
+        <img src="images/logo_icon.png" alt="GoWorker Logo" onerror="this.src='assets/logo.jfif';">
+        <span>Go<strong>Worker</strong></span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="Index.html">Home</a></li>
+        <li><a href="find-workers.html">Find Workers</a></li>
+        <li><a href="worker-registration.html">Become a Worker</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+      <div class="nav-right">
+        <button class="theme-btn" title="Toggle dark mode"><i class="fa-solid fa-moon"></i></button>
+        <button class="login-btn" onclick="localStorage.removeItem('user_session'); location.href='login.html'">Logout</button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ================= CONTAINER ================= -->
+  <main class="container">
+    <div class="dashboard-layout">
+      <!-- SIDEBAR -->
+      <aside class="dashboard-sidebar">
+        <ul class="sidebar-menu">
+          <li><a href="worker-dashboard.html" class="sidebar-link active"><i class="fa-solid fa-briefcase"></i> Dashboard</a></li>
+          <li><a href="#" class="sidebar-link"><i class="fa-solid fa-envelope-open-text"></i> Job Requests</a></li>
+          <li><a href="#" class="sidebar-link"><i class="fa-regular fa-calendar-check"></i> Today's Jobs</a></li>
+          <li><a href="chat.html" class="sidebar-link"><i class="fa-solid fa-comments"></i> Messages</a></li>
+          <li><a href="#" class="sidebar-link"><i class="fa-solid fa-wallet"></i> Earnings</a></li>
+          <li><a href="profile.html" class="sidebar-link"><i class="fa-solid fa-gears"></i> Profile Settings</a></li>
+        </ul>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <section class="dashboard-content">
+        <!-- Welcome banner with availability toggles -->
+        <div class="greeting-card" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+          <div>
+            <h2>Good Morning, Ramesh 👋</h2>
+            <p>Ready for today's requests? Stay online to receive jobs.</p>
+          </div>
+          <div style="background: rgba(255,255,255,0.15); padding: 12px 20px; border-radius: var(--radius-sm); display: flex; align-items: center; gap: 12px;">
+            <span style="font-weight: 600; font-size: 13px;">Online Status</span>
+            <label class="switch" style="position: relative; display: inline-block; width: 44px; height: 24px;">
+              <input type="checkbox" checked style="opacity: 0; width: 0; height: 0;">
+              <span class="slider round" style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--success); border-radius: 34px; transition: .4s;"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Summary Stats -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fa-solid fa-person-digging"></i></div>
+            <div class="stat-info">
+              <h3>2</h3>
+              <p>Today's Jobs</p>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon" style="background: rgba(245, 158, 11, 0.08); color: var(--warning);"><i class="fa-solid fa-hourglass-half"></i></div>
+            <div class="stat-info">
+              <h3>1</h3>
+              <p>Pending Request</p>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon" style="background: rgba(34, 197, 94, 0.08); color: var(--success);"><i class="fa-solid fa-sack-dollar"></i></div>
+            <div class="stat-info">
+              <h3>₹5,490</h3>
+              <p>Monthly Earnings</p>
+            </div>
+          </div>
+
+          <!-- Digital Identity Card -->
+          <div class="stat-card" id="dashboard-id-card" style="display: flex; flex-direction: column; align-items: stretch; gap: 8px;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div class="stat-icon" style="background: rgba(13, 77, 255, 0.08); color: var(--primary);"><i class="fa-regular fa-id-card"></i></div>
+              <div class="stat-info">
+                <h3 id="dashboard-worker-id" style="font-size: 15px; font-weight: 700; margin-bottom: 2px;">GW-2026-000001</h3>
+                <p>Digital Identity</p>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 8px; border-top: 1px dashed var(--border-color); padding-top: 8px;">
+              <span id="dashboard-verification-status" class="status-badge" style="background: rgba(245, 158, 11, 0.1); color: var(--warning); padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;">Pending Verification</span>
+              <a href="profile.html#my-id-card" class="btn-book" style="font-size: 11px; padding: 4px 10px; height: auto; text-decoration: none; display: inline-block;">Download ID</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Job Requests Block -->
+        <div class="dashboard-block">
+          <h3>Pending Job Requests</h3>
+          <div style="background: var(--light-bg); border-radius: var(--radius-sm); padding: 20px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" alt="Customer" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
+            <div style="flex: 1;">
+              <h4 style="font-size: 14px; font-weight: 700; margin-bottom: 2px;">Aniket Rachalwar</h4>
+              <p style="font-size: 12px; color: var(--secondary-text); margin-bottom: 4px;">Service: <strong>Emergency Troubleshooting</strong></p>
+              <p style="font-size: 12px; color: var(--secondary-text);"><i class="fa-solid fa-location-dot"></i> Pune (Distance: 2.8 km)</p>
+            </div>
+            <div style="display: flex; gap: 10px;">
+              <button class="btn-book" style="background: var(--success);" onclick="alert('Job Accepted! Please proceed to the address.')">Accept</button>
+              <button class="btn-book" style="background: var(--white); border: 1.5px solid var(--border-color); color: var(--secondary-text);" onclick="alert('Declined request.')">Decline</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Today's Schedule -->
+        <div class="dashboard-block">
+          <h3>Today's Schedule</h3>
+          <div class="timeline-list">
+            <div class="timeline-item">
+              <span class="timeline-time">09:00 AM - 11:00 AM</span>
+              <p class="timeline-desc">Emergency Troubleshooting at Flat 402, Royal Gardens, Pune.</p>
+            </div>
+            <div class="timeline-item" style="opacity: 0.7;">
+              <span class="timeline-time">03:30 PM - 05:00 PM</span>
+              <p class="timeline-desc">Smart Home Automation Switch Install at Senapati Bapat Road, Pune.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer style="background: var(--white); border-top: 1px solid var(--border-color); padding: 40px 0; margin-top: 80px;">
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+      <div>
+        <p style="font-weight: 700; color: var(--primary);">GoWorker</p>
+        <p style="font-size: 13px; color: var(--secondary-text);">© 2026 GoWorker. All rights reserved.</p>
+      </div>
+      <div style="display: flex; gap: 24px; font-size: 14px; color: var(--secondary-text);">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Support Center</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>

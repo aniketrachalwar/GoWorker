@@ -1,0 +1,21 @@
+# Windows/OS Metadata
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+# IDEs and Code Editors
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+.gemini/
+
+# PHP / Web Server logs & temp files
+*.log
+error_log
+.phpunit.result.cache
+config_local.json
