@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="/js/session-sync.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GoWorker - Ramesh Kumar (Electrician)</title>
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  
+  <!-- Global Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+  
+  <!-- Page Specific Stylesheet -->
+  <link rel="stylesheet" href="worker-profile.css">
+</head>
+<body>
+
+  <!-- ================= NAVBAR ================= -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">
+        <img src="images/logo_icon.png" alt="GoWorker Logo" onerror="this.src='assets/logo.jfif';">
+        <span>Go<strong>Worker</strong></span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="find-workers.html">Find Workers</a></li>
+        <li><a href="worker-registration.html">Become a Worker</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+      <div class="nav-right">
+        <button class="login-btn" onclick="location.href='login.html'">Login</button>
+        <button class="signup-btn" onclick="location.href='signup.html'">Sign Up</button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ================= PROFILE LAYOUT ================= -->
+  <main class="container">
+    <div class="profile-layout">
+      
+      <!-- LEFT CONTENT AREA (70%) -->
+      <section class="main-profile-content">
+        <!-- Profile Header Banner -->
+        <div class="profile-hero">
+          <div class="cover-banner"></div>
+          <div class="header-info-bar">
+            <div class="avatar-wrapper">
+              <img class="avatar-img" src="https://images.unsplash.com/photo-1540569014015-19a7be504e3a?w=200&fit=crop" alt="Ramesh Kumar">
+              <span class="status-dot status-online"></span>
+            </div>
+            
+            <div class="profile-title-section">
+              <h1>Ramesh Kumar <span class="verified-badge" style="position: static; display: inline-flex; border: none; font-size: 13px; width: auto; height: auto; padding: 4px 8px; border-radius: 6px;"><i class="fa-solid fa-check"></i> Verified</span></h1>
+              <p class="profession">Professional Electrician & AC Technician</p>
+              
+              <div class="meta-stats">
+                <span><i class="fa-solid fa-star" style="color: #F59E0B;"></i> 4.9 (128 Reviews)</span>
+                <span><i class="fa-solid fa-briefcase"></i> 5+ Years Experience</span>
+                <span><i class="fa-solid fa-location-dot"></i> Pune, Maharashtra</span>
+              </div>
+            </div>
+
+            <div class="action-buttons-group">
+              <button class="btn-icon" id="fav-profile-btn" title="Add to Favorites"><i class="fa-regular fa-heart"></i></button>
+              <button class="btn-icon" title="Share Profile"><i class="fa-solid fa-share-nodes"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- About Me Section -->
+        <div class="profile-card">
+          <h3>About Ramesh</h3>
+          <p style="font-size: 14px; color: var(--secondary-text); line-height: 1.6; margin-bottom: 12px;">
+            I am a certified, professional electrician with over 5 years of experience serving residential and commercial properties in Pune. I specialize in complete house wiring, smart home automation, AC servicing, and emergency electrical troubleshooting.
+          </p>
+          <p style="font-size: 14px; color: var(--secondary-text); line-height: 1.6;">
+            I prioritize safety, precision, and customer satisfaction above all. All operations are completed strictly following the national electricity guidelines.
+          </p>
+        </div>
+
+        <!-- Services Section -->
+        <div class="profile-card">
+          <h3>Services Offered</h3>
+          <div class="services-list">
+            <div class="service-card">
+              <div class="service-info">
+                <h4>Smart Home Automation & Wiring</h4>
+                <p>Complete wiring of devices, smart switches, and smart lights configuration.</p>
+              </div>
+              <div style="display: flex; align-items: center; gap: 20px;">
+                <span style="font-weight: 700; color: var(--primary);">₹399/hr</span>
+                <button class="btn-book">Select</button>
+              </div>
+            </div>
+
+            <div class="service-card">
+              <div class="service-info">
+                <h4>AC Installation & Basic Repair</h4>
+                <p>Mounting, copper piping installation, gas charging, and structural check.</p>
+              </div>
+              <div style="display: flex; align-items: center; gap: 20px;">
+                <span style="font-weight: 700; color: var(--primary);">₹599/hr</span>
+                <button class="btn-book">Select</button>
+              </div>
+            </div>
+
+            <div class="service-card">
+              <div class="service-info">
+                <h4>Emergency Troubleshooting</h4>
+                <p>Finding short circuits, voltage issues, and fuse replacements.</p>
+              </div>
+              <div style="display: flex; align-items: center; gap: 20px;">
+                <span style="font-weight: 700; color: var(--primary);">₹299/hr</span>
+                <button class="btn-book">Select</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Work Gallery Grid -->
+        <div class="profile-card">
+          <h3>Work Portfolio</h3>
+          <div class="gallery-grid">
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=300" alt="Work 1"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1581092921461-eab62e97a780?w=300" alt="Work 2"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=300" alt="Work 3"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=300" alt="Work 4"></div>
+          </div>
+        </div>
+
+        <!-- Reviews Section -->
+        <div class="profile-card">
+          <h3>Ratings & Reviews</h3>
+          <div class="review-summary">
+            <div class="rating-big">
+              4.9
+              <p>out of 5.0</p>
+            </div>
+            
+            <div class="rating-breakdown">
+              <div class="breakdown-row">
+                <span>5 Stars</span>
+                <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 90%;"></div></div>
+                <span>90%</span>
+              </div>
+              <div class="breakdown-row">
+                <span>4 Stars</span>
+                <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 8%;"></div></div>
+                <span>8%</span>
+              </div>
+              <div class="breakdown-row">
+                <span>3 Stars</span>
+                <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 2%;"></div></div>
+                <span>2%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="reviews-list">
+            <div class="review-card">
+              <div class="review-header">
+                <span class="review-author">Aniket Rachalwar</span>
+                <span class="review-date">July 15, 2026</span>
+              </div>
+              <div style="color: #F59E0B; margin-bottom: 8px;">★★★★★</div>
+              <p>Ramesh was excellent! He arrived right on time, diagnosed the short circuit in my living room within ten minutes, and fixed it safely. Will definitely book again.</p>
+            </div>
+
+            <div class="review-card">
+              <div class="review-header">
+                <span class="review-author">Sunita Patil</span>
+                <span class="review-date">June 28, 2026</span>
+              </div>
+              <div style="color: #F59E0B; margin-bottom: 8px;">★★★★★</div>
+              <p>Very polite and highly professional. Did a clean job mounting the AC and cabling.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT SIDEBAR (30%) - STICKY BOOKING CARD -->
+      <aside class="sticky-booking-sidebar">
+        <div class="booking-sidebar-card">
+          <div class="sidebar-price-row">
+            <div class="sidebar-price">
+              Starting from
+              <strong>₹299/hr</strong>
+            </div>
+          </div>
+
+          <div class="availability-banner">
+            <i class="fa-solid fa-circle-check"></i>
+            <span>Available Today (Pune)</span>
+          </div>
+
+          <button class="btn-primary-auth" style="width: 100%; margin-bottom: 12px; height: 50px;" onclick="location.href='booking.html'">
+            <span>Book Now</span>
+            <i class="fa-solid fa-calendar-days"></i>
+          </button>
+          
+          <button class="btn-google-auth" id="chat-worker-btn" style="width: 100%; margin-bottom: 12px; height: 50px; border-color: var(--primary); color: var(--primary);">
+            <i class="fa-regular fa-comment-dots"></i>
+            <span>Chat with Ramesh</span>
+          </button>
+
+          <button class="btn-google-auth" id="call-worker-btn" style="width: 100%; height: 50px;">
+            <i class="fa-solid fa-phone"></i>
+            <span>Call Worker</span>
+          </button>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer style="background: var(--white); border-top: 1px solid var(--border-color); padding: 40px 0; margin-top: 80px;">
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+      <div>
+        <p style="font-weight: 700; color: var(--primary);">GoWorker</p>
+        <p style="font-size: 13px; color: var(--secondary-text);">© 2026 GoWorker. All rights reserved.</p>
+      </div>
+      <div style="display: flex; gap: 24px; font-size: 14px; color: var(--secondary-text);">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Support Center</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Profile Specific Script -->
+  <script src="worker-profile.js"></script>
+
+</body>
+</html>

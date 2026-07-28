@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GoWorker - Customer Dashboard</title>
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  
+  <!-- Global Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+  
+  <!-- Page Specific Stylesheet -->
+  <link rel="stylesheet" href="dashboard.css">
+
+  <!-- Firebase SDK CDN -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+</head>
+<body>
+
+  <!-- ================= NAVBAR ================= -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">
+        <img src="images/logo_icon.png" alt="GoWorker Logo" onerror="this.src='assets/logo.jfif';">
+        <span>Go<strong>Worker</strong></span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="Index.html">Home</a></li>
+        <li><a href="find-workers.html">Find Workers</a></li>
+        <li><a href="worker-registration.html">Become a Worker</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+      <div class="nav-right">
+        <!-- Theme Toggle -->
+        <button class="theme-btn" title="Toggle dark mode"><i class="fa-solid fa-moon"></i></button>
+        <button class="login-btn" onclick="localStorage.removeItem('user_session'); location.href='login.html'">Logout</button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ================= CONTAINER ================= -->
+  <main class="container">
+    <div class="dashboard-layout">
+      <!-- SIDEBAR -->
+      <aside class="dashboard-sidebar">
+        <ul class="sidebar-menu">
+          <li><a href="customer-dashboard.html" class="sidebar-link active"><i class="fa-solid fa-house"></i> Dashboard</a></li>
+          <li><a href="find-workers.html" class="sidebar-link"><i class="fa-solid fa-magnifying-glass"></i> Find Workers</a></li>
+          <li><a href="booking-history.html" class="sidebar-link"><i class="fa-solid fa-calendar-check"></i> My Bookings</a></li>
+          <li><a href="chat.html" class="sidebar-link"><i class="fa-solid fa-comments"></i> Messages</a></li>
+          <li><a href="notifications.html" class="sidebar-link"><i class="fa-solid fa-bell"></i> Notifications</a></li>
+          <li><a href="profile.html" class="sidebar-link"><i class="fa-solid fa-gears"></i> Settings</a></li>
+        </ul>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <section class="dashboard-content">
+        <!-- Greeting Header -->
+        <div class="greeting-card">
+          <h2>Good Morning, Aniket 👋</h2>
+          <p>Welcome back to GoWorker. Here's a quick look at your booking status and active tasks.</p>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fa-solid fa-clock"></i></div>
+            <div class="stat-info">
+              <h3>1</h3>
+              <p>Active Booking</p>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon" style="background: rgba(34, 197, 94, 0.08); color: var(--success);"><i class="fa-solid fa-check-double"></i></div>
+            <div class="stat-info">
+              <h3>12</h3>
+              <p>Completed Jobs</p>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon" style="background: rgba(239, 68, 68, 0.08); color: var(--danger);"><i class="fa-solid fa-heart"></i></div>
+            <div class="stat-info">
+              <h3>3</h3>
+              <p>Saved Workers</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Current Booking Section -->
+        <div class="dashboard-block">
+          <h3>Active Service Tracker</h3>
+          <div style="display: flex; gap: 20px; align-items: start; flex-wrap: wrap;">
+            <img src="https://images.unsplash.com/photo-1540569014015-19a7be504e3a?w=100&fit=crop" alt="Ramesh" style="width: 64px; height: 64px; border-radius: 50%; object-fit: cover;">
+            <div style="flex: 1; min-width: 250px;">
+              <h4 style="font-size: 16px; font-weight: 700; margin-bottom: 2px;">Ramesh Kumar</h4>
+              <p style="font-size: 13px; color: var(--secondary-text); margin-bottom: 8px;">Emergency Electrical Troubleshooting</p>
+              <div style="display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; color: var(--primary); background: var(--primary-light); padding: 4px 10px; border-radius: 20px; margin-bottom: 12px;">
+                <i class="fa-solid fa-truck-ramp-box"></i> Worker is On The Way
+              </div>
+              <p style="font-size: 13px; color: var(--secondary-text);">ETA: <strong>09:15 AM (approx 15 mins)</strong></p>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px; width: 180px;">
+              <button class="btn-book btn-track" style="width: 100%;">Track Status</button>
+              <button class="btn-book" style="width: 100%; background: var(--white); border: 1.5px solid var(--primary); color: var(--primary);" onclick="location.href='chat.html'">Chat with Worker</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity Timeline -->
+        <div class="dashboard-block">
+          <h3>Recent Operations Timeline</h3>
+          <div class="timeline-list">
+            <div class="timeline-item">
+              <span class="timeline-time">Today, 08:30 AM</span>
+              <p class="timeline-desc"><strong>Booking confirmed</strong> for Emergency Troubleshooting with Ramesh Kumar.</p>
+            </div>
+            <div class="timeline-item">
+              <span class="timeline-time">Today, 08:45 AM</span>
+              <p class="timeline-desc">Worker accepted booking and started journey from service branch.</p>
+            </div>
+            <div class="timeline-item">
+              <span class="timeline-time">Yesterday, 05:00 PM</span>
+              <p class="timeline-desc">Payment of ₹499 settled for plumbing contract with Sohan Singh.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer style="background: var(--white); border-top: 1px solid var(--border-color); padding: 40px 0; margin-top: 80px;">
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+      <div>
+        <p style="font-weight: 700; color: var(--primary);">GoWorker</p>
+        <p style="font-size: 13px; color: var(--secondary-text);">© 2026 GoWorker. All rights reserved.</p>
+      </div>
+      <div style="display: flex; gap: 24px; font-size: 14px; color: var(--secondary-text);">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Support Center</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>

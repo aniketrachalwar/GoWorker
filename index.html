@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="/js/session-sync.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoWorker</title>
+
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<header>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            <img src="images/logo_icon.png" alt="Logo" onerror="this.src='images/logo.jpg';">
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="#">Find Workers</a></li>
+            <li><a href="#">Become a Worker</a></li>
+            <li><a href="#">How It Works</a></li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Contact Us</a></li>
+        </ul>
+
+        <div class="nav-right">
+
+            <!-- Language -->
+            <div class="language-dropdown">
+
+                <button class="language-btn">
+                    <i class="fa-solid fa-globe"></i>
+                    English
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+
+                <div class="dropdown-content">
+
+                    <a href="#">🇬🇧 English</a>
+                    <a href="#">🇮🇳 हिन्दी</a>
+                    <a href="#">🇮🇳 मराठी</a>
+                    <a href="#">🇮🇳 ગુજરાતી</a>
+                    <a href="#">🇮🇳 தமிழ்</a>
+                    <a href="#">🇮🇳 ಕನ್ನಡ</a>
+
+                </div>
+
+            </div>
+
+
+            <button class="login-btn" onclick="location.href='login.html'">Login</button>
+
+            <button class="signup-btn" onclick="location.href='signup.html'">Sign Up</button>
+
+        </div>
+
+    </nav>
+
+</header>
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <div class="hero-left">
+
+        <h1>
+            Find Trusted Local
+            Workers
+            <span>Near You</span>
+        </h1>
+
+        <p>
+            Connect with skilled and unskilled workers in your area.
+            Negotiate directly. Work done right.
+        </p>
+
+        <div class="search-box">
+
+            <select>
+                <option>Select Category</option>
+            </select>
+
+            <input
+            type="text"
+            placeholder="Enter Location">
+
+            <button>
+                Search Workers
+            </button>
+
+        </div>
+
+        <div class="features">
+
+            <div class="feature">
+                <i class="fa-solid fa-users"></i>
+                <div>
+                    <h3>Trusted Workers</h3>
+                    <p>Verified & Reviewed</p>
+                </div>
+            </div>
+
+            <div class="feature">
+                <i class="fa-solid fa-shield"></i>
+                <div>
+                    <h3>Direct Contact</h3>
+                    <p>Negotiate Easily</p>
+                </div>
+            </div>
+
+            <div class="feature">
+                <i class="fa-solid fa-indian-rupee-sign"></i>
+                <div>
+                    <h3>No Hidden Charges</h3>
+                    <p>Pay What You Agree</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="hero-right">
+
+    <img src="assets/images/login-workers.png" alt="Workers">
+
+    <!-- Floating Cards -->
+    <div class="floating-card rating">
+        ⭐ 4.9 Rating
+    </div>
+
+    <div class="floating-card workers">
+        👷 15K+ Workers
+    </div>
+
+    <div class="floating-card verified">
+        ✔ Verified
+    </div>
+
+    <!-- Hero Stats -->
+    <div class="hero-stats">
+
+        <div>
+            <h3>15K+</h3>
+            <p>Workers</p>
+        </div>
+
+        <div>
+            <h3>25K+</h3>
+            <p>Jobs Done</p>
+        </div>
+
+        <div>
+            <h3>4.9★</h3>
+            <p>Rating</p>
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+<!-- ================= CATEGORY ================= -->
+
+<section class="categories">
+
+    <h2>Popular Categories</h2>
+
+    <div class="category-grid">
+
+    <div class="card">
+        <i class="fa-solid fa-bolt"></i>
+        <h3>Electrician</h3>
+    </div>
+
+    <div class="card">
+        <i class="fa-solid fa-faucet"></i>
+        <h3>Plumber</h3>
+    </div>
+
+    <div class="card">
+        <i class="fa-solid fa-hammer"></i>
+        <h3>Carpenter</h3>
+    </div>
+
+    <div class="card">
+        <i class="fa-solid fa-paint-roller"></i>
+        <h3>Painter</h3>
+    </div>
+
+    <div class="card">
+        <i class="fa-solid fa-broom"></i>
+        <h3>Cleaner</h3>
+    </div>
+
+    <div class="card">
+        <i class="fa-solid fa-screwdriver-wrench"></i>
+        <h3>Repair</h3>
+    </div>
+
+    <div class="card">
+        <i class="fa-solid fa-gear"></i>
+        <h3>Mechanic</h3>
+    </div>
+
+    <div class="card">
+        <i class="fa-solid fa-ellipsis"></i>
+        <h3>More</h3>
+    </div>
+
+    </div>
+
+</section>
+
+<!-- ================= HOW IT WORKS ================= -->
+
+<section class="works">
+
+    <h2>Get Your Work Done in 3 Simple Steps</h2>
+
+    <p class="work-subtitle">
+        Hiring skilled workers has never been easier.
+    </p>
+
+    <div class="steps">
+
+        <div class="step">
+
+            <div class="step-number">01</div>
+
+            <div class="step-icon">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+
+            <h3>Search Workers</h3>
+
+            <p>
+                Search by category and location to find nearby verified workers.
+            </p>
+
+        </div>
+
+        <div class="step">
+
+            <div class="step-number">02</div>
+
+            <div class="step-icon">
+                <i class="fa-solid fa-comments"></i>
+            </div>
+
+            <h3>Connect</h3>
+
+            <p>
+                Contact workers directly and discuss pricing before hiring.
+            </p>
+
+        </div>
+
+        <div class="step">
+
+            <div class="step-number">03</div>
+
+            <div class="step-icon">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+
+            <h3>Hire & Relax</h3>
+
+            <p>
+                Hire confidently, get your work completed, and leave a review.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= STATS ================= -->
+
+<section class="stats">
+
+    <div class="stat">
+
+        <h2>10K+</h2>
+
+        <p>Happy Customers</p>
+
+    </div>
+
+    <div class="stat">
+
+        <h2>15K+</h2>
+
+        <p>Verified Workers</p>
+
+    </div>
+
+    <div class="stat">
+
+        <h2>25K+</h2>
+
+        <p>Jobs Completed</p>
+
+    </div>
+
+    <div class="stat">
+
+        <h2>4.8/5</h2>
+
+        <p>Average Rating</p>
+
+    </div>
+
+</section>
+
+<footer>
+    <div class="container footer-grid">
+        <div class="footer-brand">
+            <a href="index.html" class="logo" style="display: inline-block; margin-bottom: 0.5rem;">
+                <img src="images/logo.jpg" alt="GoWorker" style="height: 52px; width: auto; object-fit: contain; border-radius: 8px;">
+            </a>
+            <p>Your trusted marketplace for local services. Connect with verified service workers in your neighborhood, negotiate pricing, and get work done easily.</p>
+        </div>
+        
+        <div>
+            <h4 class="footer-heading">Quick Links</h4>
+            <ul class="footer-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="find-workers.html">Find Workers</a></li>
+                <li><a href="worker-registration.html">Become a Worker</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+        </div>
+        
+        <div>
+            <h4 class="footer-heading">Popular Services</h4>
+            <ul class="footer-links">
+                <li><a href="find-workers.html?category=1">Electricians</a></li>
+                <li><a href="find-workers.html?category=2">Plumbers</a></li>
+                <li><a href="find-workers.html?category=3">Carpenters</a></li>
+                <li><a href="find-workers.html?category=5">Cleaners</a></li>
+                <li><a href="find-workers.html?category=6">Appliance Repair</a></li>
+            </ul>
+        </div>
+        
+        <div>
+            <h4 class="footer-heading">Contact Us</h4>
+            <ul class="footer-links" style="color: var(--text-muted); font-size: 0.95rem;">
+                <li style="margin-bottom: 0.75rem;"><i class="fa-solid fa-location-dot" style="margin-right: 0.5rem; color: var(--primary);"></i> 123 College Campus, City</li>
+                <li style="margin-bottom: 0.75rem;"><i class="fa-solid fa-phone" style="margin-right: 0.5rem; color: var(--primary);"></i> +1 (234) 567-8900</li>
+                <li style="margin-bottom: 0.75rem;"><i class="fa-solid fa-envelope" style="margin-right: 0.5rem; color: var(--primary);"></i> support@goworker.com</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="container footer-bottom" style="text-align: center; border-top: 1px solid var(--border-color); padding-top: 1.5rem; margin-top: 2rem;">
+        <p>&copy; 2026 <strong>GoWorker™</strong>. All rights reserved. GoWorker is a registered trademark.</p>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">Licensed under the Academic Project Commons License. All services simulated for demonstration purposes.</p>
+    </div>
+</footer>
+
+<!-- Global JS -->
+<script src="js/main.js"></script>
+<script src="js/effects.js"></script>
+<script src="js/location.js"></script>
+<script src="js/phase1.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

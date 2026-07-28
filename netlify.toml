@@ -1,0 +1,47 @@
+[[redirects]]
+  from = "/index.php"
+  to = "/index.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/login.php"
+  to = "/login.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/signup.php"
+  to = "/signup.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/profile.php"
+  to = "/profile.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/customer-dashboard.php"
+  to = "/customer-dashboard.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/worker-dashboard.php"
+  to = "/worker-dashboard.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/find-workers.php"
+  to = "/find-workers.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/become-worker.php"
+  to = "/worker-registration.html"
+  status = 301
+  force = true

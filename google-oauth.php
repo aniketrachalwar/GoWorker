@@ -1,0 +1,237 @@
+<?php
+/**
+ * GoWorker - Simulated Google OAuth Account Selection Page
+ */
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in - Google Accounts</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #ffffff;
+            color: #202124;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            width: 100%;
+            max-width: 450px;
+            border: 1px solid #dadce0;
+            border-radius: 8px;
+            padding: 40px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        .google-logo {
+            width: 75px;
+            margin-bottom: 16px;
+        }
+        h1 {
+            font-size: 24px;
+            font-weight: 400;
+            margin: 0 0 8px 0;
+            color: #202124;
+        }
+        p {
+            font-size: 16px;
+            color: #202124;
+            margin: 0 0 24px 0;
+        }
+        .account-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            text-align: left;
+            margin-bottom: 24px;
+        }
+        .account-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border: 1px solid #dadce0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .account-item:hover {
+            background-color: #f8f9fa;
+        }
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #1a73e8;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 500;
+            font-size: 18px;
+            object-fit: cover;
+        }
+        .account-details {
+            flex: 1;
+        }
+        .account-name {
+            font-weight: 500;
+            font-size: 14px;
+            margin: 0;
+        }
+        .account-email {
+            font-size: 12px;
+            color: #5f6368;
+            margin: 2px 0 0 0;
+        }
+        .badge {
+            font-size: 10px;
+            background: #e8f0fe;
+            color: #1a73e8;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 24px 0;
+            color: #5f6368;
+            font-size: 13px;
+        }
+        .divider::before, .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background-color: #dadce0;
+        }
+        .divider::before { margin-right: 12px; }
+        .divider::after { margin-left: 12px; }
+        
+        .form-group {
+            text-align: left;
+            margin-bottom: 16px;
+        }
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: #5f6368;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #1a73e8;
+        }
+        .btn-submit {
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.2s;
+        }
+        .btn-submit:hover {
+            background-color: #1557b0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Google" class="google-logo">
+    <h1>Sign in with Google</h1>
+    <p>to continue to GoWorker</p>
+
+    <!-- Existing Accounts Selector -->
+    <div class="account-list">
+        <div class="account-item" onclick="selectAccount('Aniket Rachalwar', 'aniket@example.com', '1092837492834', 'customer')">
+            <div class="avatar">AR</div>
+            <div class="account-details">
+                <p class="account-name">Aniket Rachalwar</p>
+                <p class="account-email">aniket@example.com</p>
+            </div>
+            <span class="badge">Customer</span>
+        </div>
+        <div class="account-item" onclick="selectAccount('Ramesh Kumar', 'ramesh@example.com', '1092837492835', 'worker')">
+            <img src="https://images.unsplash.com/photo-1540569014015-19a7be504e3a?w=100&fit=crop" class="avatar" alt="Ramesh">
+            <div class="account-details">
+                <p class="account-name">Ramesh Kumar</p>
+                <p class="account-email">ramesh@example.com</p>
+            </div>
+            <span class="badge">Worker</span>
+        </div>
+        <div class="account-item" onclick="selectAccount('Sohan Singh', 'sohan@example.com', '1092837492836', 'worker')">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&fit=crop" class="avatar" alt="Sohan">
+            <div class="account-details">
+                <p class="account-name">Sohan Singh</p>
+                <p class="account-email">sohan@example.com</p>
+            </div>
+            <span class="badge">Worker</span>
+        </div>
+    </div>
+
+    <div class="divider">or use another account</div>
+
+    <!-- Create / Login New Account form -->
+    <form action="google-oauth-callback.php" method="GET">
+        <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" required placeholder="e.g. Nikhil Patil">
+        </div>
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" required placeholder="e.g. nikhil@gmail.com">
+        </div>
+        <div class="form-group">
+            <label for="user_type">Account Type</label>
+            <select id="user_type" name="user_type">
+                <option value="customer">Customer</option>
+                <option value="worker">Worker</option>
+            </select>
+        </div>
+        <input type="hidden" id="google_id" name="google_id" value="">
+        <input type="hidden" name="profile_photo" value="images/avatar_placeholder.png">
+        <button type="submit" class="btn-submit" onclick="generateGoogleId()">Continue with Google</button>
+    </form>
+</div>
+
+<script>
+    function selectAccount(name, email, googleId, type) {
+        window.location.href = `google-oauth-callback.php?name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&google_id=${googleId}&user_type=${type}&profile_photo=images/avatar_placeholder.png`;
+    }
+
+    function generateGoogleId() {
+        document.getElementById('google_id').value = 'G-' + Math.floor(100000000000 + Math.random() * 900000000000);
+    }
+</script>
+
+</body>
+</html>

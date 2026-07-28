@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="/js/session-sync.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GoWorker - Find Workers</title>
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  
+  <!-- Global Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+  
+  <style>
+    /* Specific Marketplace Custom Overrides */
+    .marketplace-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 32px;
+      margin: 40px auto;
+      align-items: start;
+    }
+
+    /* Sidebar Filters */
+    .filter-sidebar {
+      background: var(--white);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .filter-section {
+      margin-bottom: 24px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .filter-section:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .filter-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--dark-navy);
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--secondary-text);
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .checkbox-label input {
+      accent-color: var(--primary);
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      border: 1.5px solid var(--border-color);
+      cursor: pointer;
+    }
+
+    /* Main Content area */
+    .search-hero {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      color: var(--white);
+      margin-bottom: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .search-hero h1 {
+      color: var(--white);
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .search-hero p {
+      color: rgba(255,255,255,0.85);
+      font-size: 15px;
+      margin-bottom: 24px;
+      max-width: 600px;
+    }
+
+    .marketplace-search-bar {
+      display: flex;
+      background: var(--white);
+      padding: 8px;
+      border-radius: var(--radius-sm);
+      gap: 12px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .marketplace-search-bar input {
+      flex: 1;
+      border: none;
+      outline: none;
+      padding: 12px 16px;
+      font-size: 15px;
+      color: var(--primary-text);
+    }
+
+    .marketplace-search-bar button {
+      background: var(--primary);
+      color: var(--white);
+      border: none;
+      padding: 12px 28px;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .marketplace-search-bar button:hover {
+      background: var(--primary-hover);
+    }
+
+    /* Toolbar: view toggle, sorting */
+    .marketplace-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .toolbar-left h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 0;
+    }
+
+    .toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .sort-select {
+      padding: 10px 16px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      outline: none;
+      color: var(--primary-text);
+      cursor: pointer;
+    }
+
+    .view-toggle {
+      display: flex;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+
+    .view-toggle-btn {
+      background: var(--white);
+      border: none;
+      padding: 10px 14px;
+      cursor: pointer;
+      color: var(--secondary-text);
+      transition: var(--transition);
+    }
+
+    .view-toggle-btn.active {
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+
+    /* Grid of cards */
+    .workers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    /* Worker Card */
+    .worker-card {
+      background: var(--white);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .worker-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--primary);
+    }
+
+    .worker-card-header {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .worker-avatar-container {
+      position: relative;
+      width: 64px;
+      height: 64px;
+    }
+
+    .worker-avatar {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .verified-badge {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      background: var(--primary);
+      color: var(--white);
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 10px;
+      border: 2px solid var(--white);
+    }
+
+    .worker-meta h4 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .worker-meta p {
+      font-size: 13px;
+      color: var(--secondary-text);
+      margin-bottom: 4px;
+    }
+
+    .rating-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #F59E0B;
+    }
+
+    .rating-badge span {
+      color: var(--secondary-text);
+      font-weight: 400;
+    }
+
+    .worker-stats-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding: 12px;
+      background: var(--light-bg);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+    }
+
+    .worker-stat strong {
+      display: block;
+      color: var(--primary-text);
+    }
+
+    .worker-stat span {
+      color: var(--secondary-text);
+    }
+
+    .worker-skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+
+    .skill-tag {
+      background: rgba(21, 94, 239, 0.05);
+      color: var(--primary);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+
+    .worker-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .price-tag {
+      font-size: 13px;
+      color: var(--secondary-text);
+    }
+
+    .price-tag strong {
+      display: block;
+      font-size: 18px;
+      color: var(--primary);
+    }
+
+    .action-group {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--secondary-text);
+      cursor: pointer;
+      transition: var(--transition);
+      background: var(--white);
+    }
+
+    .btn-icon:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-book {
+      background: var(--primary);
+      color: var(--white);
+      border: none;
+      padding: 10px 18px;
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-book:hover {
+      background: var(--primary-hover);
+    }
+
+    /* Skeleton Loading CSS */
+    .skeleton {
+      animation: skeleton-loading 1.2s linear infinite alternate;
+    }
+
+    @keyframes skeleton-loading {
+      0% { background-color: #f1f5f9; }
+      100% { background-color: #e2e8f0; }
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 60px 40px;
+      display: none;
+    }
+
+    .empty-state i {
+      font-size: 64px;
+      color: var(--border-color);
+      margin-bottom: 20px;
+    }
+
+    .empty-state h3 {
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+
+    .empty-state p {
+      color: var(--secondary-text);
+      max-width: 400px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================= NAVBAR ================= -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">
+        <img src="images/logo_icon.png" alt="GoWorker Logo" onerror="this.src='assets/logo.jfif';">
+        <span>Go<strong>Worker</strong></span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="find-workers.html" class="active">Find Workers</a></li>
+        <li><a href="worker-registration.html">Become a Worker</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+      <div class="nav-right">
+        <button class="login-btn" onclick="location.href='login.html'">Login</button>
+        <button class="signup-btn" onclick="location.href='signup.html'">Sign Up</button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ================= CONTAINER ================= -->
+  <main class="container">
+    <div class="marketplace-layout">
+      <!-- LEFT SIDEBAR FILTERS -->
+      <aside class="filter-sidebar">
+        <div class="filter-section">
+          <div class="filter-title">
+            <span>Category</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </div>
+          <div class="filter-group" style="max-height: 260px; overflow-y: auto;">
+            <label class="checkbox-label"><input type="checkbox" checked> All Categories</label>
+            <label class="checkbox-label"><input type="checkbox"> Electrician</label>
+            <label class="checkbox-label"><input type="checkbox"> Plumber</label>
+            <label class="checkbox-label"><input type="checkbox"> Carpenter</label>
+            <label class="checkbox-label"><input type="checkbox"> Painter</label>
+            <label class="checkbox-label"><input type="checkbox"> Cleaner</label>
+            <label class="checkbox-label"><input type="checkbox"> Appliance Repair</label>
+            <label class="checkbox-label"><input type="checkbox"> Mechanic</label>
+            <label class="checkbox-label"><input type="checkbox"> Mason (Mistri)</label>
+            <label class="checkbox-label"><input type="checkbox"> Construction Labour</label>
+            <label class="checkbox-label"><input type="checkbox"> Helper Labour</label>
+            <label class="checkbox-label"><input type="checkbox"> Tile Fitter</label>
+            <label class="checkbox-label"><input type="checkbox"> POP Worker</label>
+            <label class="checkbox-label"><input type="checkbox"> Painter Labour</label>
+            <label class="checkbox-label"><input type="checkbox"> Concrete Worker</label>
+            <label class="checkbox-label"><input type="checkbox"> Scaffolding Worker</label>
+            <label class="checkbox-label"><input type="checkbox"> Wireman</label>
+            <label class="checkbox-label"><input type="checkbox"> CCTV Installer</label>
+            <label class="checkbox-label"><input type="checkbox"> Inverter Technician</label>
+            <label class="checkbox-label"><input type="checkbox"> Solar Panel Technician</label>
+            <label class="checkbox-label"><input type="checkbox"> Borewell Technician</label>
+            <label class="checkbox-label"><input type="checkbox"> Water Tank Cleaner</label>
+            <label class="checkbox-label"><input type="checkbox"> Furniture Assembler</label>
+            <label class="checkbox-label"><input type="checkbox"> Modular Furniture Installer</label>
+            <label class="checkbox-label"><input type="checkbox"> House Cleaner</label>
+            <label class="checkbox-label"><input type="checkbox"> Deep Cleaning Service</label>
+            <label class="checkbox-label"><input type="checkbox"> Sofa Cleaner</label>
+            <label class="checkbox-label"><input type="checkbox"> Carpet Cleaner</label>
+            <label class="checkbox-label"><input type="checkbox"> Bathroom Cleaner</label>
+            <label class="checkbox-label"><input type="checkbox"> AC Technician</label>
+            <label class="checkbox-label"><input type="checkbox"> Refrigerator Repair</label>
+            <label class="checkbox-label"><input type="checkbox"> Washing Machine Repair</label>
+            <label class="checkbox-label"><input type="checkbox"> TV Repair</label>
+            <label class="checkbox-label"><input type="checkbox"> Microwave Repair</label>
+            <label class="checkbox-label"><input type="checkbox"> Water Purifier Repair</label>
+            <label class="checkbox-label"><input type="checkbox"> Gardener</label>
+            <label class="checkbox-label"><input type="checkbox"> Pest Control</label>
+            <label class="checkbox-label"><input type="checkbox"> Security Guard</label>
+            <label class="checkbox-label"><input type="checkbox"> Driver</label>
+            <label class="checkbox-label"><input type="checkbox"> Cook</label>
+            <label class="checkbox-label"><input type="checkbox"> Maid</label>
+            <label class="checkbox-label"><input type="checkbox"> Babysitter</label>
+            <label class="checkbox-label"><input type="checkbox"> Elder Care Assistant</label>
+            <label class="checkbox-label"><input type="checkbox"> Welder</label>
+            <label class="checkbox-label"><input type="checkbox"> Fabricator</label>
+            <label class="checkbox-label"><input type="checkbox"> Steel Worker</label>
+            <label class="checkbox-label"><input type="checkbox"> Aluminium Worker</label>
+            <label class="checkbox-label"><input type="checkbox"> Loader</label>
+            <label class="checkbox-label"><input type="checkbox"> Unloader</label>
+            <label class="checkbox-label"><input type="checkbox"> Packers & Movers</label>
+            <label class="checkbox-label"><input type="checkbox"> Tempo Service</label>
+            <label class="checkbox-label"><input type="checkbox"> Truck Helper</label>
+            <label class="checkbox-label"><input type="checkbox"> Bike Repair</label>
+            <label class="checkbox-label"><input type="checkbox"> Car Washing</label>
+            <label class="checkbox-label"><input type="checkbox"> Puncture Repair</label>
+            <label class="checkbox-label"><input type="checkbox"> Computer Repair</label>
+            <label class="checkbox-label"><input type="checkbox"> Laptop Repair</label>
+            <label class="checkbox-label"><input type="checkbox"> Mobile Repair</label>
+            <label class="checkbox-label"><input type="checkbox"> Network Technician</label>
+            <label class="checkbox-label"><input type="checkbox"> Farm Labour</label>
+            <label class="checkbox-label"><input type="checkbox"> Tractor Driver</label>
+            <label class="checkbox-label"><input type="checkbox"> Irrigation Worker</label>
+            <label class="checkbox-label"><input type="checkbox"> Dairy Worker</label>
+            <label class="checkbox-label"><input type="checkbox"> Photographer</label>
+            <label class="checkbox-label"><input type="checkbox"> Videographer</label>
+            <label class="checkbox-label"><input type="checkbox"> DJ Service</label>
+            <label class="checkbox-label"><input type="checkbox"> Event Decorator</label>
+            <label class="checkbox-label"><input type="checkbox"> Beautician</label>
+            <label class="checkbox-label"><input type="checkbox"> Hair Stylist</label>
+            <label class="checkbox-label"><input type="checkbox"> Makeup Artist</label>
+            <label class="checkbox-label"><input type="checkbox"> Mehendi Artist</label>
+          </div>
+        </div>
+
+        <div class="filter-section">
+          <div class="filter-title">
+            <span>Experience</span>
+          </div>
+          <div class="filter-group">
+            <label class="checkbox-label"><input type="radio" name="exp" checked> All Experience</label>
+            <label class="checkbox-label"><input type="radio" name="exp"> 0-2 Years</label>
+            <label class="checkbox-label"><input type="radio" name="exp"> 2-5 Years</label>
+            <label class="checkbox-label"><input type="radio" name="exp"> 5+ Years</label>
+          </div>
+        </div>
+
+        <div class="filter-section">
+          <div class="filter-title">
+            <span>Rating</span>
+          </div>
+          <div class="filter-group">
+            <label class="checkbox-label"><input type="radio" name="rating" checked> All Ratings</label>
+            <label class="checkbox-label"><input type="radio" name="rating"> 4.5★ & Up</label>
+            <label class="checkbox-label"><input type="radio" name="rating"> 4.0★ & Up</label>
+            <label class="checkbox-label"><input type="radio" name="rating"> 3.5★ & Up</label>
+          </div>
+        </div>
+
+        <div class="filter-section">
+          <div class="filter-title">
+            <span>Price Range</span>
+          </div>
+          <div class="filter-group" style="padding-top: 10px;">
+            <input type="range" min="100" max="2000" value="1000" style="width: 100%; accent-color: var(--primary);">
+            <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--secondary-text);">
+              <span>Min: ₹100</span>
+              <span>Max: ₹2000</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <section class="main-content">
+        <!-- Hero Search Section -->
+        <div class="search-hero">
+          <h1>Find Trusted Professionals</h1>
+          <p>Connect directly with verified local experts for any household task.</p>
+          <div class="marketplace-search-bar">
+            <input type="text" placeholder="What service do you need? (e.g. electrical work...)">
+            <input type="text" placeholder="Enter your location" style="border-left: 1.5px solid var(--border-color);">
+            <button type="button">Search</button>
+          </div>
+        </div>
+
+        <!-- Toolbar -->
+        <div class="marketplace-toolbar">
+          <div class="toolbar-left">
+            <h3>8 Professionals found</h3>
+          </div>
+          <div class="toolbar-right">
+            <select class="sort-select">
+              <option>Sort By: Best Match</option>
+              <option>Highest Rating</option>
+              <option>Experience: High to Low</option>
+              <option>Price: Low to High</option>
+            </select>
+            <div class="view-toggle">
+              <button class="view-toggle-btn active" title="Grid View"><i class="fa-solid fa-grip-vertical"></i></button>
+              <button class="view-toggle-btn" title="List View"><i class="fa-solid fa-list"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SKELETON LOADER (Simulated) -->
+        <div class="workers-grid" id="skeletons" style="display: none;">
+          <div class="worker-card skeleton" style="height: 380px;"></div>
+          <div class="worker-card skeleton" style="height: 380px;"></div>
+          <div class="worker-card skeleton" style="height: 380px;"></div>
+        </div>
+
+        <!-- EMPTY STATE -->
+        <div class="empty-state" id="empty-state">
+          <i class="fa-regular fa-folder-open"></i>
+          <h3>No Workers Found</h3>
+          <p>Try modifying your search or expanding filters to find local service partners.</p>
+        </div>
+
+        <!-- WORKER CARDS GRID -->
+        <div class="workers-grid" id="workers-list">
+          <!-- Worker Card 1 -->
+          <article class="worker-card">
+            <div class="worker-card-header">
+              <div class="worker-avatar-container">
+                <img class="worker-avatar" src="https://images.unsplash.com/photo-1540569014015-19a7be504e3a?w=150&fit=crop" alt="Ramesh Kumar">
+                <div class="verified-badge"><i class="fa-solid fa-check"></i></div>
+              </div>
+              <div class="worker-meta">
+                <h4>Ramesh Kumar</h4>
+                <p>Electrician</p>
+                <div class="rating-badge">
+                  <i class="fa-solid fa-star"></i> 4.9 <span>(128 reviews)</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="worker-stats-row">
+              <div class="worker-stat">
+                <strong>5+ Years</strong>
+                <span>Experience</span>
+              </div>
+              <div class="worker-stat">
+                <strong>Pune</strong>
+                <span>Location</span>
+              </div>
+            </div>
+
+            <div class="worker-skills">
+              <span class="skill-tag">AC Installation</span>
+              <span class="skill-tag">Wiring</span>
+              <span class="skill-tag">Short Circuits</span>
+            </div>
+
+            <div class="worker-card-footer">
+              <div class="price-tag">
+                Starting from
+                <strong>₹299/hr</strong>
+              </div>
+              <div class="action-group">
+                <button class="btn-icon" onclick="location.href='chat.html'" title="Chat with Ramesh"><i class="fa-regular fa-comment-dots"></i></button>
+                <button class="btn-book" onclick="location.href='booking.html'">Book Now</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Worker Card 2 -->
+          <article class="worker-card">
+            <div class="worker-card-header">
+              <div class="worker-avatar-container">
+                <img class="worker-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&fit=crop" alt="Sohan Singh">
+                <div class="verified-badge"><i class="fa-solid fa-check"></i></div>
+              </div>
+              <div class="worker-meta">
+                <h4>Sohan Singh</h4>
+                <p>Plumber</p>
+                <div class="rating-badge">
+                  <i class="fa-solid fa-star"></i> 4.8 <span>(95 reviews)</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="worker-stats-row">
+              <div class="worker-stat">
+                <strong>4 Years</strong>
+                <span>Experience</span>
+              </div>
+              <div class="worker-stat">
+                <strong>Mumbai</strong>
+                <span>Location</span>
+              </div>
+            </div>
+
+            <div class="worker-skills">
+              <span class="skill-tag">Pipe Repairs</span>
+              <span class="skill-tag">Drain Cleaning</span>
+            </div>
+
+            <div class="worker-card-footer">
+              <div class="price-tag">
+                Starting from
+                <strong>₹199/hr</strong>
+              </div>
+              <div class="action-group">
+                <button class="btn-icon" onclick="location.href='chat.html'"><i class="fa-regular fa-comment-dots"></i></button>
+                <button class="btn-book" onclick="location.href='booking.html'">Book Now</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Worker Card 3 -->
+          <article class="worker-card">
+            <div class="worker-card-header">
+              <div class="worker-avatar-container">
+                <img class="worker-avatar" src="https://images.unsplash.com/photo-1628157582853-a796fa650a6a?w=150&fit=crop" alt="Pooja Sharma">
+                <div class="verified-badge"><i class="fa-solid fa-check"></i></div>
+              </div>
+              <div class="worker-meta">
+                <h4>Pooja Sharma</h4>
+                <p>House Cleaner</p>
+                <div class="rating-badge">
+                  <i class="fa-solid fa-star"></i> 4.7 <span>(84 reviews)</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="worker-stats-row">
+              <div class="worker-stat">
+                <strong>3 Years</strong>
+                <span>Experience</span>
+              </div>
+              <div class="worker-stat">
+                <strong>Bangalore</strong>
+                <span>Location</span>
+              </div>
+            </div>
+
+            <div class="worker-skills">
+              <span class="skill-tag">Deep Cleaning</span>
+              <span class="skill-tag">Disinfection</span>
+            </div>
+
+            <div class="worker-card-footer">
+              <div class="price-tag">
+                Starting from
+                <strong>₹149/hr</strong>
+              </div>
+              <div class="action-group">
+                <button class="btn-icon" onclick="location.href='chat.html'"><i class="fa-regular fa-comment-dots"></i></button>
+                <button class="btn-book" onclick="location.href='booking.html'">Book Now</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer style="background: var(--white); border-top: 1px solid var(--border-color); padding: 40px 0; margin-top: 80px;">
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+      <div>
+        <p style="font-weight: 700; color: var(--primary);">GoWorker</p>
+        <p style="font-size: 13px; color: var(--secondary-text);">© 2026 GoWorker. All rights reserved.</p>
+      </div>
+      <div style="display: flex; gap: 24px; font-size: 14px; color: var(--secondary-text);">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Support Center</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="find-workers.js"></script>
+</body>
+</html>

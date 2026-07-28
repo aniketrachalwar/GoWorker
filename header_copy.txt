@@ -1,0 +1,172 @@
+<?php\
+/**\
+ * Shared Header with language and routing updates\
+ */\
+require_once __DIR__ . '/functions.php';\
+\
+// Handle language switch via query parameter and session\
+if (session_status() === PHP_SESSION_NONE) {\
+    session_start();\
+}\
+if (isset($_GET['lang'])) {\
+    $allowed_langs = ['en', 'hi', 'mr', 'gu', 'ta', 'kn', 'te', 'bho', 'bn'];\
+    $selected_lang = $_GET['lang'];\
+    if (in_array($selected_lang, $allowed_langs)) {\
+        $_SESSION['lang'] = $selected_lang;\
+    }\
+    // Redirect to the clean page URL to keep the browser address bar tidy\
+    $clean_url = strtok($_SERVER["REQUEST_URI"], '?');\
+    $params = $_GET;\
+    unset($params['lang']);\
+    if (!empty($params)) {\
+        $clean_url .= '?' . http_build_query($params);\
+    }\
+    session_write_close();\
+    if (!headers_sent()) {\
+        header("Location: " . $clean_url);\
+    } else {\
+        echo "<script>window.location.href='" . addslashes($clean_url) . "';</script>";\
+    }\
+    exit();\
+}\
+\
+if (!isset($_SESSION['lang'])) {\
+    $detected_lang = 'en';\
+    if (!empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {\
+        $langs = [];\
+        preg_match_all('/([a-z]{1,8}(-[a-z]{1,8})?)\\s*(;\\s*q\\s*=\\s*(1|0\\.[0-9]+))?/i', $_SERVER['HTTP_ACCEPT_LANGUAGE'], $lang_parse);\
+        if (count($lang_parse[1]) > 0) {\
+            $langs = array_combine($lang_parse[1], $lang_parse[4]);\
+            foreach ($langs as $lang => $val) {\
+                if ($val === '') $langs[$lang] = 1.0;\
+            }\
+            arsort($langs, SORT_NUMERIC);\
+            \
+            $allowed_langs = ['en', 'hi', 'mr', 'gu', 'ta', 'kn', 'te', 'bho', 'bn'];\
+            foreach (array_keys($langs) as $lang) {\
+                $lang_prefix = strtolower(substr($lang, 0, 2));\
+                if (in_array($lang_prefix, $allowed_langs)) {\
+                    $detected_lang = $lang_prefix;\
+                    break;\
+                }\
+            }\
+        }\
+    }\
+    $_SESSION['lang'] = $detected_lang;\
+}\
+\
+$current_lang = $_SESSION['lang'];\
+\
+$lang_details = [\
+    'en' => ['name' => 'English', 'flag' => '🇬🇧'],\
+    'hi' => ['name' => 'Hindi', 'flag' => '🇮🇳'],\
+    'mr' => ['name' => 'Marathi', 'flag' => '🇮🇳'],\
+    'gu' => ['name' => 'Gujarati', 'flag' => '🇮🇳'],\
+    'ta' => ['name' => 'Tamil', 'flag' => '🇮🇳'],\
+    'kn' => ['name' => 'Kannada', 'flag' => '🇮🇳'],\
+    'te' => ['name' => 'Telugu', 'flag' => '🇮🇳'],\
+    'bho' => ['name' => 'Bhojpuri', 'flag' => '🇮🇳'],\
+    'bn' => ['name' => 'Bengali', 'flag' => '🇮🇳']\
+];\
+\
+$active_lang = isset($lang_details[$current_lang]) ? $lang_details[$current_lang] : $lang_details['en'];\
+\
+// Helper to keep other query parameters intact during language switch\
+function get_lang_switch_url($lang) {\
+    $params = $_GET;\
+    $params['lang'] = $lang;\
+    return strtok($_SERVER["REQUEST_URI"], '?') . '?' . http_build_query($params);\
+}\
+\
+// Determine the current page basename to apply the 'active' class to nav links\
+$current_page = basename($_SERVER['SCRIPT_NAME']);\
+?>\
+<!DOCTYPE html>\
+<html lang="<?php echo e($current_lang); ?>">\
+<head>\
+    <meta charset="UTF-8">\
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">\
+    <title>GoWorker - Trusted Local Services</title>\
+    \
+    <!-- FontAwesome Icons -->\
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">\
+    \
+    <!-- Google Fonts: Inter -->\
+    <link rel="preconnect" href="https://fonts.googleapis.com">\
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">\
+    \
+    <!-- Global CSS -->\
+    <link rel="stylesheet" href="css/styles.css">\
+</head>\
+<body>\
+\
+<header>\
+    <nav class="navbar">\
+        <div class="logo">\
+            <a href="index.php">\
+                <img src="images/logo_icon.png" alt="Logo" style="height: 55px; width: auto; object-fit: contain; border-radius: 8px;" onerror="this.src='assets/logo.jfif';">\
+            </a>\
+        </div>\
+\
+        <ul class="nav-links">\
+            <li><a href="index.php" class="<?php echo ($current_page === 'index.php' || $current_page === '') ? 'active' : ''; ?>"><?php echo e(__('home')); ?></a></li>\
+            <li><a href="find-workers.php" class="<?php echo $current_page === 'find-workers.php' ? 'active' : ''; ?>"><?php echo e(__('find_workers')); ?></a></li>\
+            <li><a href="become-worker.php" class="<?php echo $current_page === 'become-worker.php' ? 'active' : ''; ?>"><?php echo e(__('become_worker')); ?></a></li>\
+            <li><a href="index.php#how-it-works"><?php echo e(__('how_it_works')); ?></a></li>\
+            <li><a href="about.php" class="<?php echo $current_page === 'about.php' ? 'active' : ''; ?>"><?php echo e(__('about_us')); ?></a></li>\
+            <li><a href="contact.php" class="<?php echo $current_page === 'contact.php' ? 'active' : ''; ?>"><?php echo e(__('contact_us')); ?></a></li>\
+            <li><a href="admin-dashboard.php" class="<?php echo $current_page === 'admin-dashboard.php' ? 'active' : ''; ?>">Admin Panel</a></li>\
+        </ul>\
+\
+        <div class="nav-right">\
+            <!-- Language Selector Dropdown -->\
+            <div class="language-dropdown">\
+                <button class="language-btn">\
+                    <i class="fa-solid fa-globe"></i>\
+                    <?php echo $active_lang['name']; ?>\
+                    <i class="fa-solid fa-chevron-down"></i>\
+                </button>\
+                <div class="dropdown-content">\
+                    <?php foreach ($lang_details as $code => $detail): ?>\
+                        <a href="<?php echo e(get_lang_switch_url($code)); ?>">\
+                            <?php echo $detail['flag'] . ' ' . $detail['name']; ?>\
+                        </a>\
+                    <?php endforeach; ?>\
+                </div>\
+            </div>\
+            \
+            <?php if (isset($_SESSION['user_id'])): ?>\
+                <?php if ($_SESSION['user_type'] === 'customer'): ?>\
+                    <button class="login-btn" onclick="location.href='customer-dashboard.php'"><?php echo e(__('dashboard')); ?></button>\
+                <?php else: ?>\
+                    <button class="login-btn" onclick="location.href='worker-dashboard.php'"><?php echo e(__('dashboard')); ?></button>\
+                <?php endif; ?>\
+                <button class="signup-btn" onclick="location.href='logout.php'"><?php echo e(__('logout')); ?></button>\
+            <?php else: ?>\
+                <button class="login-btn" onclick="location.href='login.php'"><?php echo e(__('login')); ?></button>\
+                <button class="signup-btn" onclick="location.href='signup.php'"><?php echo e(__('signup')); ?></button>\
+            <?php endif; ?>\
+        </div>\
+    </nav>\
+</header>\
+\
+<!-- Alert Banner Section -->\
+<div class="container" style="margin-top: 6rem; margin-bottom: -4rem; position: relative; z-index: 10;">\
+    <?php\
+    $flashes = flash();\
+    if ($flashes):\
+        foreach ($flashes as $type => $msg):\
+            $alert_class = ($type === 'success') ? 'alert-success' : 'alert-danger';\
+            $alert_icon = ($type === 'success') ? 'fa-circle-check' : 'fa-circle-exclamation';\
+    ?>\
+            <div class="alert <?php echo $alert_class; ?>">\
+                <i class="fa-solid <?php echo $alert_icon; ?>"></i>\
+                <span><?php echo e($msg); ?></span>\
+            </div>\
+    <?php\
+        endforeach;\
+    endif;\
+    ?>\
+</div>\
+

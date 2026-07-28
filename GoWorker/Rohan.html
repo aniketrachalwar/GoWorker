@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GoWorker - Sign Up</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --blue: #1554d1;
+    --dark: #111827;
+    --gray: #5b6472;
+    --light-blue: #eef4ff;
+    --very-light: #f8faff;
+    --border: #e5e7eb;
+    --yellow: #f5b800;
+}
+
+body {
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f7fb;
+    color: var(--dark);
+    padding: 14px;
+}
+
+.signup-wrapper {
+    width: 100%;
+    max-width: 1350px;
+    min-height: calc(100vh - 28px);
+    margin: auto;
+    background: white;
+    border-radius: 25px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 42% 58%;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* =========================
+   LEFT SIDE
+========================= */
+
+.left-panel {
+    position: relative;
+    min-height: 850px;
+    overflow: hidden;
+    padding: 32px 62px;
+    background: linear-gradient(180deg, #ffffff 0%, #f9fbff 100%);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 48px;
+}
+
+.logo-image {
+    width: 205px;
+    height: auto;
+    object-fit: contain;
+}
+
+.logo-text {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+.logo-text span {
+    color: var(--blue);
+}
+
+.logo-tagline {
+    font-size: 8px;
+    color: #4b5563;
+    margin-top: -4px;
+    letter-spacing: 0.3px;
+}
+
+.left-content {
+    position: relative;
+    z-index: 5;
+}
+
+.left-heading {
+    font-size: 39px;
+    line-height: 1.13;
+    font-weight: 800;
+    letter-spacing: -1.2px;
+    margin-bottom: 18px;
+}
+
+.left-heading span {
+    color: var(--blue);
+}
+
+.left-description {
+    color: var(--gray);
+    font-size: 16px;
+    line-height: 1.6;
+    max-width: 430px;
+    margin-bottom: 24px;
+}
+
+/* FEATURES */
+
+.features {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 17px;
+}
+
+.feature-icon {
+    min-width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: var(--light-blue);
+    color: var(--blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.feature-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.feature-text {
+    color: var(--gray);
+    font-size: 14px;
+    line-height: 1.45;
+}
+
+/* BLUE WAVE */
+
+.blue-wave {
+    position: absolute;
+    z-index: 1;
+    left: -20%;
+    bottom: -100px;
+    width: 135%;
+    height: 510px;
+    background: var(--blue);
+    border-radius: 60% 45% 0 0;
+    transform: rotate(-8deg);
+}
+
+/* DOTS */
+
+.dots {
+    position: absolute;
+    z-index: 2;
+    width: 100px;
+    height: 100px;
+    background-image: radial-gradient(#b7ccf5 2px, transparent 2px);
+    background-size: 20px 20px;
+    opacity: .7;
+}
+
+.dots-left {
+    right: 28px;
+    bottom: 440px;
+}
+
+/* WORKER IMAGES */
+
+.workers {
+    position: absolute;
+    z-index: 4;
+    bottom: 0;
+    left: 100px;
+    display: flex;
+    align-items: flex-end;
+    gap: 0;
+}
+
+.worker {
+    width: 220px;
+    height: 390px;
+    object-fit: cover;
+    object-position: top center;
+    border-radius: 100px 100px 0 0;
+    filter: drop-shadow(0 8px 8px rgba(0,0,0,.18));
+}
+
+.worker.cleaner {
+    margin-left: -30px;
+}
+
+/* FALLBACK WORKER */
+
+.worker-placeholder {
+    width: 210px;
+    height: 370px;
+    border-radius: 100px 100px 0 0;
+    background: linear-gradient(180deg, #172d4e, #0d1b31);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* TESTIMONIAL */
+
+.testimonial {
+    position: absolute;
+    z-index: 8;
+    left: 40px;
+    bottom: 52px;
+    width: 400px;
+    min-height: 120px;
+    background: white;
+    border-radius: 14px;
+    padding: 19px 22px;
+    box-shadow: 0 8px 25px rgba(0,0,0,.15);
+}
+
+.quote {
+    color: var(--blue);
+    font-size: 34px;
+    font-weight: bold;
+    line-height: .6;
+    margin-bottom: 9px;
+}
+
+.testimonial-text {
+    font-size: 15px;
+    line-height: 1.45;
+    font-weight: 500;
+}
+
+.testimonial-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 8px;
+}
+
+.testimonial-name {
+    font-size: 13px;
+    color: #374151;
+}
+
+.stars {
+    color: var(--yellow);
+    font-size: 16px;
+    letter-spacing: 2px;
+}
+
+/* =========================
+   RIGHT SIDE
+========================= */
+
+.right-panel {
+    display: flex;
+    flex-direction: column;
+    min-height: 850px;
+    background: white;
+}
+
+.top-header {
+    height: 100px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 28px;
+    padding: 25px 45px;
+}
+
+.language {
+    border: 1px solid #d9dde5;
+    border-radius: 9px;
+    height: 48px;
+    min-width: 160px;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #1f2937;
+    font-size: 16px;
+}
+
+.language-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.theme {
+    font-size: 25px;
+    cursor: pointer;
+}
+
+/* MAIN FORM */
+
+.signup-content {
+    flex: 1;
+    padding: 30px 85px 30px;
+    text-align: center;
+}
+
+.signup-title {
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 13px;
+}
+
+.signup-subtitle {
+    color: var(--gray);
+    font-size: 17px;
+    margin-bottom: 38px;
+}
+
+/* ACCOUNT CARDS */
+
+.account-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    max-width: 600px;
+    margin: auto;
+}
+
+.account-card {
+    position: relative;
+    min-height: 260px;
+    border: 1.5px solid #e1e4ea;
+    border-radius: 13px;
+    padding: 32px 20px;
+    cursor: pointer;
+    transition: .25s ease;
+    background: white;
+}
+
+.account-card:hover {
+    border-color: var(--blue);
+    transform: translateY(-2px);
+}
+
+.account-card.selected {
+    border: 2px solid var(--blue);
+}
+
+.account-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--light-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 25px;
+    font-size: 39px;
+    color: var(--blue);
+}
+
+.account-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 14px;
+}
+
+.account-description {
+    color: var(--gray);
+    font-size: 15px;
+    line-height: 1.55;
+}
+
+.checkmark {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 34px;
+    height: 34px;
+    background: var(--blue);
+    color: white;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 21px;
+    font-weight: bold;
+}
+
+.account-card.selected .checkmark {
+    display: flex;
+}
+
+/* DIVIDER */
+
+.divider {
+    max-width: 600px;
+    margin: 40px auto 30px;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    color: #5b6472;
+    font-size: 16px;
+}
+
+.divider::before,
+.divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #e2e5ea;
+}
+
+/* SOCIAL BUTTONS */
+
+.social-buttons {
+    max-width: 600px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 17px;
+}
+
+.social-btn {
+    height: 62px;
+    border: 1px solid #e1e4e8;
+    border-radius: 10px;
+    background: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    font-size: 17px;
+    font-weight: 600;
+    transition: .2s;
+}
+
+.social-btn:hover {
+    background: #f8faff;
+    border-color: var(--blue);
+}
+
+.google-icon {
+    font-size: 25px;
+    font-weight: bold;
+    color: #4285f4;
+}
+
+.facebook-icon {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #1877f2;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 19px;
+}
+
+/* LOGIN */
+
+.login-text {
+    margin-top: 36px;
+    font-size: 16px;
+    color: var(--gray);
+}
+
+.login-text a {
+    color: var(--blue);
+    font-weight: bold;
+    text-decoration: none;
+    margin-left: 6px;
+}
+
+/* SECURITY */
+
+.security {
+    min-height: 185px;
+    background: #f6f8ff;
+    padding: 30px 55px;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+.security-icon {
+    min-width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: var(--light-blue);
+    color: var(--blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 37px;
+}
+
+.security-text {
+    flex: 1;
+    text-align: left;
+}
+
+.security-title {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 13px;
+}
+
+.security-title span {
+    color: var(--blue);
+}
+
+.security-description {
+    color: var(--gray);
+    font-size: 16px;
+    line-height: 1.45;
+}
+
+.lock {
+    width: 100px;
+    height: 90px;
+    border: 3px solid #68748a;
+    border-radius: 12px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #68748a;
+    font-size: 28px;
+}
+
+.lock::before {
+    content: "";
+    position: absolute;
+    width: 56px;
+    height: 42px;
+    border: 3px solid #68748a;
+    border-bottom: none;
+    border-radius: 30px 30px 0 0;
+    top: -38px;
+}
+
+.lock-check {
+    position: absolute;
+    right: -18px;
+    bottom: -18px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--blue);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1100px) {
+
+    .signup-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .left-panel {
+        min-height: 800px;
+    }
+
+    .right-panel {
+        min-height: auto;
+    }
+
+    .signup-content {
+        padding: 40px 50px;
+    }
+}
+
+@media (max-width: 650px) {
+
+    body {
+        padding: 0;
+    }
+
+    .signup-wrapper {
+        border-radius: 0;
+        min-height: 100vh;
+    }
+
+    .left-panel {
+        padding: 28px 25px;
+        min-height: 850px;
+    }
+
+    .logo-image {
+        width: 180px;
+    }
+
+    .left-heading {
+        font-size: 34px;
+    }
+
+    .workers {
+        left: 35px;
+        transform: scale(.78);
+        transform-origin: bottom left;
+    }
+
+    .testimonial {
+        left: 20px;
+        right: 20px;
+        width: auto;
+    }
+
+    .top-header {
+        padding: 20px;
+        height: 80px;
+    }
+
+    .signup-content {
+        padding: 35px 20px;
+    }
+
+    .signup-title {
+        font-size: 28px;
+    }
+
+    .account-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .security {
+        padding: 35px 22px;
+        flex-wrap: wrap;
+    }
+
+    .lock {
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="signup-wrapper">
+
+    <!-- LEFT PANEL -->
+    <section class="left-panel">
+
+        <!-- LOGO -->
+        <div class="logo">
+
+            <!-- If you have exact logo, put logo.png in same folder -->
+            <img
+                src="logo.png"
+                class="logo-image"
+                alt="GoWorker Logo"
+                onerror="this.style.display='none'; document.getElementById('fallbackLogo').style.display='block';"
+            >
+
+            <div id="fallbackLogo" style="display:none;">
+                <div class="logo-text">
+                    <span>Go</span>Worker
+                </div>
+                <div class="logo-tagline">
+                    Work. Done. Right.
+                </div>
+            </div>
+
+        </div>
+
+        <div class="left-content">
+
+            <h1 class="left-heading">
+                Join <span>GoWorker</span><br>
+                and Get More Work<br>
+                Done!
+            </h1>
+
+            <p class="left-description">
+                Create your account and connect with trusted
+                workers or find the right people for your job,
+                anytime, anywhere.
+            </p>
+
+            <!-- FEATURES -->
+            <div class="features">
+
+                <div class="feature">
+                    <div class="feature-icon">✓</div>
+                    <div>
+                        <div class="feature-title">
+                            Trusted Platform
+                        </div>
+                        <div class="feature-text">
+                            Verified workers and real customer reviews<br>
+                            you can rely on.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-icon">▤</div>
+                    <div>
+                        <div class="feature-title">
+                            Direct Connect
+                        </div>
+                        <div class="feature-text">
+                            Talk directly, negotiate easily and<br>
+                            get the job done.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-icon">₹</div>
+                    <div>
+                        <div class="feature-title">
+                            No Hidden Charges
+                        </div>
+                        <div class="feature-text">
+                            You pay what you agree with<br>
+                            the worker.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- DECORATION -->
+        <div class="dots dots-left"></div>
+        <div class="blue-wave"></div>
+
+        <!-- WORKERS -->
+        <div class="workers">
+
+            <!-- Put electrician.png in same folder -->
+            <img
+                src="electrician.png"
+                class="worker"
+                alt="Electrician"
+                onerror="this.outerHTML='<div class=\'worker-placeholder\'>Electrician<br>Worker</div>'"
+            >
+
+            <!-- Put cleaner.png in same folder -->
+            <img
+                src="cleaner.png"
+                class="worker cleaner"
+                alt="Cleaning Worker"
+                onerror="this.outerHTML='<div class=\'worker-placeholder\'>Cleaning<br>Worker</div>'"
+            >
+
+        </div>
+
+        <!-- TESTIMONIAL -->
+        <div class="testimonial">
+
+            <div class="quote">“</div>
+
+            <div class="testimonial-text">
+                GoWorker helped me find amazing clients
+                and grow my work!
+            </div>
+
+            <div class="testimonial-bottom">
+
+                <div class="testimonial-name">
+                    – Ramesh K., Electrician
+                </div>
+
+                <div class="stars">
+                    ★★★★★
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- RIGHT PANEL -->
+    <section class="right-panel">
+
+        <!-- HEADER -->
+        <div class="top-header">
+
+            <div class="language">
+                <div class="language-left">
+                    <span>🌐</span>
+                    <span>English</span>
+                </div>
+
+                <span>⌄</span>
+            </div>
+
+            <div class="theme" onclick="toggleTheme()">
+                ☼
+            </div>
+
+        </div>
+
+
+        <!-- SIGNUP CONTENT -->
+        <main class="signup-content">
+
+            <h2 class="signup-title">
+                Create Your Account
+            </h2>
+
+            <p class="signup-subtitle">
+                Choose how you want to join GoWorker
+            </p>
+
+
+            <!-- ACCOUNT CARDS -->
+            <div class="account-cards">
+
+                <div
+                    class="account-card selected"
+                    onclick="selectAccount('customer', this)"
+                >
+
+                    <div class="checkmark">
+                        ✓
+                    </div>
+
+                    <div class="account-icon">
+                        ♙
+                    </div>
+
+                    <div class="account-title">
+                        I am a Customer
+                    </div>
+
+                    <div class="account-description">
+                        I need help with my work.<br>
+                        I want to hire workers.
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="account-card"
+                    onclick="selectAccount('worker', this)"
+                >
+
+                    <div class="checkmark">
+                        ✓
+                    </div>
+
+                    <div class="account-icon">
+                        💼
+                    </div>
+
+                    <div class="account-title">
+                        I am a Worker
+                    </div>
+
+                    <div class="account-description">
+                        I want to find work and<br>
+                        earn money.
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- OR -->
+            <div class="divider">
+                OR
+            </div>
+
+
+            <!-- SOCIAL BUTTONS -->
+            <div class="social-buttons">
+
+                <button
+                    class="social-btn"
+                    onclick="continueWithGoogle()"
+                >
+                    <span class="google-icon">G</span>
+                    Continue with Google
+                </button>
+
+
+                <button
+                    class="social-btn"
+                    onclick="continueWithFacebook()"
+                >
+                    <span class="facebook-icon">f</span>
+                    Continue with Facebook
+                </button>
+
+            </div>
+
+
+            <!-- LOGIN -->
+            <div class="login-text">
+
+                Already have an account?
+
+                <a href="login.html">
+                    Login
+                </a>
+
+            </div>
+
+        </main>
+
+
+        <!-- SECURITY SECTION -->
+        <div class="security">
+
+            <div class="security-icon">
+                ♢
+            </div>
+
+            <div class="security-text">
+
+                <div class="security-title">
+                    Your data is
+                    <span>safe and secure</span>
+                    with us.
+                </div>
+
+                <div class="security-description">
+                    We never share your information<br>
+                    with anyone.
+                </div>
+
+            </div>
+
+            <div class="lock">
+
+                🔑
+
+                <div class="lock-check">
+                    ✓
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<script>
+
+let selectedAccount = "customer";
+
+function selectAccount(type, selectedCard) {
+
+    selectedAccount = type;
+
+    const cards = document.querySelectorAll(".account-card");
+
+    cards.forEach(card => {
+        card.classList.remove("selected");
+    });
+
+    selectedCard.classList.add("selected");
+
+    /*
+       Customer or Worker selection is stored.
+       You can later connect this with your backend.
+    */
+
+    console.log("Selected account:", selectedAccount);
+}
+
+
+function continueWithGoogle() {
+
+    alert(
+        "Google Signup selected for: " +
+        selectedAccount
+    );
+
+}
+
+
+function continueWithFacebook() {
+
+    alert(
+        "Facebook Signup selected for: " +
+        selectedAccount
+    );
+
+}
+
+
+function toggleTheme() {
+
+    document.body.classList.toggle("dark-mode");
+
+}
+
+</script>
+
+</body>
+</html>
