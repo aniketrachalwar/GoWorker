@@ -25,6 +25,19 @@ try {
         PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
     ];
     
+    // Auto-detect SSL CA certificate if available (required for Aiven MySQL)
+    $ssl_ca_paths = [
+        dirname(__DIR__) . '/api/ca.pem',
+        dirname(__DIR__) . '/ca.pem',
+        dirname(__DIR__) . '/config/ca.pem'
+    ];
+    foreach ($ssl_ca_paths as $path) {
+        if (file_exists($path)) {
+            $options[PDO::MYSQL_ATTR_SSL_CA] = $path;
+            break;
+        }
+    }
+    
     // Establish the reusable PDO connection
     $pdo = new PDO($dsn, $user, $pass, $options);
 } catch (PDOException $e) {

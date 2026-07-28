@@ -1,6 +1,8 @@
 const mysql = require('mysql2/promise');
 const jwt = require('jsonwebtoken');
 const cookie = require('cookie');
+const fs = require('fs');
+const path = require('path');
 
 // Retrieve DB configurations from Environment Variables
 const dbConfig = {
@@ -11,6 +13,26 @@ const dbConfig = {
   database: process.env.DB_NAME || 'goworker',
   connectionLimit: 10
 };
+
+// Auto-detect SSL configurations (required for Aiven MySQL)
+const caPaths = [
+  path.join(__dirname, 'ca.pem'),
+  path.join(__dirname, '../ca.pem'),
+  path.join(__dirname, '../config/ca.pem')
+];
+let sslConfig = null;
+for (const caPath of caPaths) {
+  if (fs.existsSync(caPath)) {
+    sslConfig = { ca: fs.readFileSync(caPath) };
+    break;
+  }
+}
+if (!sslConfig && (dbConfig.host.includes('aivencloud.com') || process.env.DB_SSL === 'true')) {
+  sslConfig = { rejectUnauthorized: false };
+}
+if (sslConfig) {
+  dbConfig.ssl = sslConfig;
+}
 
 // Create MySQL connection pool
 const pool = mysql.createPool(dbConfig);

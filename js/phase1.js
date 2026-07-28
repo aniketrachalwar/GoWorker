@@ -28,7 +28,8 @@
 
         // Fetch server favorites if user is logged in
         const base = (window.GOWORKER_BASE_URL ? window.GOWORKER_BASE_URL.replace(/\/$/, '') : '');
-        fetch(base + '/api/favorites.php?action=list')
+        const favoritesUrl = base ? (base + '/api/favorites-php.php') : '/api/favorites';
+        fetch(favoritesUrl + '?action=list')
             .then(res => res.json())
             .then(data => {
                 let favList = localFavs;
@@ -67,10 +68,11 @@
 
             // Sync with backend API
             const base = (window.GOWORKER_BASE_URL ? window.GOWORKER_BASE_URL.replace(/\/$/, '') : '');
+            const favoritesUrl = base ? (base + '/api/favorites-php.php') : '/api/favorites';
             const formData = new FormData();
             formData.append('action', 'toggle');
             formData.append('worker_id', workerId);
-            fetch(base + '/api/favorites.php', { method: 'POST', body: formData })
+            fetch(favoritesUrl, { method: 'POST', body: formData })
                 .catch(() => {});
         });
     }
