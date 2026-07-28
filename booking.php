@@ -8,6 +8,72 @@ require_once __DIR__ . '/includes/auth.php';
 // Enforce customer login
 requireCustomer();
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    header('Content-Type: application/json');
+    $input = json_decode(file_get_contents('php://input'), true) ?: $_POST;
+    
+    $customer_id = $_SESSION['user_id'] ?? null;
+    $worker_profile_id = intval($input['worker_profile_id'] ?? 0);
+    $booking_date_raw = $input['booking_date'] ?? '';
+    $time_slot = $input['time_slot'] ?? '';
+    $address = $input['address'] ?? '';
+    $description = $input['description'] ?? '';
+    $total_price = floatval($input['total_price'] ?? 0);
+    
+    if (!$customer_id) {
+        echo json_encode(['status' => 'error', 'message' => 'User not logged in.']);
+        exit;
+    }
+    
+    if (!$worker_profile_id) {
+        echo json_encode(['status' => 'error', 'message' => 'Worker profile ID is required.']);
+        exit;
+    }
+    
+    $booking_time = strtotime($booking_date_raw);
+    $booking_date = $booking_time ? date('Y-m-d', $booking_time) : date('Y-m-d');
+    
+    try {
+        $stmt_w = $pdo->prepare("SELECT user_id FROM worker_profiles WHERE id = ?");
+        $stmt_w->execute([$worker_profile_id]);
+        $worker_user_id = $stmt_w->fetchColumn();
+        
+        if (!$worker_user_id) {
+            $stmt_w2 = $pdo->prepare("SELECT user_id FROM worker_profiles WHERE user_id = ?");
+            $stmt_w2->execute([$worker_profile_id]);
+            $worker_user_id = $stmt_w2->fetchColumn();
+        }
+        
+        if (!$worker_user_id) {
+            echo json_encode(['status' => 'error', 'message' => 'Worker not found.']);
+            exit;
+        }
+        
+        $stmt_ins = $pdo->prepare("
+            INSERT INTO bookings (customer_id, worker_id, booking_date, time_slot, description, address, total_price, status)
+            VALUES (?, ?, ?, ?, ?, ?, ?, 'pending')
+        ");
+        $stmt_ins->execute([
+            $customer_id,
+            $worker_user_id,
+            $booking_date,
+            $time_slot,
+            $description ?: 'General Service Request',
+            $address,
+            $total_price
+        ]);
+        
+        $booking_id = $pdo->lastInsertId();
+        echo json_encode(['status' => 'success', 'booking_id' => $booking_id]);
+        exit;
+        
+    } catch (PDOException $e) {
+        error_log("Database error in booking creation: " . $e->getMessage());
+        echo json_encode(['status' => 'error', 'message' => 'Database error: ' . $e->getMessage()]);
+        exit;
+    }
+}
+
 $worker_id = intval($_GET['worker'] ?? 1);
 
 $worker = null;

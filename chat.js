@@ -231,12 +231,11 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // 4. CONVERSATION SWITCHING
-    convCards.forEach(card => {
-        card.addEventListener("click", () => {
-            convCards.forEach(c => c.classList.remove("active"));
-            card.classList.add("active");
-            
-            activeWorkerId = card.getAttribute("data-worker-id");
+    function selectCard(card) {
+        document.querySelectorAll(".conv-card").forEach(c => c.classList.remove("active"));
+        card.classList.add("active");
+        
+        activeWorkerId = card.getAttribute("data-worker-id");
             const name = card.getAttribute("data-name");
             const profession = card.getAttribute("data-profession");
             const avatar = card.getAttribute("data-avatar");
@@ -264,8 +263,14 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             
             renderConversation(activeWorkerId);
+        }
+
+        // Attach listeners to static list
+        convCards.forEach(card => {
+            card.addEventListener("click", () => {
+                selectCard(card);
+            });
         });
-    });
 
     if (backBtn && layoutWrapper) {
         backBtn.addEventListener("click", () => {
@@ -698,8 +703,62 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Initial load: render default worker history
-    renderConversation("2");
+    // Initial load: parse URL parameter ?worker_id=X to select/create active conversation
+    const urlParams = new URLSearchParams(window.location.search);
+    const workerParam = urlParams.get('worker_id') || urlParams.get('worker');
+    if (workerParam) {
+        let targetCard = document.querySelector(`.conv-card[data-worker-id="${workerParam}"]`);
+        if (!targetCard) {
+            const nameParam = urlParams.get('name') || 'Worker Professional';
+            const profParam = urlParams.get('profession') || 'Specialist';
+            const avatarParam = urlParams.get('avatar') || 'images/avatar_placeholder.png';
+            const locationParam = urlParams.get('location') || 'Pune';
+            
+            const conversationsContainer = document.getElementById("conversations-container");
+            if (conversationsContainer) {
+                targetCard = document.createElement("div");
+                targetCard.className = "conv-card";
+                targetCard.setAttribute("data-worker-id", workerParam);
+                targetCard.setAttribute("data-name", nameParam);
+                targetCard.setAttribute("data-profession", profParam);
+                targetCard.setAttribute("data-avatar", avatarParam);
+                targetCard.setAttribute("data-location", locationParam);
+                
+                targetCard.innerHTML = `
+                  <div class="conv-avatar-container">
+                    <img class="conv-avatar" src="${escapeHTML(avatarParam)}" alt="${escapeHTML(nameParam)}">
+                    <span class="online-indicator online"></span>
+                  </div>
+                  <div class="conv-meta">
+                    <span class="conv-name">${escapeHTML(nameParam)}</span>
+                    <span class="conv-time">Just Now</span>
+                    <div class="conv-prof">${escapeHTML(profParam)}</div>
+                    <div class="conv-last-msg">Start chatting with ${escapeHTML(nameParam)}!</div>
+                  </div>
+                  <div class="conv-badge-container" style="display: none;">
+                    <span class="unread-badge">0</span>
+                  </div>
+                `;
+                
+                targetCard.addEventListener("click", () => {
+                    selectCard(targetCard);
+                });
+                
+                conversationsContainer.insertBefore(targetCard, conversationsContainer.firstChild);
+            }
+        }
+        
+        if (targetCard) {
+            selectCard(targetCard);
+        }
+    } else {
+        const firstCard = document.querySelector(".conv-card");
+        if (firstCard) {
+            selectCard(firstCard);
+        } else {
+            renderConversation("2");
+        }
+    }
 
     // 12. GO-WORKER AI CHATBOT ASSISTANT
     const aiToggle = document.getElementById("ai-assistant-toggle");

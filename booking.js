@@ -253,11 +253,56 @@ document.addEventListener("DOMContentLoaded", () => {
             submitBtn.classList.add("loading");
             submitBtn.disabled = true;
 
-            setTimeout(() => {
+            const service = document.getElementById("booking-service").value;
+            const booking_date = activeDate.getAttribute("data-date");
+            const time_slot = activeTime.getAttribute("data-time");
+            
+            const addressInputs = document.querySelectorAll("#booking-main-form .form-group input");
+            const flat = addressInputs[0] ? addressInputs[0].value.trim() : '';
+            const city = addressInputs[1] ? addressInputs[1].value.trim() : '';
+            const pincode = addressInputs[2] ? addressInputs[2].value.trim() : '';
+            const address = `${flat}, ${city} - ${pincode}`;
+            
+            const description = document.getElementById("job-desc").value.trim();
+            const totalText = document.getElementById("summary-total").textContent;
+            const total_price = parseFloat(totalText.replace(/[^\d.]/g, '')) || 0;
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            const worker_profile_id = parseInt(urlParams.get('worker')) || 1;
+
+            const payload = {
+                worker_profile_id,
+                booking_date,
+                time_slot,
+                address,
+                description: `${service.toUpperCase()}: ${description}`,
+                total_price
+            };
+
+            fetch('booking.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(response => response.json())
+            .then(data => {
                 submitBtn.classList.remove("loading");
-                alert("Booking created successfully! Redirecting to confirmation page...");
-                window.location.href = "booking-history.html";
-            }, 1800);
+                if (data.status === 'success') {
+                    alert("Booking created successfully! Redirecting to confirmation page...");
+                    window.location.href = "booking-history.php";
+                } else {
+                    submitBtn.disabled = false;
+                    alert("Error: " + (data.message || "Failed to create booking. Please try again."));
+                }
+            })
+            .catch(err => {
+                submitBtn.classList.remove("loading");
+                submitBtn.disabled = false;
+                console.error("Booking error:", err);
+                alert("An error occurred during booking. Please try again.");
+            });
         });
     }
 });
