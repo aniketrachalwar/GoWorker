@@ -53,23 +53,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // 3. SERVICE BOOK BUTTON SELECTION
-    const serviceBookBtns = document.querySelectorAll(".service-card .btn-book");
-    serviceBookBtns.forEach(btn => {
-        btn.addEventListener("click", () => {
-            const card = btn.closest(".service-card");
-            const name = card.querySelector("h4").textContent;
-            alert(`Selected service: ${name}. Directing you to complete the booking!`);
-            window.location.href = "booking.html";
-        });
-     });
+    // Handled dynamically via inline onclick location.href pointing to booking.php in worker-profile.php.
  
-     // 4. ACTION BUTTONS (Chat, Call, Save)
-     const chatBtn = document.getElementById("chat-worker-btn");
-     if (chatBtn) {
-         chatBtn.addEventListener("click", () => {
-             window.location.href = "chat.html";
-         });
-     }
+    // 4. ACTION BUTTONS (Chat, Call, Save)
+    // Chat button redirect is handled dynamically via inline onclick location.href in worker-profile.php.
 
     const callBtn = document.getElementById("call-worker-btn");
     if (callBtn) {

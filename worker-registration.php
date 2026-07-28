@@ -50,13 +50,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $random_pass = bin2hex(random_bytes(6));
                 $hashed_pass = password_hash($random_pass, PASSWORD_DEFAULT);
                 
-                $stmt = $pdo->prepare("INSERT INTO users (name, email, phone, password, user_type) VALUES (?, ?, ?, ?, 'worker')");
+                $stmt = $pdo->prepare("INSERT INTO users (full_name, email, phone, password, user_type) VALUES (?, ?, ?, ?, 'worker')");
                 $stmt->execute([$full_name, $email, $mobile, $hashed_pass]);
                 $user_id = $pdo->lastInsertId();
                 
                 $_SESSION['user_id'] = $user_id;
                 $_SESSION['user_type'] = 'worker';
-                $_SESSION['name'] = $full_name;
+                $_SESSION['full_name'] = $full_name;
             } else {
                 $stmt = $pdo->prepare("UPDATE users SET user_type = 'worker' WHERE id = ?");
                 $stmt->execute([$user_id]);
@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ]);
             
             $pdo->commit();
-            set_flash('success', "Your professional profile has been successfully created!");
+            flash('success', "Your professional profile has been successfully created!");
             redirect("worker-dashboard.php");
             
         } catch (Exception $e) {
@@ -173,7 +173,7 @@ require_once __DIR__ . '/includes/header.php';
           <div class="form-grid">
             <div class="form-group form-grid-full">
               <label>Full Name</label>
-              <input type="text" name="full_name" class="form-input" style="padding-left: 16px;" placeholder="Full Name as per Government ID" value="<?php echo e($_SESSION['name'] ?? ''); ?>" required autocomplete="name">
+              <input type="text" name="full_name" class="form-input" style="padding-left: 16px;" placeholder="Full Name as per Government ID" value="<?php echo e($_SESSION['full_name'] ?? ''); ?>" required autocomplete="name">
             </div>
             <div class="form-group">
               <label>Mobile Number</label>

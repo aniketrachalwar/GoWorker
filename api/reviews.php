@@ -22,7 +22,7 @@ if ($action === 'get') {
 
     if (isset($pdo)) {
         try {
-            $stmt = $pdo->prepare("SELECT r.*, u.name as customer_name 
+            $stmt = $pdo->prepare("SELECT r.*, u.full_name as customer_name 
                                    FROM reviews r 
                                    JOIN users u ON r.customer_id = u.id 
                                    WHERE r.worker_id = ? 
@@ -79,17 +79,8 @@ if ($action === 'submit' && $_SERVER['REQUEST_METHOD'] === 'POST') {
                                    VALUES (?, ?, ?, ?, ?)");
             $stmt->execute([$booking_id, $customer_id ?: 1, $worker_id, $rating, $review_text]);
 
-            // Update rating in workers table
-            $avg_stmt = $pdo->prepare("SELECT AVG(rating) as avg_r, COUNT(*) as cnt FROM reviews WHERE worker_id = ?");
-            $avg_stmt->execute([$worker_id]);
-            $stats = $avg_stmt->fetch(PDO::FETCH_ASSOC);
-
-            if ($stats) {
-                $new_avg = round($stats['avg_r'], 1);
-                $new_cnt = $stats['cnt'];
-                $upd = $pdo->prepare("UPDATE workers SET rating = ?, total_reviews = ? WHERE user_id = ? OR id = ?");
-                $upd->execute([$new_avg, $new_cnt, $worker_id, $worker_id]);
-            }
+            // Ratings and total reviews are calculated dynamically in worker-profile.php from reviews table.
+            // No workers table or rating/total_reviews columns in worker_profiles table exist.
 
             echo json_encode(['status' => 'success', 'message' => 'Review submitted successfully!']);
             exit;

@@ -326,7 +326,7 @@ require_once __DIR__ . '/includes/header.php';
           <i class="fa-solid fa-calendar-days"></i>
         </button>
         
-        <button class="btn-google-auth" id="chat-worker-btn" style="width: 100%; margin-bottom: 12px; height: 50px; border-color: var(--primary); color: var(--primary);">
+        <button class="btn-google-auth" id="chat-worker-btn" style="width: 100%; margin-bottom: 12px; height: 50px; border-color: var(--primary); color: var(--primary);" onclick="location.href='chat.php?worker_id=<?php echo $worker['user_id']; ?>&name=<?php echo urlencode($worker['worker_name']); ?>&profession=<?php echo urlencode($worker['category_name']); ?>&avatar=<?php echo urlencode(image_url($worker['profile_picture'])); ?>'">
           <i class="fa-regular fa-comment-dots"></i>
           <span><?php echo e(__('chat_with')); ?> <?php echo e(explode(' ', $worker['worker_name'])[0]); ?></span>
         </button>

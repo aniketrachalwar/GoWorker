@@ -54,6 +54,8 @@ CREATE TABLE `worker_profiles` (
   `skills` TEXT DEFAULT NULL,
   `experience_years` INT DEFAULT 0,
   `profile_picture` VARCHAR(255) DEFAULT NULL,
+  `id_document` VARCHAR(255) DEFAULT NULL,
+  `id_type` VARCHAR(50) DEFAULT NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT `fk_worker_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   CONSTRAINT `fk_worker_category` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE SET NULL,
