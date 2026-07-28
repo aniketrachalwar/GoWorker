@@ -49,7 +49,12 @@ const server = http.createServer(async (req, res) => {
   // Route API requests to serverless handlers
   if (pathname.startsWith('/api/')) {
     const apiPath = pathname.substring(5); // e.g. "auth/me" or "workers/list"
-    const handlerFilePath = path.join(__dirname, 'api', `${apiPath}.js`);
+    let handlerFilePath = path.join(__dirname, 'api', `${apiPath}.js`);
+
+    // Fallback for consolidated auth handler
+    if (apiPath.startsWith('auth/') && !fs.existsSync(handlerFilePath)) {
+      handlerFilePath = path.join(__dirname, 'api', 'auth.js');
+    }
 
     if (fs.existsSync(handlerFilePath)) {
       try {
