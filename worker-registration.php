@@ -168,7 +168,7 @@ require_once __DIR__ . '/includes/header.php';
       <?php endif; ?>
 
       <form id="onboarding-form" method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+        <?php echo csrf_field(); ?>
         <!-- Step 1: Personal Info -->
         <div class="step-content-block" data-step="1">
           <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 24px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; color: var(--dark-navy);">Personal Information</h3>
