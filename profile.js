@@ -502,7 +502,7 @@ document.addEventListener("DOMContentLoaded", () => {
             let authItems = mobileLinks.querySelectorAll("li");
             // Add profile and logout options
             mobileLinks.innerHTML = `
-                <li><a href="Index.html"><i class="fa-solid fa-house"></i> Home</a></li>
+                <li><a href="index.html"><i class="fa-solid fa-house"></i> Home</a></li>
                 <li><a href="find-workers.html"><i class="fa-solid fa-magnifying-glass"></i> Find Workers</a></li>
                 <li><a href="worker-registration.html"><i class="fa-solid fa-briefcase"></i> Become a Worker</a></li>
                 <li><a href="profile.html" class="active"><i class="fa-regular fa-user"></i> My Profile</a></li>

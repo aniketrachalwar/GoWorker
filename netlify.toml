@@ -1,6 +1,6 @@
 [[redirects]]
   from = "/index.php"
-  to = "/Index.html"
+  to = "/index.html"
   status = 301
   force = true
 

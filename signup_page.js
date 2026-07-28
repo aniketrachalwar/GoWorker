@@ -120,7 +120,7 @@ function handleGoogleSignIn() {
                 const user = result.user;
                 console.log("Firebase Auth Success:", user);
                 alert("Sign-in successful! Welcome " + user.displayName);
-                window.location.href = "Index.html"; 
+                window.location.href = "index.html"; 
             })
             .catch((error) => {
                 console.error("Firebase Auth Error:", error);
